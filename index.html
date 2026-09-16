@@ -1,3673 +1,4691 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#3A8AE0">
-<title>KINGEN WG</title>
-
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-
-<style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  -webkit-tap-highlight-color: transparent;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #f5f5f3;
-  min-height: 100dvh;
-  color: #1a1a1a;
-}
-
-.app {
-  width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
-  padding: 0 0 90px;
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* LOGIN */
-.login-screen {
-  position: fixed;
-  inset: 0;
-  background: #3A8AE0;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 30px;
-}
-
-.login-card {
-  background: white;
-  padding: 32px 28px;
-  border-radius: 24px;
-  width: 100%;
-  max-width: 360px;
-  box-shadow: 0 20px 60px rgba(0,0,0,.15);
-  text-align: center;
-}
-
-.login-card h2 {
-  margin-bottom: 4px;
-  font-size: 26px;
-  font-weight: 900;
-  letter-spacing: 2px;
-  color: #3A8AE0;
-  cursor: pointer;
-  user-select: none;
-}
-
-.login-card p {
-  font-size: 13px;
-  color: #999;
-  margin-bottom: 22px;
-}
-
-.login-card input {
-  width: 100%;
-  padding: 13px 16px;
-  border: 1.5px solid #e8e8e6;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  font-size: 15px;
-  outline: none;
-}
-
-.login-card input:focus {
-  border-color: #3A8AE0;
-}
-
-.login-card button {
-  width: 100%;
-  padding: 14px;
-  background: #3A8AE0;
-  color: white;
-  border: none;
-  border-radius: 14px;
-  font-weight: 800;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* HERO */
-.hero-banner {
-  background: linear-gradient(135deg, #3A8AE0 0%, #2570c8 100%);
-  padding: max(56px, env(safe-area-inset-top)) 24px 22px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 0 0 28px 28px;
-  margin-bottom: 14px;
-}
-
-.hero-title {
-  color: white;
-  font-size: 28px;
-  font-weight: 900;
-  letter-spacing: 3px;
-}
-
-/* CARDS */
-.card {
-  background: #fff;
-  border-radius: 20px;
-  margin: 0 16px 14px;
-  padding: 20px;
-  position: relative;
-}
-
-.slabel {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-  color: #bbb;
-  margin-bottom: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* PROFILE */
-.profile-banner {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-}
-
-.profile-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 17px;
-  font-weight: 800;
-  text-transform: uppercase;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.profile-right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.profile-right input {
-  width: 100%;
-  border: 1.5px solid #eee;
-  padding: 9px 13px;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  outline: none;
-  background: #fafafa;
-}
-
-.profile-right input:focus {
-  border-color: #3A8AE0;
-  background: white;
-}
-
-.profile-tasks {
-  margin-top: 4px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.task-pill-due {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #E05A3A;
-  background: #FDEEE9;
-  padding: 4px 10px;
-  border-radius: 20px;
-  width: fit-content;
-}
-
-.task-pill-done {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #3AAE60;
-  background: #E8F7EE;
-  padding: 4px 10px;
-  border-radius: 20px;
-  width: fit-content;
-}
-
-.task-pill-done .done-time {
-  font-size: 10px;
-  color: #aaa;
-  font-weight: 400;
-}
-
-/* COLOR PICKER */
-.color-picker {
-  display: flex;
-  gap: 8px;
-  margin-top: 4px;
-  align-items: center;
-}
-
-.color-picker-label {
-  font-size: 11px;
-  color: #aaa;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.color-opt {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 2px solid transparent;
-  cursor: pointer;
-  transition: transform .1s;
-}
-
-.color-opt.selected {
-  border-color: #1a1a1a;
-  transform: scale(1.15);
-}
-
-/* ROTATION */
-.dots-mini {
-  display: flex;
-  gap: 10px;
-  align-items: flex-end;
-}
-
-.dot-mini {
-  border-radius: 50%;
-  opacity: .22;
-  transition: all .3s cubic-bezier(.34,1.4,.64,1);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 11px;
-  font-weight: 800;
-  position: relative;
-  text-transform: uppercase;
-}
-
-.dot-mini.active {
-  opacity: 1;
-  transform: scale(1.05);
-}
-
-.dot-name-tag {
-  font-size: 10px;
-  position: absolute;
-  bottom: -20px;
-  white-space: nowrap;
-  color: #999;
-  font-weight: 500;
-  text-transform: none;
-}
-
-.turn-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 28px;
-}
-
-.turn-label {
-  font-size: 15px;
-  font-weight: 700;
-}
-
-.action-header-btn {
-  font-size: 11px;
-  font-weight: bold;
-  color: #3A8AE0;
-  text-transform: uppercase;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-/* NEXT STRIP */
-.next-strip {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 14px;
-  padding: 8px 12px;
-  background: #f9f9f7;
-  border-radius: 10px;
-}
-
-.next-strip-lbl {
-  font-size: 10px;
-  font-weight: 700;
-  color: #ccc;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  margin-right: 2px;
-  flex-shrink: 0;
-}
-
-.next-person {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.next-dot {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 8px;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.next-person .next-name {
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.next-arrow {
-  color: #ddd;
-  font-size: 10px;
-}
-
-/* CHECKLIST */
-.items {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 18px;
-  margin-top: 12px;
-}
-
-.item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 2px solid transparent;
-  background: #f9f9f7;
-  cursor: pointer;
-  transition: all .15s;
-  user-select: none;
-}
-
-.item.checked {
-  border-color: var(--c);
-  background: var(--cl);
-}
-
-.item:active {
-  transform: scale(.98);
-}
-
-.item-icon {
-  font-size: 20px;
-  width: 26px;
-  text-align: center;
-}
-
-.item-name {
-  flex: 1;
-  font-size: 15px;
-  font-weight: 500;
-}
-
-.item-check {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid #ddd;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all .15s;
-  flex-shrink: 0;
-}
-
-.item.checked .item-check {
-  border-color: var(--c);
-  background: var(--c);
-}
-
-.chk {
-  display: none;
-}
-
-.item.checked .chk {
-  display: block;
-}
-
-/* BUTTONS */
-.btn {
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-radius: 14px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: opacity .15s, transform .1s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.btn:active {
-  transform: scale(.97);
-  opacity: .85;
-}
-
-.btn:disabled {
-  background: #e8e8e6 !important;
-  color: #bbb !important;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* CLEAN */
-.clean-btn {
-  width: 100%;
-  border: none;
-  border-radius: 18px;
-  cursor: pointer;
-  padding: 20px 22px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: transform .15s, box-shadow .15s;
-  position: relative;
-  overflow: hidden;
-}
-
-.clean-btn:active {
-  transform: scale(.97);
-}
-
-.clean-btn::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,0) 60%);
-  pointer-events:none;
-}
-
-.clean-btn-left {
-  text-align:left;
-}
-
-.clean-btn-sup {
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  opacity:.75;
-  margin-bottom:4px;
-}
-
-.clean-btn-main {
-  font-size:17px;
-  font-weight:800;
-  letter-spacing:-.2px;
-}
-
-.clean-btn-icon {
-  font-size:32px;
-}
-
-/* WEEK */
-.week-schedule {
-  display:flex;
-  gap:6px;
-  margin-top:12px;
-  margin-bottom:0;
-  overflow-x:auto;
-  padding-bottom:2px;
-}
-
-.week-pill {
-  flex-shrink:0;
-  display:flex;
-  align-items:center;
-  gap:6px;
-  padding:6px 12px;
-  border-radius:20px;
-  font-size:12px;
-  font-weight:600;
-}
-
-/* EXTRA */
-.custom-task-box {
-  display:flex;
-  gap:8px;
-  margin-top:4px;
-}
-
-.custom-task-box input {
-  flex:1;
-  border:1.5px solid #eee;
-  background:#f9f9f7;
-  padding:12px;
-  border-radius:12px;
-  font-size:14px;
-  outline:none;
-}
-
-.custom-task-box input:focus {
-  border-color:#3A8AE0;
-  background:white;
-}
-
-.custom-task-box button {
-  background:#1a1a1a;
-  color:white;
-  border:none;
-  padding:0 16px;
-  border-radius:12px;
-  font-weight:bold;
-  font-size:13px;
-  cursor:pointer;
-}
-
-/* LOG */
-.log-item {
-  display:flex;
-  align-items:flex-start;
-  gap:12px;
-  padding:12px 0;
-  border-bottom:1px solid #f5f5f3;
-}
-
-.log-item:last-child {
-  border-bottom:none;
-}
-
-.log-dot {
-  width:32px;
-  height:32px;
-  border-radius:50%;
-  flex-shrink:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:white;
-  font-size:13px;
-  font-weight:bold;
-  text-transform:uppercase;
-}
-
-.log-who {
-  font-size:14px;
-  font-weight:700;
-  margin-bottom:2px;
-}
-
-.log-text {
-  font-size:13px;
-  color:#444;
-}
-
-.log-tags {
-  display:flex;
-  flex-wrap:wrap;
-  gap:5px;
-  margin-top:4px;
-  margin-bottom:2px;
-}
-
-.log-tag {
-  font-size:11px;
-  padding:2px 8px;
-  border-radius:20px;
-  font-weight:500;
-}
-
-.log-time {
-  font-size:10px;
-  color:#ccc;
-  margin-top:2px;
-}
-
-.log-empty {
-  text-align:center;
-  color:#ccc;
-  font-size:14px;
-  padding:32px 0;
-}
-
-/* DUE */
-.due-card {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:14px;
-  border-radius:14px;
-  background:#FDEEE9;
-  margin-bottom:10px;
-}
-
-.due-avatar {
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:white;
-  font-weight:800;
-  flex-shrink:0;
-}
-
-.due-info {
-  flex:1;
-}
-
-.due-name {
-  font-size:14px;
-  font-weight:800;
-}
-
-.due-task {
-  font-size:12px;
-  color:#777;
-  margin-top:2px;
-}
-
-.due-done {
-  border:none;
-  background:#fff;
-  color:#E05A3A;
-  border-radius:10px;
-  padding:8px 10px;
-  font-size:10px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-/* CHAT */
-.chat-tab-header {
-  display:flex;
-  background:white;
-  margin:0 16px 12px;
-  border-radius:14px;
-  padding:4px;
-  gap:4px;
-}
-
-.chat-tab-btn {
-  flex:1;
-  padding:9px;
-  border:none;
-  background:none;
-  border-radius:10px;
-  font-size:13px;
-  font-weight:700;
-  color:#bbb;
-  cursor:pointer;
-}
-
-.chat-tab-btn.active {
-  background:#3A8AE0;
-  color:white;
-}
-
-.chat-layout {
-  display:flex;
-  flex-direction:column;
-  height:calc(100dvh - 230px);
-  margin:0 16px;
-}
-
-.chat-pane {
-  display:flex;
-  flex-direction:column;
-  background:white;
-  border-radius:20px;
-  flex:1;
-  overflow:hidden;
-}
-
-.chat-pane-header {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:13px 16px;
-  border-bottom:1px solid #f0f0ee;
-  background:#fafafa;
-  font-weight:700;
-  font-size:14px;
-}
-
-.chat-messages {
-  flex:1;
-  padding:14px;
-  overflow-y:auto;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.msg-bubble {
-  max-width:75%;
-  padding:10px 14px;
-  border-radius:16px;
-  font-size:14px;
-  line-height:1.4;
-}
-
-.msg-author {
-  font-size:10px;
-  margin-bottom:3px;
-  font-weight:700;
-  opacity:.8;
-}
-
-.msg-bubble.me {
-  align-self:flex-end;
-  background:#3A8AE0;
-  color:white;
-  border-bottom-right-radius:4px;
-}
-
-.msg-bubble.them {
-  align-self:flex-start;
-  background:#f0f0ee;
-  color:#1a1a1a;
-  border-bottom-left-radius:4px;
-}
-
-.sys-msg {
-  align-self:center;
-  background:#fff;
-  font-size:11px;
-  padding:5px 12px;
-  border-radius:12px;
-  color:#888;
-  border:1px solid #eee;
-  text-align:center;
-  max-width:85%;
-}
-
-.chat-input-area {
-  display:flex;
-  padding:10px 12px 12px;
-  border-top:1px solid #f0f0ee;
-  gap:8px;
-  background:white;
-}
-
-.chat-input-area input {
-  flex:1;
-  border:1.5px solid #e8e8e6;
-  padding:10px 14px;
-  border-radius:20px;
-  font-size:14px;
-  outline:none;
-  background:#fafafa;
-}
-
-.chat-input-area button {
-  background:#3A8AE0;
-  color:white;
-  border:none;
-  padding:0 18px;
-  border-radius:20px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.chat-rooms {
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  overflow-y:auto;
-}
-
-.chat-room-row {
-  display:flex;
-  align-items:center;
-  gap:14px;
-  background:white;
-  padding:14px 16px;
-  border-radius:16px;
-  cursor:pointer;
-}
-
-/* BOTTOM NAV */
-.bottom-nav {
-  position:fixed;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:420px;
-  background:rgba(255,255,255,.94);
-  backdrop-filter:blur(16px);
-  border-top:1px solid #eee;
-  display:flex;
-  padding:8px 0 max(16px,env(safe-area-inset-bottom));
-  z-index:100;
-}
-
-.nav-tab {
-  flex:1;
-  background:none;
-  border:none;
-  cursor:pointer;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:3px;
-  padding:5px 0;
-}
-
-.nav-tab svg {
-  width:22px;
-  height:22px;
-}
-
-.nav-tab span {
-  font-size:10px;
-  font-weight:600;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0877ff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="KINGEN WG" />
+
+  <title>KINGEN WG</title>
+
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+
+  <style>
+    :root {
+      --blue: #0877ff;
+      --blue-dark: #0059d6;
+      --blue-light: #eaf4ff;
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #718096;
+      --border: #e5eaf1;
+      --green: #18a957;
+      --red: #ef4444;
+      --orange: #f59e0b;
+      --shadow: 0 10px 30px rgba(20, 45, 90, .08);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(8,119,255,.08), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        Inter,
+        Arial,
+        sans-serif;
+      min-height: 100vh;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* LOGIN */
+
+    #loginScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 430px;
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(255,255,255,.8);
+      box-shadow: 0 25px 70px rgba(0,70,160,.16);
+      border-radius: 32px;
+      padding: 30px 24px;
+      backdrop-filter: blur(20px);
+    }
+
+    .logo {
+      width: 76px;
+      height: 76px;
+      border-radius: 24px;
+      background: linear-gradient(145deg, #1590ff, #005bd9);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      font-weight: 900;
+      margin: 0 auto 18px;
+      box-shadow: 0 14px 35px rgba(8,119,255,.28);
+    }
+
+    .login-card h1 {
+      text-align: center;
+      margin: 0;
+      font-size: 30px;
+      letter-spacing: -1px;
+    }
+
+    .login-subtitle {
+      text-align: center;
+      color: var(--muted);
+      margin: 8px 0 26px;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #5d6878;
+      margin: 0 0 7px 5px;
+    }
+
+    .field input,
+    .admin-select,
+    .text-input {
+      width: 100%;
+      height: 52px;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 0 16px;
+      outline: none;
+      transition: .2s;
+    }
+
+    .field input:focus,
+    .admin-select:focus,
+    .text-input:focus {
+      border-color: var(--blue);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(8,119,255,.1);
+    }
+
+    .primary-btn {
+      width: 100%;
+      height: 54px;
+      border-radius: 17px;
+      color: white;
+      background: linear-gradient(135deg, #168dff, #0062df);
+      font-weight: 800;
+      box-shadow: 0 12px 25px rgba(8,119,255,.22);
+      transition: transform .15s, opacity .15s;
+    }
+
+    .primary-btn:active,
+    .action-btn:active,
+    .nav-btn:active {
+      transform: scale(.97);
+    }
+
+    .login-error {
+      margin-top: 12px;
+      color: var(--red);
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* APP */
+
+    #app {
+      max-width: 760px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding-bottom: 110px;
+    }
+
+    .topbar {
+      padding:
+        calc(18px + env(safe-area-inset-top))
+        18px
+        12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .mini-logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      background: linear-gradient(145deg, #168dff, #005bd9);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 900;
+      box-shadow: 0 9px 22px rgba(8,119,255,.22);
+    }
+
+    .brand-title {
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: -.4px;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      background: white;
+      color: #26364b;
+      box-shadow: var(--shadow);
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 19px;
+    }
+
+    .icon-badge {
+      position: absolute;
+      right: -3px;
+      top: -4px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: 10px;
+      background: var(--red);
+      color: white;
+      font-size: 10px;
+      font-weight: 900;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .content {
+      padding: 0 16px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0a82ff, #0059d5);
+      border-radius: 28px;
+      padding: 22px;
+      color: white;
+      box-shadow: 0 18px 40px rgba(8,119,255,.22);
+      margin-bottom: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      right: -70px;
+      top: -70px;
+      background: rgba(255,255,255,.09);
+    }
+
+    .hero-label {
+      font-size: 12px;
+      opacity: .8;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+
+    .hero-title {
+      font-size: 29px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-top: 5px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-role {
+      font-size: 12px;
+      opacity: .8;
+    }
+
+    .hero-name {
+      font-weight: 800;
+    }
+
+    .hero-admin {
+      background: rgba(255,255,255,.18);
+      padding: 8px 11px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    /* AVATARS */
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: 900;
+      flex: 0 0 auto;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.25);
+    }
+
+    .avatar.small {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .avatar.large {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      font-size: 18px;
+    }
+
+    /* CARDS */
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 900;
+      margin: 23px 3px 10px;
+      letter-spacing: -.3px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(230,235,242,.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 13px;
+      overflow: hidden;
+    }
+
+    .task-card {
+      padding: 18px;
+      position: relative;
+      touch-action: pan-y;
+    }
+
+    .task-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .task-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .task-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: var(--blue-light);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+    }
+
+    .task-name {
+      font-weight: 900;
+      font-size: 17px;
+    }
+
+    .task-status {
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 800;
+      margin-top: 3px;
+    }
+
+    .task-person {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 15px;
+      background: #f7f9fc;
+    }
+
+    .task-person-name {
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .task-person-label {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .task-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .action-btn {
+      height: 45px;
+      padding: 0 16px;
+      border-radius: 14px;
+      font-weight: 800;
+      transition: .15s;
+    }
+
+    .complete-btn {
+      background: #eaf9f0;
+      color: #168649;
+      flex: 1;
+    }
+
+    .skip-btn {
+      background: #fff2f2;
+      color: #dc3434;
+      flex: 1;
+    }
+
+    .blue-btn {
+      background: var(--blue-light);
+      color: var(--blue);
+    }
+
+    .gray-btn {
+      background: #f0f2f5;
+      color: #485467;
+    }
+
+    /* PEOPLE */
+
+    .people-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .person-mini {
+      background: white;
+      border-radius: 18px;
+      padding: 13px 5px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .person-mini .avatar {
+      margin: auto;
+    }
+
+    .person-mini-name {
+      margin-top: 7px;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .person-mini-role {
+      color: var(--muted);
+      font-size: 9px;
+      margin-top: 3px;
+    }
+
+    /* DUE */
+
+    .due-card {
+      border: 1px solid #ffd7d7;
+      background: linear-gradient(135deg, #fff, #fff7f7);
+      padding: 17px;
+    }
+
+    .due-card-inner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .due-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: #ffe6e6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 23px;
+      flex: 0 0 auto;
+    }
+
+    .due-main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .due-title {
+      font-weight: 900;
+      font-size: 15px;
+    }
+
+    .due-person {
+      font-size: 12px;
+      color: var(--red);
+      font-weight: 800;
+      margin-top: 3px;
+    }
+
+    .due-time {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .due-done {
+      background: #eaf9f0;
+      color: #168649;
+      border-radius: 13px;
+      padding: 10px 12px;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 35px 20px;
+      color: var(--muted);
+    }
+
+    .empty-icon {
+      font-size: 38px;
+      margin-bottom: 8px;
+    }
+
+    .empty-title {
+      color: var(--text);
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    /* CHAT */
+
+    .chat-tabs {
+      display: flex;
+      background: #e9eef5;
+      padding: 4px;
+      border-radius: 15px;
+      margin-bottom: 13px;
+    }
+
+    .chat-tab {
+      flex: 1;
+      height: 40px;
+      border-radius: 12px;
+      background: transparent;
+      color: #697588;
+      font-weight: 800;
+    }
+
+    .chat-tab.active {
+      background: white;
+      color: var(--blue);
+      box-shadow: 0 3px 12px rgba(20,40,80,.08);
+    }
+
+    .chat-room-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .chat-room {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 13px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-align: left;
+    }
+
+    .chat-room-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .chat-room-name {
+      font-weight: 850;
+      font-size: 14px;
+    }
+
+    .chat-room-preview {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .unread {
+      min-width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      background: var(--blue);
+      color: white;
+      font-size: 10px;
+      font-weight: 900;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 6px;
+    }
+
+    .chat-header {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .back-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: #f0f4f8;
+      font-size: 18px;
+    }
+
+    .chat-header-info {
+      flex: 1;
+    }
+
+    .chat-header-name {
+      font-weight: 900;
+    }
+
+    .chat-header-status {
+      font-size: 10px;
+      color: var(--green);
+      margin-top: 2px;
+    }
+
+    .messages {
+      background: #eaf1f8;
+      border-radius: 22px;
+      padding: 13px;
+      min-height: 380px;
+      max-height: 58vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 10px 13px;
+      border-radius: 17px;
+      font-size: 14px;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .message.mine {
+      align-self: flex-end;
+      background: var(--blue);
+      color: white;
+      border-bottom-right-radius: 6px;
+    }
+
+    .message.theirs {
+      align-self: flex-start;
+      background: white;
+      color: var(--text);
+      border-bottom-left-radius: 6px;
+    }
+
+    .message.system {
+      align-self: center;
+      max-width: 90%;
+      background: rgba(255,255,255,.65);
+      color: #697588;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .message-meta {
+      font-size: 9px;
+      opacity: .65;
+      margin-top: 4px;
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 9px;
+    }
+
+    .chat-input {
+      flex: 1;
+      min-width: 0;
+      height: 48px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 0 14px;
+      outline: none;
+      background: white;
+    }
+
+    .send-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+      background: var(--blue);
+      color: white;
+      font-size: 18px;
+    }
+
+    /* CALENDAR */
+
+    .calendar-card {
+      padding: 15px;
+    }
+
+    .calendar-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .calendar-month {
+      font-weight: 900;
+      font-size: 19px;
+    }
+
+    .calendar-arrows {
+      display: flex;
+      gap: 6px;
+    }
+
+    .calendar-arrow {
+      width: 37px;
+      height: 37px;
+      border-radius: 12px;
+      background: #f0f4f8;
+      font-size: 17px;
+    }
+
+    .calendar-weekdays,
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+
+    .weekday {
+      text-align: center;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 900;
+      padding-bottom: 5px;
+    }
+
+    .day {
+      min-height: 53px;
+      background: #f7f9fc;
+      border-radius: 12px;
+      padding: 6px;
+      position: relative;
+      border: 1px solid transparent;
+    }
+
+    .day.other-month {
+      opacity: .35;
+    }
+
+    .day.today {
+      border-color: var(--blue);
+    }
+
+    .day.selected {
+      background: var(--blue-light);
+      border-color: #9ccaff;
+    }
+
+    .day-number {
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .day-dots {
+      display: flex;
+      gap: 3px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .calendar-details {
+      margin-top: 13px;
+    }
+
+    .calendar-event {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f7f9fc;
+      border-radius: 15px;
+      padding: 11px;
+      margin-bottom: 7px;
+    }
+
+    .calendar-event-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .calendar-event-main {
+      flex: 1;
+    }
+
+    .calendar-event-title {
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .calendar-event-person {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .calendar-event-time {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* HISTORY / NOTIFICATIONS */
+
+    .log-item,
+    .notice-item {
+      display: flex;
+      gap: 11px;
+      padding: 14px;
+      background: white;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .log-item:first-child,
+    .notice-item:first-child {
+      border-radius: 18px 18px 0 0;
+    }
+
+    .log-item:last-child,
+    .notice-item:last-child {
+      border-radius: 0 0 18px 18px;
+      border-bottom: 0;
+    }
+
+    .log-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: #edf4ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .log-main,
+    .notice-main {
+      flex: 1;
+    }
+
+    .log-text,
+    .notice-text {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .log-time,
+    .notice-time {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 4px;
+    }
+
+    /* ADMIN */
+
+    .admin-card {
+      padding: 17px;
+    }
+
+    .admin-title {
+      font-weight: 900;
+      font-size: 17px;
+      margin-bottom: 4px;
+    }
+
+    .admin-description {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+      margin-bottom: 15px;
+    }
+
+    .order-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .order-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: #f7f9fc;
+      border-radius: 15px;
+      padding: 10px;
+    }
+
+    .order-number {
+      width: 25px;
+      height: 25px;
+      border-radius: 9px;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 900;
+      color: var(--blue);
+    }
+
+    .order-row .avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 11px;
+      font-size: 11px;
+    }
+
+    .order-name {
+      flex: 1;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .order-controls {
+      display: flex;
+      gap: 4px;
+    }
+
+    .order-control {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: white;
+      color: #536174;
+    }
+
+    .settings-row {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .settings-row:last-child {
+      border-bottom: 0;
+    }
+
+    .settings-row-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 13px;
+      background: #edf4ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .settings-row-main {
+      flex: 1;
+    }
+
+    .settings-row-title {
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .settings-row-sub {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 2px;
+    }
+
+    /* PROFILE */
+
+    .profile-card {
+      padding: 19px;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 17px;
+    }
+
+    .profile-name {
+      font-size: 19px;
+      font-weight: 900;
+    }
+
+    .profile-role {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    /* NAV */
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
+      width: min(760px, 100%);
+      padding:
+        8px
+        9px
+        calc(8px + env(safe-area-inset-bottom));
+      background: rgba(255,255,255,.91);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border-top: 1px solid rgba(220,225,232,.8);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      z-index: 100;
+    }
+
+    .nav-btn {
+      height: 57px;
+      background: transparent;
+      color: #8490a1;
+      border-radius: 17px;
+      position: relative;
+      transition: .15s;
+    }
+
+    .nav-btn.active {
+      color: var(--blue);
+      background: #edf5ff;
+    }
+
+    .nav-icon {
+      font-size: 19px;
+      display: block;
+      line-height: 20px;
+    }
+
+    .nav-label {
+      display: block;
+      font-size: 9px;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+
+    .nav-badge {
+      position: absolute;
+      top: 4px;
+      right: 23%;
+      min-width: 17px;
+      height: 17px;
+      border-radius: 9px;
+      background: var(--red);
+      color: white;
+      font-size: 9px;
+      font-weight: 900;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 4px;
+    }
+
+    /* TOAST */
+
+    #toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(84px + env(safe-area-inset-bottom));
+      transform: translate(-50%, 15px);
+      background: rgba(20,28,40,.94);
+      color: white;
+      padding: 12px 17px;
+      border-radius: 15px;
+      font-size: 12px;
+      font-weight: 800;
+      z-index: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: .25s;
+      max-width: calc(100% - 40px);
+      text-align: center;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    /* MODAL */
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,20,45,.38);
+      backdrop-filter: blur(5px);
+      z-index: 300;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal {
+      width: min(760px, 100%);
+      max-height: 88vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 28px 28px 0 0;
+      padding: 19px 18px calc(20px + env(safe-area-inset-bottom));
+      animation: slideUp .23s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .modal-handle {
+      width: 40px;
+      height: 5px;
+      background: #dce1e8;
+      border-radius: 4px;
+      margin: 0 auto 17px;
+    }
+
+    .modal-title {
+      font-size: 21px;
+      font-weight: 900;
+      margin-bottom: 15px;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 420px) {
+      .people-row {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .task-actions .action-btn {
+        padding: 0 9px;
+        font-size: 12px;
+      }
+
+      .day {
+        min-height: 48px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div id="loginGate" class="login-screen" style="display:none;">
-  <div class="login-card">
-    <h2 id="logoHeader" onclick="triggerSecretReset()">KINGEN WG</h2>
-    <p>Gib deinen Namen und den WG-Passcode ein.</p>
-    <input type="text" id="nameInput" placeholder="Dein Name">
-    <input type="password" id="passcodeInput" placeholder="WG-Passcode">
-    <button onclick="submitSecureLogin()">Beitreten</button>
+  <!-- LOGIN -->
+  <div id="loginScreen">
+    <div class="login-card">
+      <div class="logo">KW</div>
+      <h1>KINGEN WG</h1>
+      <div class="login-subtitle">Deine WG. Deine Aufgaben. Alles an einem Ort.</div>
+
+      <div class="field">
+        <label>Dein Name</label>
+        <input
+          id="loginName"
+          type="text"
+          placeholder="z.B. Hassan"
+          autocomplete="name"
+        />
+      </div>
+
+      <div class="field">
+        <label>WG Code</label>
+        <input
+          id="loginCode"
+          type="password"
+          placeholder="••••"
+          inputmode="numeric"
+        />
+      </div>
+
+      <button class="primary-btn" onclick="login()">
+        Einloggen
+      </button>
+
+      <div id="loginError" class="login-error hidden"></div>
+    </div>
   </div>
-</div>
 
-<div class="app">
-  <div id="root"></div>
-</div>
-
-<script type="module">
-
-import {
-  initializeApp
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-
-import {
-  getDatabase,
-  ref,
-  set,
-  onValue
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-
-/* FIREBASE */
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAv-1UXuNTEU8aFb8VfpFFVYg6VR1nkQVM",
-  authDomain: "kingenwg.firebaseapp.com",
-  databaseURL: "https://kingenwg-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "kingenwg",
-  storageBucket: "kingenwg.firebasestorage.app",
-  messagingSenderId: "959662859826",
-  appId: "1:959662859826:web:b44260e9944545fa58fe2b"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-const WG_PASSCODE = "1234";
-const ONESIGNAL_APP_ID = "ccca5ec6-33c7-4921-a67a-d3b06de45512";
-
-
-/* COLORS */
-
-const COLORS = [
-  { hex:"#E05A3A", light:"#FDEEE9" },
-  { hex:"#3A8AE0", light:"#E8F2FD" },
-  { hex:"#3AAE60", light:"#E8F7EE" },
-  { hex:"#D4A017", light:"#FDF5DC" }
-];
-
-
-/* BINS */
-
-const BINS = [
-  { id:"rest", icon:"🗑️", name:"Restmüll" },
-  { id:"papier", icon:"📦", name:"Papiermüll" },
-  { id:"bio", icon:"🌿", name:"Biomüll" },
-  { id:"gelb", icon:"♻️", name:"Gelber Sack" }
-];
-
-
-/* STATE */
-
-let S = {
-
-  trashTurn:0,
-  cleanTurn:0,
-
-  dueTasks:[],
-
-  globalLog:[],
-
-  users:[
-    {id:0, name:"Jacky", deviceId:"", colorId:0},
-    {id:1, name:"Hassan", deviceId:"", colorId:1},
-    {id:2, name:"Suraj", deviceId:"", colorId:2},
-    {id:3, name:"Andreas", deviceId:"", colorId:3}
-  ],
-
-  groupChat:[],
-  privateChats:{},
-
-  tab:"home",
-  chatSubTab:"group",
-  activePrivatePartner:null,
-
-  isLoggedIn:false,
-  mySlot:0
-};
-
-
-let localTrashChecked = [];
-
-
-/* DEVICE TOKEN */
-
-let myLocalDeviceToken =
-  localStorage.getItem("wg_device_secure_token");
-
-if (!myLocalDeviceToken) {
-
-  myLocalDeviceToken =
-    "dev_" +
-    Math.random().toString(36).substr(2,9) +
-    Date.now();
-
-  localStorage.setItem(
-    "wg_device_secure_token",
-    myLocalDeviceToken
-  );
-}
-
-
-/* LOGIN */
-
-if (
-  localStorage.getItem("wg_secure_logged_in") === "true"
-) {
-
-  S.isLoggedIn = true;
-
-  S.mySlot = parseInt(
-    localStorage.getItem("wg_user_slot") || "0",
-    10
-  );
-
-  initOneSignalNotifications();
-
-} else {
-
-  document.getElementById("loginGate").style.display = "flex";
-}
-
-
-/* ONESIGNAL */
-
-function initOneSignalNotifications() {
-
-  window.OneSignalDeferred =
-    window.OneSignalDeferred || [];
-
-  OneSignalDeferred.push(async function(OneSignal) {
-
-    try {
-
-      await OneSignal.init({
-        appId: ONESIGNAL_APP_ID,
-        allowLocalhostAsSecureOrigin:true
-      });
-
-      await OneSignal.login(
-        "user_" + S.mySlot
-      );
-
-    } catch(e) {
-
-      console.warn(
-        "OneSignal unavailable:",
-        e
-      );
-
-    }
-
-  });
-}
-
-
-/* PUSH */
-
-function sendPushToUser(
-  targetSlotId,
-  alertTitle,
-  alertMessage,
-  isSilent=false
-) {
-
-  fetch("/api/send-push", {
-
-    method:"POST",
-
-    headers:{
-      "Content-Type":"application/json"
-    },
-
-    body:JSON.stringify({
-      targetSlotId,
-      alertTitle,
-      alertMessage,
-      isSilent
-    })
-
-  })
-
-  .then(res => {
-
-    if (!res.ok)
-      throw new Error("Push API unavailable");
-
-    return res.json();
-
-  })
-
-  .then(data => {
-
-    console.log(
-      "Push Notification Status:",
-      data
-    );
-
-  })
-
-  .catch(e => {
-
-    console.warn(
-      "Push notification unavailable:",
-      e.message
-    );
-
-  });
-}
-
-
-/* SECRET RESET */
-
-let resetClicks = 0;
-
-window.triggerSecretReset = function() {
-
-  resetClicks++;
-
-  if (resetClicks >= 5) {
-
-    resetClicks = 0;
-
-    localStorage.clear();
-
-    const freshUsers = [
-
-      {
-        id:0,
-        name:"Jacky",
-        deviceId:"",
-        colorId:0
-      },
-
-      {
-        id:1,
-        name:"Hassan",
-        deviceId:"",
-        colorId:1
-      },
-
-      {
-        id:2,
-        name:"Suraj",
-        deviceId:"",
-        colorId:2
-      },
-
-      {
-        id:3,
-        name:"Andreas",
-        deviceId:"",
-        colorId:3
-      }
-
+  <!-- APP -->
+  <div id="app" class="hidden">
+
+    <header class="topbar">
+      <div class="brand-area">
+        <div class="mini-logo">KW</div>
+        <div>
+          <div class="brand-title">KINGEN WG</div>
+          <div class="brand-subtitle" id="topSubtitle">Gemeinsam organisiert</div>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <button class="icon-btn" onclick="setTab('notifications')" aria-label="Notifications">
+          🔔
+          <span id="notificationBadge" class="icon-badge hidden">0</span>
+        </button>
+
+        <button class="icon-btn" onclick="setTab('profile')" aria-label="Profile">
+          👤
+        </button>
+      </div>
+    </header>
+
+    <main id="content" class="content"></main>
+
+    <nav class="bottom-nav">
+      <button id="nav-home" class="nav-btn" onclick="setTab('home')">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Home</span>
+      </button>
+
+      <button id="nav-due" class="nav-btn" onclick="setTab('due')">
+        <span class="nav-icon">🔴</span>
+        <span class="nav-label">Fällig</span>
+        <span id="dueBadge" class="nav-badge hidden">0</span>
+      </button>
+
+      <button id="nav-chat" class="nav-btn" onclick="setTab('chat')">
+        <span class="nav-icon">💬</span>
+        <span class="nav-label">Chat</span>
+        <span id="chatBadge" class="nav-badge hidden">0</span>
+      </button>
+
+      <button id="nav-calendar" class="nav-btn" onclick="setTab('calendar')">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">Kalender</span>
+      </button>
+
+      <button id="nav-history" class="nav-btn" onclick="setTab('history')">
+        <span class="nav-icon">📋</span>
+        <span class="nav-label">Verlauf</span>
+      </button>
+    </nav>
+  </div>
+
+  <div id="toast"></div>
+
+  <div id="modalRoot"></div>
+
+  <script type="module">
+
+    /* =========================================================
+       FIREBASE
+    ========================================================= */
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
+    import {
+      getDatabase,
+      ref,
+      onValue,
+      set
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAv-1UXuNTEU8aFb8VfpFFVYg6VR1nkQVM",
+      authDomain: "kingenwg.firebaseapp.com",
+      databaseURL: "https://kingenwg-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "kingenwg",
+      storageBucket: "kingenwg.firebasestorage.app",
+      messagingSenderId: "959662859826",
+      appId: "1:959662859826:web:b44260e9944545fa58fe2b"
+    };
+
+    const firebaseApp = initializeApp(firebaseConfig);
+    const db = getDatabase(firebaseApp);
+
+    const DB_PATH = "wg_secure_v6";
+    const WG_CODE = "1234";
+
+    const ONESIGNAL_APP_ID = "ccca5ec6-33c7-4921-a67a-d3b06de45512";
+
+    /* =========================================================
+       CONSTANTS
+    ========================================================= */
+
+    const COLORS = [
+      "#0877ff",
+      "#8b5cf6",
+      "#10a36b",
+      "#f59e0b",
+      "#ef4444",
+      "#06b6d4"
     ];
 
-    set(
-      ref(db,"wg_secure_v6/users"),
-      freshUsers
-    )
-    .then(() => {
+    const TASK_LABELS = {
+      trash: "Müll",
+      clean: "Putzen"
+    };
 
-      alert(
-        "Datenbank zurückgesetzt! Alle Slots frei."
+    const TASK_ICONS = {
+      trash: "🗑️",
+      clean: "🧹",
+      extra: "➕"
+    };
+
+    const WEEKDAYS = [
+      "So",
+      "Mo",
+      "Di",
+      "Mi",
+      "Do",
+      "Fr",
+      "Sa"
+    ];
+
+    const MONTHS = [
+      "Januar",
+      "Februar",
+      "März",
+      "April",
+      "Mai",
+      "Juni",
+      "Juli",
+      "August",
+      "September",
+      "Oktober",
+      "November",
+      "Dezember"
+    ];
+
+    /* =========================================================
+       STATE
+    ========================================================= */
+
+    function defaultUsers() {
+      return [
+        {
+          id: 0,
+          name: "Jacky",
+          deviceId: "",
+          colorId: 0,
+          isAdmin: false
+        },
+        {
+          id: 1,
+          name: "Hassan",
+          deviceId: "",
+          colorId: 1,
+          isAdmin: true
+        },
+        {
+          id: 2,
+          name: "Suraj",
+          deviceId: "",
+          colorId: 2,
+          isAdmin: false
+        },
+        {
+          id: 3,
+          name: "Andreas",
+          deviceId: "",
+          colorId: 3,
+          isAdmin: false
+        }
+      ];
+    }
+
+    let S = {
+      trashOrder: [0, 1, 2, 3],
+      cleanOrder: [1, 2, 3, 0],
+
+      trashIndex: 0,
+      cleanIndex: 0,
+
+      globalLog: [],
+      users: defaultUsers(),
+
+      groupChat: [],
+      privateChats: {},
+
+      dueTasks: [],
+      completedTasks: [],
+
+      extraTasks: [],
+
+      tab: "home",
+      chatSubTab: "group",
+      activePrivatePartner: null,
+
+      calendarDate: new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        1
+      ),
+
+      selectedCalendarDate: new Date(),
+
+      isLoggedIn: false,
+      mySlot: 0,
+
+      initialized: false
+    };
+
+    /* =========================================================
+       HELPERS
+    ========================================================= */
+
+    function esc(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function userById(id) {
+      return S.users.find(u => Number(u.id) === Number(id)) || null;
+    }
+
+    function userName(id) {
+      return userById(id)?.name || "Unbekannt";
+    }
+
+    function userColor(user) {
+      if (!user) return COLORS[0];
+
+      const colorId = Number.isFinite(Number(user.colorId))
+        ? Number(user.colorId)
+        : Number(user.id) || 0;
+
+      return COLORS[Math.abs(colorId) % COLORS.length];
+    }
+
+    function initials(name) {
+      const n = String(name || "?").trim();
+
+      if (!n) return "?";
+
+      const parts = n.split(/\s+/);
+
+      if (parts.length >= 2) {
+        return (
+          parts[0][0] +
+          parts[parts.length - 1][0]
+        ).toUpperCase();
+      }
+
+      return n.substring(0, 2).toUpperCase();
+    }
+
+    function avatarHTML(user, size = "") {
+      if (!user) {
+        return `<div class="avatar ${size}">?</div>`;
+      }
+
+      return `
+        <div
+          class="avatar ${size}"
+          style="background:${userColor(user)}"
+        >
+          ${esc(initials(user.name))}
+        </div>
+      `;
+    }
+
+    function now() {
+      return Date.now();
+    }
+
+    function formatTime(timestamp) {
+      if (!timestamp) return "";
+
+      return new Date(timestamp).toLocaleTimeString("de-DE", {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function formatDate(timestamp) {
+      if (!timestamp) return "";
+
+      return new Date(timestamp).toLocaleDateString("de-DE", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+      });
+    }
+
+    function formatDateShort(timestamp) {
+      if (!timestamp) return "";
+
+      return new Date(timestamp).toLocaleDateString("de-DE", {
+        day: "2-digit",
+        month: "2-digit"
+      });
+    }
+
+    function sameDate(a, b) {
+      const da = new Date(a);
+      const dbb = new Date(b);
+
+      return (
+        da.getFullYear() === dbb.getFullYear() &&
+        da.getMonth() === dbb.getMonth() &&
+        da.getDate() === dbb.getDate()
       );
-
-      window.location.reload();
-
-    });
-
-  }
-
-};
-
-
-/* LOGIN */
-
-window.submitSecureLogin = function() {
-
-  const code =
-    document.getElementById("passcodeInput")
-      .value
-      .trim();
-
-  const rawName =
-    document.getElementById("nameInput")
-      .value
-      .trim();
-
-  if (!rawName) {
-
-    alert("Bitte gib deinen Namen ein!");
-    return;
-
-  }
-
-  if (code !== WG_PASSCODE) {
-
-    alert("Falscher WG-Passcode!");
-    return;
-
-  }
-
-  const cleanName =
-    rawName.toLowerCase();
-
-  let foundSlot = -1;
-  let emptySlot = -1;
-
-  for (
-    let i=0;
-    i<S.users.length;
-    i++
-  ) {
-
-    if (
-      S.users[i].name.toLowerCase()
-      === cleanName
-    ) {
-
-      foundSlot = i;
-      break;
-
     }
 
-    if (
-      !S.users[i].deviceId &&
-      emptySlot === -1
-    ) {
+    function dateKey(date) {
+      const d = new Date(date);
 
-      emptySlot = i;
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
 
+      return `${y}-${m}-${day}`;
     }
 
-  }
+    function showToast(message) {
+      const toast = document.getElementById("toast");
 
-  if (foundSlot !== -1) {
+      toast.textContent = message;
+      toast.classList.add("show");
 
-    if (
-      !S.users[foundSlot].deviceId ||
-      S.users[foundSlot].deviceId
-      === myLocalDeviceToken
-    ) {
+      clearTimeout(window.__toastTimer);
 
-      S.users[foundSlot].deviceId =
-        myLocalDeviceToken;
-
-      executeLoginSuccess(foundSlot);
-
-    } else {
-
-      alert(
-        "Dieser Name ist auf einem anderen Gerät registriert!"
-      );
-
+      window.__toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2600);
     }
 
-  } else {
-
-    if (emptySlot !== -1) {
-
-      S.users[emptySlot].name =
-        rawName;
-
-      S.users[emptySlot].deviceId =
-        myLocalDeviceToken;
-
-      executeLoginSuccess(emptySlot);
-
-    } else {
-
-      alert(
-        "Alle 4 Profile belegt!"
-      );
-
+    function getMyUser() {
+      return userById(S.mySlot) || S.users[0];
     }
 
-  }
+    function isAdmin() {
+      return !!getMyUser()?.isAdmin;
+    }
 
-};
+    function currentTurn(type) {
+      const order = type === "trash"
+        ? S.trashOrder
+        : S.cleanOrder;
 
+      const index = type === "trash"
+        ? S.trashIndex
+        : S.cleanIndex;
 
-function executeLoginSuccess(slot) {
+      return order[index] ?? S.users[0]?.id ?? 0;
+    }
 
-  localStorage.setItem(
-    "wg_secure_logged_in",
-    "true"
-  );
+    function nextIndex(type, index) {
+      const order = type === "trash"
+        ? S.trashOrder
+        : S.cleanOrder;
 
-  localStorage.setItem(
-    "wg_user_slot",
-    slot
-  );
+      if (!order.length) return 0;
 
-  S.isLoggedIn = true;
-  S.mySlot = slot;
+      return (index + 1) % order.length;
+    }
 
-  document.getElementById(
-    "loginGate"
-  ).style.display = "none";
+    function normaliseUsers(users) {
+      if (!Array.isArray(users) || !users.length) {
+        return defaultUsers();
+      }
 
-  initOneSignalNotifications();
+      return users.map((u, i) => ({
+        id: Number.isFinite(Number(u.id)) ? Number(u.id) : i,
+        name: String(u.name || `User ${i + 1}`),
+        deviceId: String(u.deviceId || ""),
+        colorId: Number.isFinite(Number(u.colorId))
+          ? Number(u.colorId)
+          : i,
+        isAdmin: !!u.isAdmin || String(u.name || "").toLowerCase() === "hassan"
+      }));
+    }
 
-  saveToCloud();
+    /* =========================================================
+       LOCAL STORAGE
+    ========================================================= */
 
-  render();
+    function setLoggedIn(slot) {
+      localStorage.setItem("wg_logged_in", "1");
+      localStorage.setItem("wg_user_slot", String(slot));
+    }
 
-}
+    function clearLoggedIn() {
+      localStorage.removeItem("wg_logged_in");
+      localStorage.removeItem("wg_user_slot");
+    }
 
-
-/* FIREBASE SYNC */
-
-onValue(
-  ref(db,"wg_secure_v6"),
-  snapshot => {
-
-    const data = snapshot.val();
-
-    if (data) {
-
-      S.trashTurn =
-        data.trashTurn ?? 0;
-
-      S.cleanTurn =
-        data.cleanTurn ?? 0;
-
-      S.dueTasks =
-        data.dueTasks || [];
-
-      S.globalLog =
-        data.globalLog || [];
-
-      S.users =
-        data.users || S.users;
-
-      S.groupChat =
-        data.groupChat || [];
-
-      S.privateChats =
-        data.privateChats || {};
+    function loadLocalLogin() {
+      const logged = localStorage.getItem("wg_logged_in");
+      const slot = Number(localStorage.getItem("wg_user_slot"));
 
       if (
-        S.mySlot >= S.users.length
+        logged === "1" &&
+        Number.isInteger(slot) &&
+        slot >= 0
       ) {
+        S.isLoggedIn = true;
+        S.mySlot = slot;
+      }
+    }
 
+    function groupReadKey() {
+      return `wg_group_read_${S.mySlot}`;
+    }
+
+    function privateReadKey(partnerId) {
+      return `wg_private_read_${S.mySlot}_${partnerId}`;
+    }
+
+    function getUnreadGroup() {
+      const last = Number(localStorage.getItem(groupReadKey()) || 0);
+
+      return S.groupChat.filter(msg =>
+        Number(msg.sender) !== Number(S.mySlot) &&
+        Number(msg.time || 0) > last
+      ).length;
+    }
+
+    function getUnreadPrivate(partnerId) {
+      const last = Number(
+        localStorage.getItem(privateReadKey(partnerId)) || 0
+      );
+
+      const key = privateChatKey(S.mySlot, partnerId);
+
+      return (S.privateChats[key] || []).filter(msg =>
+        Number(msg.sender) !== Number(S.mySlot) &&
+        Number(msg.time || 0) > last
+      ).length;
+    }
+
+    function markGroupRead() {
+      localStorage.setItem(
+        groupReadKey(),
+        String(Date.now())
+      );
+    }
+
+    function markPrivateRead(partnerId) {
+      localStorage.setItem(
+        privateReadKey(partnerId),
+        String(Date.now())
+      );
+    }
+
+    /* =========================================================
+       FIREBASE SAVE
+    ========================================================= */
+
+    async function saveToCloud() {
+      try {
+        await set(ref(db, DB_PATH), {
+          trashOrder: S.trashOrder,
+          cleanOrder: S.cleanOrder,
+
+          trashIndex: S.trashIndex,
+          cleanIndex: S.cleanIndex,
+
+          globalLog: S.globalLog.slice(-300),
+
+          users: S.users,
+
+          groupChat: S.groupChat.slice(-300),
+
+          privateChats: S.privateChats,
+
+          dueTasks: S.dueTasks,
+
+          completedTasks: S.completedTasks.slice(-500),
+
+          extraTasks: S.extraTasks.slice(-200)
+        });
+      } catch (error) {
+        console.error("Firebase save failed:", error);
+        showToast("Speichern fehlgeschlagen");
+      }
+    }
+
+    /* =========================================================
+       FIREBASE LOAD
+    ========================================================= */
+
+    onValue(ref(db, DB_PATH), snapshot => {
+
+      const data = snapshot.val();
+
+      if (data) {
+
+        S.trashOrder = Array.isArray(data.trashOrder)
+          ? data.trashOrder.map(Number)
+          : [0, 1, 2, 3];
+
+        S.cleanOrder = Array.isArray(data.cleanOrder)
+          ? data.cleanOrder.map(Number)
+          : [1, 2, 3, 0];
+
+        S.trashIndex = Number(data.trashIndex || 0);
+        S.cleanIndex = Number(data.cleanIndex || 0);
+
+        S.globalLog = Array.isArray(data.globalLog)
+          ? data.globalLog
+          : [];
+
+        S.users = normaliseUsers(data.users);
+
+        S.groupChat = Array.isArray(data.groupChat)
+          ? data.groupChat
+          : [];
+
+        S.privateChats =
+          data.privateChats &&
+          typeof data.privateChats === "object"
+            ? data.privateChats
+            : {};
+
+        S.dueTasks = Array.isArray(data.dueTasks)
+          ? data.dueTasks
+          : [];
+
+        S.completedTasks = Array.isArray(data.completedTasks)
+          ? data.completedTasks
+          : [];
+
+        S.extraTasks = Array.isArray(data.extraTasks)
+          ? data.extraTasks
+          : [];
+
+        /*
+          Migration:
+          Her -> Andreas
+          Hassan -> Admin
+        */
+
+        let changed = false;
+
+        S.users.forEach(user => {
+
+          if (
+            String(user.name).trim().toLowerCase() === "her"
+          ) {
+            user.name = "Andreas";
+            changed = true;
+          }
+
+          if (
+            String(user.name).trim().toLowerCase() === "hassan"
+            && !user.isAdmin
+          ) {
+            user.isAdmin = true;
+            changed = true;
+          }
+        });
+
+        if (changed) {
+          setTimeout(saveToCloud, 200);
+        }
+      }
+
+      /*
+        If there is no database yet, create our initial structure.
+      */
+
+      if (!data && !S.initialized) {
+        S.initialized = true;
+        saveToCloud();
+      }
+
+      S.initialized = true;
+
+      if (S.mySlot >= S.users.length) {
         S.mySlot = 0;
+      }
 
+      updateLoginVisibility();
+      render();
+
+    }, error => {
+      console.error("Firebase listener error:", error);
+      showToast("Firebase Verbindung fehlgeschlagen");
+    });
+
+    /* =========================================================
+       ONESIGNAL
+    ========================================================= */
+
+    window.OneSignalDeferred =
+      window.OneSignalDeferred || [];
+
+    window.OneSignalDeferred.push(
+      async function(OneSignal) {
+
+        try {
+
+          await OneSignal.init({
+            appId: ONESIGNAL_APP_ID,
+            notifyButton: {
+              enable: false
+            }
+          });
+
+          if (S.isLoggedIn) {
+            await OneSignal.login(`user_${S.mySlot}`);
+          }
+
+        } catch (error) {
+          console.warn(
+            "OneSignal could not initialize:",
+            error
+          );
+        }
+      }
+    );
+
+    async function sendPushToUser(
+      userId,
+      title,
+      message
+    ) {
+
+      try {
+
+        const response = await fetch(
+          "/api/send-push",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              userId: `user_${userId}`,
+              title,
+              message
+            })
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Push endpoint returned ${response.status}`
+          );
+        }
+
+      } catch (error) {
+
+        /*
+          The Vercel page still works if /api/send-push
+          hasn't been created yet.
+
+          We deliberately don't expose the OneSignal REST API
+          key inside this HTML file.
+        */
+
+        console.warn(
+          "Push could not be sent:",
+          error.message
+        );
+      }
+    }
+
+    /* =========================================================
+       LOGIN / LOGOUT
+    ========================================================= */
+
+    function updateLoginVisibility() {
+
+      const login = document.getElementById("loginScreen");
+      const app = document.getElementById("app");
+
+      if (S.isLoggedIn) {
+        login.classList.add("hidden");
+        app.classList.remove("hidden");
+      } else {
+        login.classList.remove("hidden");
+        app.classList.add("hidden");
+      }
+    }
+
+    window.login = async function() {
+
+      const nameInput =
+        document.getElementById("loginName");
+
+      const codeInput =
+        document.getElementById("loginCode");
+
+      const error =
+        document.getElementById("loginError");
+
+      const name =
+        String(nameInput.value || "").trim();
+
+      const code =
+        String(codeInput.value || "").trim();
+
+      error.classList.add("hidden");
+
+      if (!name || !code) {
+        error.textContent =
+          "Bitte Name und WG Code eingeben.";
+        error.classList.remove("hidden");
+        return;
+      }
+
+      if (code !== WG_CODE) {
+        error.textContent =
+          "Der WG Code ist falsch.";
+        error.classList.remove("hidden");
+        return;
+      }
+
+      const existing =
+        S.users.find(
+          u =>
+            String(u.name).trim().toLowerCase() ===
+            name.toLowerCase()
+        );
+
+      if (existing) {
+
+        S.mySlot = Number(existing.id);
+
+      } else {
+
+        /*
+          Allow a new name to be assigned to an unused
+          slot for the project/demo.
+        */
+
+        const free =
+          S.users.find(
+            u =>
+              !u.name ||
+              /^User \d+$/i.test(u.name)
+          );
+
+        if (free) {
+          free.name = name;
+          S.mySlot = free.id;
+        } else {
+          error.textContent =
+            "Name nicht gefunden. Verwende einen WG Namen.";
+          error.classList.remove("hidden");
+          return;
+        }
+      }
+
+      S.isLoggedIn = true;
+
+      setLoggedIn(S.mySlot);
+
+      try {
+
+        window.OneSignalDeferred =
+          window.OneSignalDeferred || [];
+
+        window.OneSignalDeferred.push(
+          async function(OneSignal) {
+
+            try {
+              await OneSignal.login(
+                `user_${S.mySlot}`
+              );
+            } catch (e) {
+              console.warn(e);
+            }
+
+          }
+        );
+
+      } catch (e) {}
+
+      await saveToCloud();
+
+      updateLoginVisibility();
+      render();
+
+      showToast(
+        `Willkommen, ${userName(S.mySlot)} 👋`
+      );
+    };
+
+    window.logout = async function() {
+
+      try {
+
+        window.OneSignalDeferred =
+          window.OneSignalDeferred || [];
+
+        window.OneSignalDeferred.push(
+          async function(OneSignal) {
+
+            try {
+              await OneSignal.logout();
+            } catch (e) {
+              console.warn(e);
+            }
+
+          }
+        );
+
+      } catch (e) {}
+
+      S.isLoggedIn = false;
+      S.activePrivatePartner = null;
+
+      clearLoggedIn();
+
+      document.getElementById("loginName").value = "";
+      document.getElementById("loginCode").value = "";
+
+      updateLoginVisibility();
+      render();
+
+      showToast("Du wurdest ausgeloggt.");
+    };
+
+    window.switchUser = function() {
+
+      S.isLoggedIn = false;
+      S.activePrivatePartner = null;
+
+      clearLoggedIn();
+
+      updateLoginVisibility();
+
+      document.getElementById("loginName").focus();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    };
+
+    /* =========================================================
+       NAVIGATION
+    ========================================================= */
+
+    window.setTab = function(tab) {
+
+      S.tab = tab;
+
+      if (tab === "chat" && S.chatSubTab === "group") {
+        markGroupRead();
       }
 
       render();
-
-    } else {
-
-      saveToCloud();
-
-    }
-
-  }
-);
-
-
-/* SAVE */
-
-function saveToCloud() {
-
-  set(
-    ref(db,"wg_secure_v6"),
-    {
-
-      trashTurn:S.trashTurn,
-
-      cleanTurn:S.cleanTurn,
-
-      dueTasks:S.dueTasks,
-
-      globalLog:S.globalLog,
-
-      users:S.users,
-
-      groupChat:S.groupChat,
-
-      privateChats:S.privateChats
-
-    }
-  )
-  .catch(e => {
-
-    console.error(
-      "Firebase save failed:",
-      e
-    );
-
-  });
-
-}
-
-
-/* HELPERS */
-
-function getInitials(name) {
-
-  return name
-    ? name.trim().charAt(0).toUpperCase()
-    : "?";
-
-}
-
-function fmtTs(ts) {
-
-  return new Date(ts)
-    .toLocaleDateString(
-      "de-DE",
-      {
-        day:"numeric",
-        month:"short",
-        hour:"2-digit",
-        minute:"2-digit"
-      }
-    );
-
-}
-
-function fmtShort(ts) {
-
-  return new Date(ts)
-    .toLocaleDateString(
-      "de-DE",
-      {
-        day:"numeric",
-        month:"short"
-      }
-    );
-
-}
-
-
-/* TRASH CHECK */
-
-window.toggleTrash = id => {
-
-  localTrashChecked =
-    localTrashChecked.includes(id)
-
-      ? localTrashChecked.filter(
-          x => x !== id
-        )
-
-      : [
-          ...localTrashChecked,
-          id
-        ];
-
-  render();
-
-};
-
-
-/* NAVIGATION */
-
-window.setTab = t => {
-
-  S.tab = t;
-
-  S.activePrivatePartner = null;
-
-  render();
-
-};
-
-
-window.setChatSubTab = st => {
-
-  S.chatSubTab = st;
-
-  S.activePrivatePartner = null;
-
-  render();
-
-};
-
-
-/* PRIVATE CHAT */
-
-window.openPrivateWith = id => {
-
-  S.activePrivatePartner = id;
-
-  if (id === null) {
-
-    S.chatSubTab = "private";
-
-  }
-
-  render();
-
-  if (id !== null) {
-
-    scrollChat();
-
-  }
-
-};
-
-
-/* SKIP / BOUNCE */
-
-window.skipTurn = type => {
-
-  const turnKey =
-    type + "Turn";
-
-  const skippedId =
-    S[turnKey];
-
-  const skippedUser =
-    S.users[skippedId];
-
-  if (!skippedUser) return;
-
-  if (!S.dueTasks)
-    S.dueTasks = [];
-
-
-  const alreadyDue =
-    S.dueTasks.some(
-      d =>
-        d.user === skippedId &&
-        d.type === type
-    );
-
-
-  if (!alreadyDue) {
-
-    S.dueTasks.push({
-
-      user:skippedId,
-
-      type:type,
-
-      time:Date.now()
-
-    });
-
-  }
-
-
-  S[turnKey] =
-    (S[turnKey] + 1)
-    % S.users.length;
-
-
-  saveToCloud();
-
-  render();
-
-
-  const nextUser =
-    S.users[S[turnKey]];
-
-  const typeLabel =
-    type === "trash"
-      ? "Müll 🗑️"
-      : "Putzen 🧹";
-
-
-  sendPushToUser(
-
-    nextUser.id,
-
-    "Du bist jetzt dran!",
-
-    `${skippedUser.name} hat gepasst. ${typeLabel}`
-
-  );
-
-};
-
-
-/* PROFILE */
-
-window.updateMyProfile = (key,val) => {
-
-  val = val.trim();
-
-  if (!val) return;
-
-  S.users[S.mySlot][key] = val;
-
-  saveToCloud();
-
-  render();
-
-};
-
-
-window.changeMyColor = colorIdx => {
-
-  S.users[S.mySlot].colorId =
-    colorIdx;
-
-  saveToCloud();
-
-  render();
-
-};
-
-
-/* TRASH DONE */
-
-window.confirmTrash = function() {
-
-  if (!localTrashChecked.length)
-    return;
-
-  const turn =
-    S.trashTurn;
-
-  const u =
-    S.users[turn];
-
-  const binNames =
-    localTrashChecked
-      .map(
-        id =>
-          BINS.find(
-            b => b.id === id
-          ).name
-      )
-      .join(", ");
-
-
-  S.globalLog = [
-
-    {
-      person:turn,
-      type:"trash",
-      text:"Müll rausgebracht",
-      items:[...localTrashChecked],
-      ts:Date.now()
-    },
-
-    ...S.globalLog
-
-  ].slice(0,50);
-
-
-  S.groupChat.push({
-
-    sender:-1,
-
-    authorName:"System",
-
-    text:
-      `📢 ${u.name} hat folgenden Müll weggemacht: ${binNames}`,
-
-    ts:Date.now()
-
-  });
-
-
-  /* Remove matching Due */
-
-  if (S.dueTasks) {
-
-    S.dueTasks =
-      S.dueTasks.filter(
-        d =>
-          !(
-            d.user === turn &&
-            d.type === "trash"
-          )
-      );
-
-  }
-
-
-  /* Next person */
-
-  S.trashTurn =
-    (turn + 1)
-    % S.users.length;
-
-
-  localTrashChecked = [];
-
-
-  saveToCloud();
-
-  render();
-
-
-  const nextUser =
-    S.users[S.trashTurn];
-
-
-  sendPushToUser(
-
-    nextUser.id,
-
-    "Müll-Dienst fällig! 🗑️",
-
-    `Hi ${nextUser.name}, ${u.name} hat den Müll weggemacht. Du bist jetzt dran!`
-
-  );
-
-};
-
-
-/* CLEAN DONE */
-
-window.confirmClean = function() {
-
-  const turn =
-    S.cleanTurn;
-
-  const u =
-    S.users[turn];
-
-
-  S.globalLog = [
-
-    {
-      person:turn,
-      type:"clean",
-      text:"Wohnung komplett geputzt! 🌟",
-      ts:Date.now()
-    },
-
-    ...S.globalLog
-
-  ].slice(0,50);
-
-
-  S.groupChat.push({
-
-    sender:-1,
-
-    authorName:"System",
-
-    text:
-      `🧹 ${u.name} hat die Wohnung komplett gereinigt!`,
-
-    ts:Date.now()
-
-  });
-
-
-  /* Remove matching Due */
-
-  if (S.dueTasks) {
-
-    S.dueTasks =
-      S.dueTasks.filter(
-        d =>
-          !(
-            d.user === turn &&
-            d.type === "clean"
-          )
-      );
-
-  }
-
-
-  /* Next person */
-
-  S.cleanTurn =
-    (turn + 1)
-    % S.users.length;
-
-
-  saveToCloud();
-
-  render();
-
-
-  const nextUser =
-    S.users[S.cleanTurn];
-
-
-  sendPushToUser(
-
-    nextUser.id,
-
-    "Putzen fällig! 🧹",
-
-    `Hey ${nextUser.name}, ${u.name} ist fertig mit Putzen. Du bist für diese Woche an der Reihe!`
-
-  );
-
-};
-
-
-/* EXTRA TASK */
-
-window.submitExtraTask = function() {
-
-  const inp =
-    document.getElementById(
-      "extraInput"
-    );
-
-  if (
-    !inp ||
-    !inp.value.trim()
-  )
-    return;
-
-
-  const taskText =
-    inp.value.trim();
-
-  const u =
-    S.users[S.mySlot];
-
-
-  S.globalLog = [
-
-    {
-      person:S.mySlot,
-      type:"extra",
-      text:`Extra: ${taskText}`,
-      ts:Date.now()
-    },
-
-    ...S.globalLog
-
-  ].slice(0,50);
-
-
-  S.groupChat.push({
-
-    sender:-1,
-
-    authorName:"System",
-
-    text:
-      `⭐ ${u.name}: "${taskText}"`,
-
-    ts:Date.now()
-
-  });
-
-
-  inp.value = "";
-
-  saveToCloud();
-
-  render();
-
-};
-
-
-/* CHAT */
-
-window.sendMsg = function(mode) {
-
-  const inp =
-    document.getElementById(
-      "msgInp"
-    );
-
-  if (
-    !inp ||
-    !inp.value.trim()
-  )
-    return;
-
-
-  const text =
-    inp.value.trim();
-
-  const me =
-    S.users[S.mySlot];
-
-
-  if (mode === "group") {
-
-    S.groupChat.push({
-
-      sender:S.mySlot,
-
-      authorName:me.name,
-
-      text:text,
-
-      ts:Date.now()
-
-    });
-
-
-    S.users.forEach(u => {
-
-      if (
-        u.id !== S.mySlot
-      ) {
-
-        sendPushToUser(
-
-          u.id,
-
-          `💬 WG-Chat (${me.name})`,
-
-          text
-
-        );
-
-      }
-
-    });
-
-
-  } else {
-
-    if (
-      S.activePrivatePartner === null
-    )
-      return;
-
-
-    const key =
-      `${Math.min(
-        S.mySlot,
-        S.activePrivatePartner
-      )}-${Math.max(
-        S.mySlot,
-        S.activePrivatePartner
-      )}`;
-
-
-    if (!S.privateChats[key])
-      S.privateChats[key] = [];
-
-
-    S.privateChats[key].push({
-
-      sender:S.mySlot,
-
-      text:text,
-
-      ts:Date.now()
-
-    });
-
-
-    sendPushToUser(
-
-      S.activePrivatePartner,
-
-      `🔒 Private Nachricht von ${me.name}`,
-
-      text
-
-    );
-
-  }
-
-
-  inp.value = "";
-
-  saveToCloud();
-
-  render();
-
-  scrollChat();
-
-};
-
-
-/* CHAT SCROLL */
-
-function scrollChat() {
-
-  setTimeout(() => {
-
-    const b =
-      document.getElementById(
-        "cBox"
-      );
-
-    if (b)
-      b.scrollTop =
-        b.scrollHeight;
-
-  },40);
-
-}
-
-
-/* CLEAR DUE */
-
-window.clearDue = function(index) {
-
-  if (
-    !S.dueTasks ||
-    !S.dueTasks[index]
-  )
-    return;
-
-
-  const task =
-    S.dueTasks[index];
-
-
-  const u =
-    S.users[task.user];
-
-
-  if (u) {
-
-    S.groupChat.push({
-
-      sender:-1,
-
-      authorName:"System",
-
-      text:
-        `✅ ${u.name} hat seine ${task.type === "trash" ? "Müll" : "Reinigungs"}-Schuld erledigt.`,
-
-      ts:Date.now()
-
-    });
-
-  }
-
-
-  S.dueTasks.splice(
-    index,
-    1
-  );
-
-
-  saveToCloud();
-
-  render();
-
-};
-
-
-/* NEXT STRIP */
-
-function nextStrip(currentTurn) {
-
-  const count =
-    S.users.length;
-
-
-  if (count <= 1)
-    return "";
-
-
-  const amount =
-    Math.min(3,count-1);
-
-
-  return `
-
-    <div class="next-strip">
-
-      <span class="next-strip-lbl">
-        Danach
-      </span>
-
-      ${[1,2,3]
-        .slice(0,amount)
-        .map(i => {
-
-          const idx =
-            (currentTurn + i)
-            % count;
-
-          const u =
-            S.users[idx];
-
-          const col =
-            COLORS[
-              u.colorId ?? idx
-            ];
-
-          const opacity =
-            i === 1
-              ? 1
-              : i === 2
-                ? .55
-                : .3;
-
-
-          return `
-
-            <div
-              class="next-person"
-              style="opacity:${opacity}"
-            >
-
-              <div
-                class="next-dot"
-                style="background:${col.hex}"
-              >
-                ${getInitials(u.name)}
-              </div>
-
-              <span
-                class="next-name"
-                style="color:${col.hex}"
-              >
-                ${u.name}
-              </span>
-
-            </div>
-
-            ${
-              i < amount
-                ? '<span class="next-arrow">›</span>'
-                : ''
-            }
-
-          `;
-
-        })
-        .join("")}
-
-    </div>
-
-  `;
-
-}
-
-
-/* WEEK SCHEDULE */
-
-function weekSchedule(cleanTurn) {
-
-  return `
-
-    <div class="week-schedule">
-
-      ${[0,1,2,3]
-        .map(i => {
-
-          const idx =
-            (cleanTurn + i)
-            % S.users.length;
-
-          const u =
-            S.users[idx];
-
-          const col =
-            COLORS[
-              u.colorId ?? idx
-            ];
-
-          const isCur =
-            i === 0;
-
-
-          return `
-
-            <div
-              class="week-pill"
-              style="
-                background:${isCur
-                  ? col.hex
-                  : col.light};
-                color:${isCur
-                  ? "white"
-                  : col.hex};
-              "
-            >
-
-              <span
-                style="
-                  opacity:${isCur?".75":".7"};
-                  font-size:10px;
-                  font-weight:${isCur?700:600}
-                "
-              >
-                ${
-                  i === 0
-                    ? "Diese Woche"
-                    : "Woche " + (i+1)
-                }
-              </span>
-
-              <span>
-                ${getInitials(u.name)}
-                ${u.name}
-              </span>
-
-            </div>
-
-          `;
-
-        })
-        .join("")}
-
-    </div>
-
-  `;
-
-}
-
-
-/* RENDER */
-
-function render() {
-
-  if (!S.isLoggedIn)
-    return;
-
-
-  const me =
-    S.users[S.mySlot] ||
-    {
-      name:"?",
-      colorId:S.mySlot
     };
 
+    window.setChatSubTab = function(tab) {
 
-  const myC =
-    COLORS[
-      me.colorId ?? S.mySlot
-    ];
+      S.chatSubTab = tab;
+      S.activePrivatePartner = null;
 
+      if (tab === "group") {
+        markGroupRead();
+      }
 
-  let html = "";
+      render();
+    };
 
+    window.openPrivateWith = function(id) {
 
-/* HOME */
+      S.activePrivatePartner = Number(id);
 
-if (S.tab === "home") {
+      markPrivateRead(Number(id));
 
-  const tTurn =
-    S.trashTurn;
+      render();
 
-  const tUser =
-    S.users[tTurn];
+      setTimeout(() => {
 
-  const tColor =
-    COLORS[
-      tUser.colorId ?? tTurn
-    ];
+        const box =
+          document.getElementById("messages");
 
+        if (box) {
+          box.scrollTop = box.scrollHeight;
+        }
 
-  const cTurn =
-    S.cleanTurn;
+      }, 40);
+    };
 
-  const cUser =
-    S.users[cTurn];
+    window.backToPrivateList = function() {
 
-  const cColor =
-    COLORS[
-      cUser.colorId ?? cTurn
-    ];
+      S.activePrivatePartner = null;
+      S.chatSubTab = "private";
 
+      render();
+    };
 
-  const myDue = [];
+    /* =========================================================
+       TURN ACTIONS
+    ========================================================= */
 
+    window.skipTurn = function(type) {
 
-  if (
-    S.trashTurn === S.mySlot
-  ) {
+      if (!isAdmin() && false) {
+        return;
+      }
 
-    BINS.forEach(b => {
+      const order =
+        type === "trash"
+          ? S.trashOrder
+          : S.cleanOrder;
 
-      myDue.push({
-        icon:b.icon,
-        label:b.name
-      });
+      const index =
+        type === "trash"
+          ? S.trashIndex
+          : S.cleanIndex;
 
-    });
+      if (!order.length) return;
 
-  }
+      const skippedId = order[index];
 
+      if (!S.dueTasks) {
+        S.dueTasks = [];
+      }
 
-  if (
-    S.cleanTurn === S.mySlot
-  ) {
-
-    myDue.push({
-      icon:"🧹",
-      label:"Reinigung"
-    });
-
-  }
-
-
-  /* Add skipped tasks */
-
-  (S.dueTasks || [])
-    .filter(
-      d =>
-        d.user === S.mySlot
-    )
-    .forEach(d => {
-
-      const already =
-        myDue.some(
-          x =>
-            (
-              d.type === "trash" &&
-              x.label === "Restmüll"
-            ) ||
-            (
-              d.type === "clean" &&
-              x.label === "Reinigung"
-            )
+      const alreadyDue =
+        S.dueTasks.some(
+          due =>
+            Number(due.user) === Number(skippedId) &&
+            due.type === type
         );
 
-      if (!already) {
+      if (!alreadyDue) {
 
-        myDue.push({
-
-          icon:
-            d.type === "trash"
-              ? "🗑️"
-              : "🧹",
-
-          label:
-            d.type === "trash"
-              ? "Müll-Schuld"
-              : "Reinigungs-Schuld"
-
+        S.dueTasks.push({
+          id: `${type}_${skippedId}_${Date.now()}`,
+          user: skippedId,
+          type,
+          createdAt: Date.now()
         });
 
       }
 
-    });
+      const oldUser =
+        userById(skippedId);
 
+      if (type === "trash") {
+        S.trashIndex =
+          nextIndex("trash", S.trashIndex);
+      } else {
+        S.cleanIndex =
+          nextIndex("clean", S.cleanIndex);
+      }
 
-  const myDone =
-    S.globalLog
-      .filter(
-        l =>
-          l.person === S.mySlot
-      )
-      .slice(0,3);
+      const nextUserId =
+        currentTurn(type);
 
+      const label =
+        TASK_LABELS[type];
 
-  html = `
+      S.globalLog.push({
+        id: Date.now(),
+        type: "skip",
+        task: type,
+        user: skippedId,
+        text:
+          `${oldUser?.name || "Jemand"} hat ${label} übersprungen.`,
+        time: Date.now()
+      });
 
-    <div class="hero-banner">
+      S.groupChat.push({
+        id: Date.now() + 1,
+        sender: -1,
+        system: true,
+        text:
+          `${oldUser?.name || "Jemand"} hat ${label} übersprungen. ` +
+          `${userName(nextUserId)} ist jetzt dran.`,
+        time: Date.now()
+      });
 
-      <div>
-        <div class="hero-title">
-          KINGEN WG
-        </div>
-      </div>
+      saveToCloud();
 
-      <div
-        style="
-          background:rgba(255,255,255,.18);
-          border-radius:50%;
-          width:42px;
-          height:42px;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          color:white;
-          font-size:18px;
-          font-weight:800;
-        "
-      >
-        ${getInitials(me.name)}
-      </div>
+      sendPushToUser(
+        nextUserId,
+        "Du bist jetzt dran!",
+        `${userName(skippedId)} hat ${label} übersprungen.`
+      );
 
-    </div>
+      render();
 
+      showToast(
+        `${userName(skippedId)} hat jetzt eine Fälligkeit.`
+      );
+    };
 
-    <!-- PROFILE -->
+    window.confirmTask = function(type) {
 
-    <div class="card">
+      const order =
+        type === "trash"
+          ? S.trashOrder
+          : S.cleanOrder;
 
-      <div class="slabel">
-        👤 Mein Profil
-      </div>
+      const index =
+        type === "trash"
+          ? S.trashIndex
+          : S.cleanIndex;
 
-      <div class="profile-banner">
+      const userId =
+        order[index];
 
+      const taskLabel =
+        TASK_LABELS[type];
+
+      /*
+        Remove matching Due task.
+      */
+
+      S.dueTasks =
+        (S.dueTasks || []).filter(
+          due =>
+            !(
+              Number(due.user) === Number(userId) &&
+              due.type === type
+            )
+        );
+
+      /*
+        Save completion for Calendar.
+      */
+
+      S.completedTasks.push({
+        id: Date.now(),
+        type,
+        user: userId,
+        time: Date.now()
+      });
+
+      S.globalLog.push({
+        id: Date.now() + 1,
+        type: "complete",
+        task: type,
+        user: userId,
+        text:
+          `${userName(userId)} hat ${taskLabel} erledigt.`,
+        time: Date.now()
+      });
+
+      S.groupChat.push({
+        id: Date.now() + 2,
+        sender: -1,
+        system: true,
+        text:
+          `${userName(userId)} hat ${taskLabel} erledigt. ✅`,
+        time: Date.now()
+      });
+
+      if (type === "trash") {
+        S.trashIndex =
+          nextIndex("trash", S.trashIndex);
+      } else {
+        S.cleanIndex =
+          nextIndex("clean", S.cleanIndex);
+      }
+
+      saveToCloud();
+
+      const nextUserId =
+        currentTurn(type);
+
+      sendPushToUser(
+        nextUserId,
+        `${taskLabel} 🏠`,
+        `Du bist jetzt dran mit ${taskLabel}.`
+      );
+
+      render();
+
+      showToast(
+        `${taskLabel} erledigt! ✅`
+      );
+    };
+
+    /* =========================================================
+       DUE
+    ========================================================= */
+
+    window.clearDue = function(index) {
+
+      if (
+        !S.dueTasks ||
+        !S.dueTasks[index]
+      ) {
+        return;
+      }
+
+      const due =
+        S.dueTasks[index];
+
+      const person =
+        userName(due.user);
+
+      const label =
+        TASK_LABELS[due.type] || "Aufgabe";
+
+      S.dueTasks.splice(index, 1);
+
+      S.globalLog.push({
+        id: Date.now(),
+        type: "due_complete",
+        task: due.type,
+        user: due.user,
+        text:
+          `${person} hat die fällige Aufgabe ${label} erledigt.`,
+        time: Date.now()
+      });
+
+      S.groupChat.push({
+        id: Date.now() + 1,
+        sender: -1,
+        system: true,
+        text:
+          `${person} hat eine fällige Aufgabe erledigt. ✅`,
+        time: Date.now()
+      });
+
+      saveToCloud();
+
+      render();
+
+      showToast("Fälligkeit erledigt. ✅");
+    };
+
+    /* =========================================================
+       EXTRA TASKS
+    ========================================================= */
+
+    window.openExtraTask = function() {
+
+      document.getElementById("modalRoot").innerHTML = `
         <div
-          class="profile-avatar"
-          style="background:${myC.hex}"
+          class="modal-backdrop"
+          onclick="closeModal(event)"
         >
-          ${getInitials(me.name)}
-        </div>
+          <div class="modal">
+            <div class="modal-handle"></div>
 
+            <div class="modal-title">
+              ➕ Extra Aufgabe
+            </div>
 
-        <div class="profile-right">
+            <div class="field">
+              <label>Aufgabe</label>
+              <input
+                id="extraTaskText"
+                class="text-input"
+                placeholder="z.B. Toilettenpapier kaufen"
+              />
+            </div>
 
-          <input
-            type="text"
-            value="${me.name}"
-            onchange="updateMyProfile('name',this.value)"
-            placeholder="Dein Name"
-          >
+            <div class="field">
+              <label>Wer soll es machen?</label>
 
+              <select
+                id="extraTaskUser"
+                class="admin-select"
+              >
+                ${S.users.map(user => `
+                  <option value="${user.id}">
+                    ${esc(user.name)}
+                  </option>
+                `).join("")}
+              </select>
+            </div>
 
-          <div class="color-picker">
-
-            <span class="color-picker-label">
-              Farbe:
-            </span>
-
-            ${COLORS.map(
-              (c,idx) => `
-
-                <div
-                  class="color-opt ${
-                    idx ===
-                    (me.colorId ?? S.mySlot)
-                      ? "selected"
-                      : ""
-                  }"
-                  style="background:${c.hex};"
-                  onclick="changeMyColor(${idx})"
-                ></div>
-
-              `
-            ).join("")}
-
+            <button
+              class="primary-btn"
+              onclick="createExtraTask()"
+            >
+              Aufgabe erstellen
+            </button>
           </div>
-
-
-          <div class="profile-tasks">
-
-            ${myDue
-              .map(
-                d =>
-                  `<span class="task-pill-due">
-                    ${d.icon} ${d.label} fällig
-                  </span>`
-              )
-              .join("")}
-
-
-            ${myDone
-              .map(
-                d =>
-                  `<span class="task-pill-done">
-                    ✓ ${d.text}
-                    <span class="done-time">
-                      ${fmtShort(d.ts)}
-                    </span>
-                  </span>`
-              )
-              .join("")}
-
-          </div>
-
         </div>
+      `;
+    };
 
-      </div>
+    window.closeModal = function(event) {
 
-    </div>
+      if (
+        event &&
+        event.target !== event.currentTarget
+      ) {
+        return;
+      }
 
+      document.getElementById("modalRoot").innerHTML = "";
+    };
 
-    <!-- TRASH -->
+    window.createExtraTask = function() {
 
-    <div class="card">
+      const text =
+        String(
+          document.getElementById("extraTaskText").value || ""
+        ).trim();
 
-      <div class="slabel">
+      const user =
+        Number(
+          document.getElementById("extraTaskUser").value
+        );
 
-        <span>
-          🗑️ Müll runterbringen
-        </span>
+      if (!text) {
+        showToast("Bitte eine Aufgabe eingeben.");
+        return;
+      }
 
-        <button
-          class="action-header-btn"
-          onclick="skipTurn('trash')"
+      S.extraTasks.push({
+        id: Date.now(),
+        text,
+        user,
+        completed: false,
+        createdAt: Date.now()
+      });
+
+      S.globalLog.push({
+        id: Date.now() + 1,
+        type: "extra",
+        user,
+        text:
+          `Extra-Aufgabe für ${userName(user)}: ${text}`,
+        time: Date.now()
+      });
+
+      saveToCloud();
+
+      document.getElementById("modalRoot").innerHTML = "";
+
+      render();
+
+      showToast("Extra Aufgabe erstellt.");
+    };
+
+    window.completeExtraTask = function(id) {
+
+      const task =
+        S.extraTasks.find(
+          t => Number(t.id) === Number(id)
+        );
+
+      if (!task) return;
+
+      task.completed = true;
+      task.completedAt = Date.now();
+
+      S.completedTasks.push({
+        id: Date.now(),
+        type: "extra",
+        user: task.user,
+        text: task.text,
+        time: Date.now()
+      });
+
+      S.globalLog.push({
+        id: Date.now() + 1,
+        type: "extra_complete",
+        user: task.user,
+        text:
+          `${userName(task.user)} hat "${task.text}" erledigt.`,
+        time: Date.now()
+      });
+
+      saveToCloud();
+
+      render();
+
+      showToast("Extra Aufgabe erledigt. ✅");
+    };
+
+    /* =========================================================
+       CHAT
+    ========================================================= */
+
+    function privateChatKey(a, b) {
+
+      const x = Math.min(
+        Number(a),
+        Number(b)
+      );
+
+      const y = Math.max(
+        Number(a),
+        Number(b)
+      );
+
+      return `${x}_${y}`;
+    }
+
+    window.sendGroupMessage = function() {
+
+      const input =
+        document.getElementById("groupMessage");
+
+      if (!input) return;
+
+      const text =
+        String(input.value || "").trim();
+
+      if (!text) return;
+
+      S.groupChat.push({
+        id: Date.now(),
+        sender: S.mySlot,
+        text,
+        time: Date.now()
+      });
+
+      saveToCloud();
+
+      input.value = "";
+
+      markGroupRead();
+
+      render();
+
+      setTimeout(() => {
+
+        const box =
+          document.getElementById("messages");
+
+        if (box) {
+          box.scrollTop = box.scrollHeight;
+        }
+
+      }, 30);
+    };
+
+    window.sendPrivateMessage = function() {
+
+      const partner =
+        S.activePrivatePartner;
+
+      if (
+        partner === null ||
+        partner === undefined
+      ) {
+        return;
+      }
+
+      const input =
+        document.getElementById("privateMessage");
+
+      if (!input) return;
+
+      const text =
+        String(input.value || "").trim();
+
+      if (!text) return;
+
+      const key =
+        privateChatKey(
+          S.mySlot,
+          partner
+        );
+
+      if (!Array.isArray(S.privateChats[key])) {
+        S.privateChats[key] = [];
+      }
+
+      S.privateChats[key].push({
+        id: Date.now(),
+        sender: S.mySlot,
+        receiver: partner,
+        text,
+        time: Date.now()
+      });
+
+      saveToCloud();
+
+      input.value = "";
+
+      markPrivateRead(partner);
+
+      render();
+
+      setTimeout(() => {
+
+        const box =
+          document.getElementById("messages");
+
+        if (box) {
+          box.scrollTop = box.scrollHeight;
+        }
+
+      }, 30);
+    };
+
+    /* =========================================================
+       CALENDAR
+    ========================================================= */
+
+    window.changeCalendarMonth = function(delta) {
+
+      S.calendarDate =
+        new Date(
+          S.calendarDate.getFullYear(),
+          S.calendarDate.getMonth() + delta,
+          1
+        );
+
+      render();
+    };
+
+    window.selectCalendarDate = function(dateString) {
+
+      const parts =
+        dateString.split("-").map(Number);
+
+      S.selectedCalendarDate =
+        new Date(
+          parts[0],
+          parts[1] - 1,
+          parts[2]
+        );
+
+      render();
+    };
+
+    function completedForDate(date) {
+
+      return [
+        ...(S.completedTasks || [])
+      ].filter(item =>
+        sameDate(
+          item.time,
+          date
+        )
+      );
+    }
+
+    function calendarHasTasks(date) {
+
+      return completedForDate(date).length > 0;
+    }
+
+    /* =========================================================
+       ADMIN
+    ========================================================= */
+
+    window.openAdmin = function() {
+
+      if (!isAdmin()) {
+        showToast("Nur Hassan hat Admin-Rechte.");
+        return;
+      }
+
+      renderAdminModal();
+    };
+
+    function renderAdminModal() {
+
+      const modal =
+        document.getElementById("modalRoot");
+
+      modal.innerHTML = `
+        <div
+          class="modal-backdrop"
+          onclick="closeModal(event)"
         >
-          Skip Turn ⏭️
-        </button>
+          <div class="modal">
+            <div class="modal-handle"></div>
 
-      </div>
+            <div class="modal-title">
+              👑 WG Admin
+            </div>
 
+            <div class="admin-card card">
+              <div class="admin-title">
+                🗑️ Müll-Reihenfolge
+              </div>
 
-      <div class="turn-row">
+              <div class="admin-description">
+                Diese Reihenfolge bestimmt, wer nacheinander
+                für den Müll zuständig ist.
+              </div>
 
-        <div class="dots-mini">
+              <div class="order-list">
+                ${renderOrderList("trash")}
+              </div>
+            </div>
 
-          ${S.users
-            .map(u => {
+            <div class="admin-card card">
+              <div class="admin-title">
+                🧹 Putz-Reihenfolge
+              </div>
 
-              const c =
-                COLORS[
-                  u.colorId ?? u.id
-                ];
+              <div class="admin-description">
+                Diese Reihenfolge bestimmt die Putz-Rotation.
+              </div>
 
-              return `
+              <div class="order-list">
+                ${renderOrderList("clean")}
+              </div>
+            </div>
 
-                <div
-                  class="dot-mini ${
-                    u.id === tTurn
-                      ? "active"
-                      : ""
-                  }"
-                  style="
-                    background:${c.hex};
-                    width:${
-                      u.id === tTurn
-                        ? 34
-                        : 24
-                    }px;
-                    height:${
-                      u.id === tTurn
-                        ? 34
-                        : 24
-                    }px;
-                  "
+            <div class="admin-card card">
+
+              <div class="admin-title">
+                🔄 Rotation
+              </div>
+
+              <div class="admin-description">
+                Setzt die aktuelle Position der jeweiligen
+                Rotation zurück auf Platz 1.
+              </div>
+
+              <div style="display:flex;gap:8px;">
+                <button
+                  class="action-btn blue-btn"
+                  style="flex:1"
+                  onclick="resetRotation('trash')"
                 >
+                  Müll zurücksetzen
+                </button>
 
-                  ${getInitials(u.name)}
+                <button
+                  class="action-btn blue-btn"
+                  style="flex:1"
+                  onclick="resetRotation('clean')"
+                >
+                  Putzen zurücksetzen
+                </button>
+              </div>
+            </div>
 
-                  <span
-                    class="dot-name-tag"
-                    style="
-                      font-weight:${
-                        u.id === tTurn
-                          ? 700
-                          : 400
-                      }
-                    "
-                  >
-                    ${u.name}
-                  </span>
+            <div class="admin-card card">
+
+              <div class="admin-title">
+                👥 WG Mitglieder
+              </div>
+
+              <div class="admin-description">
+                Hassan ist aktuell der Administrator.
+              </div>
+
+              ${S.users.map(user => `
+                <div class="settings-row">
+
+                  ${avatarHTML(user, "small")}
+
+                  <div class="settings-row-main">
+                    <div class="settings-row-title">
+                      ${esc(user.name)}
+                    </div>
+
+                    <div class="settings-row-sub">
+                      ${user.isAdmin ? "👑 Admin" : "WG Mitglied"}
+                    </div>
+                  </div>
 
                 </div>
+              `).join("")}
 
-              `;
+            </div>
 
-            })
-            .join("")}
+            <button
+              class="primary-btn"
+              onclick="closeAdminModal()"
+            >
+              Fertig
+            </button>
 
+          </div>
+        </div>
+      `;
+    }
+
+    function renderOrderList(type) {
+
+      const order =
+        type === "trash"
+          ? S.trashOrder
+          : S.cleanOrder;
+
+      return order.map((userId, index) => {
+
+        const user =
+          userById(userId);
+
+        return `
+          <div class="order-row">
+
+            <div class="order-number">
+              ${index + 1}
+            </div>
+
+            ${avatarHTML(user)}
+
+            <div class="order-name">
+              ${esc(user?.name || "Unbekannt")}
+            </div>
+
+            <div class="order-controls">
+
+              <button
+                class="order-control"
+                onclick="moveOrder('${type}', ${index}, -1)"
+                ${index === 0 ? "disabled" : ""}
+              >
+                ↑
+              </button>
+
+              <button
+                class="order-control"
+                onclick="moveOrder('${type}', ${index}, 1)"
+                ${index === order.length - 1 ? "disabled" : ""}
+              >
+                ↓
+              </button>
+
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
+    }
+
+    window.moveOrder = function(
+      type,
+      index,
+      direction
+    ) {
+
+      if (!isAdmin()) {
+        showToast("Nur Hassan kann die Reihenfolge ändern.");
+        return;
+      }
+
+      const order =
+        type === "trash"
+          ? S.trashOrder
+          : S.cleanOrder;
+
+      const target =
+        index + direction;
+
+      if (
+        target < 0 ||
+        target >= order.length
+      ) {
+        return;
+      }
+
+      [
+        order[index],
+        order[target]
+      ] = [
+        order[target],
+        order[index]
+      ];
+
+      if (type === "trash") {
+        S.trashIndex = 0;
+      } else {
+        S.cleanIndex = 0;
+      }
+
+      saveToCloud();
+
+      renderAdminModal();
+
+      render();
+    };
+
+    window.resetRotation = function(type) {
+
+      if (!isAdmin()) return;
+
+      if (type === "trash") {
+        S.trashIndex = 0;
+      } else {
+        S.cleanIndex = 0;
+      }
+
+      S.globalLog.push({
+        id: Date.now(),
+        type: "admin",
+        text:
+          `${TASK_LABELS[type]} Rotation wurde zurückgesetzt.`,
+        time: Date.now()
+      });
+
+      saveToCloud();
+
+      renderAdminModal();
+      render();
+
+      showToast("Rotation zurückgesetzt.");
+    };
+
+    window.closeAdminModal = function() {
+
+      document.getElementById("modalRoot").innerHTML = "";
+
+      render();
+    };
+
+    /* =========================================================
+       PROFILE
+    ========================================================= */
+
+    window.openProfile = function() {
+      setTab("profile");
+    };
+
+    /* =========================================================
+       RESET
+    ========================================================= */
+
+    window.adminResetAll = async function() {
+
+      if (!isAdmin()) {
+        showToast("Nur Hassan kann zurücksetzen.");
+        return;
+      }
+
+      const okay =
+        confirm(
+          "Wirklich die Rotation und Demo-Daten zurücksetzen?"
+        );
+
+      if (!okay) return;
+
+      const users = defaultUsers();
+
+      S.users = users;
+
+      S.trashOrder = [0, 1, 2, 3];
+      S.cleanOrder = [1, 2, 3, 0];
+
+      S.trashIndex = 0;
+      S.cleanIndex = 0;
+
+      S.dueTasks = [];
+      S.completedTasks = [];
+      S.extraTasks = [];
+      S.globalLog = [];
+      S.groupChat = [];
+      S.privateChats = {};
+
+      await saveToCloud();
+
+      render();
+
+      showToast("WG Daten zurückgesetzt.");
+    };
+
+    /* =========================================================
+       RENDER
+    ========================================================= */
+
+    function render() {
+
+      updateLoginVisibility();
+
+      if (!S.isLoggedIn) {
+        return;
+      }
+
+      const content =
+        document.getElementById("content");
+
+      if (!content) return;
+
+      updateTopSubtitle();
+      updateBadges();
+
+      document.querySelectorAll(".nav-btn")
+        .forEach(btn => btn.classList.remove("active"));
+
+      const active =
+        document.getElementById(`nav-${S.tab}`);
+
+      if (active) {
+        active.classList.add("active");
+      }
+
+      switch (S.tab) {
+
+        case "home":
+          content.innerHTML = renderHome();
+          break;
+
+        case "due":
+          content.innerHTML = renderDue();
+          break;
+
+        case "chat":
+          content.innerHTML = renderChat();
+          break;
+
+        case "calendar":
+          content.innerHTML = renderCalendar();
+          break;
+
+        case "history":
+          content.innerHTML = renderHistory();
+          break;
+
+        case "notifications":
+          content.innerHTML = renderNotifications();
+          break;
+
+        case "profile":
+          content.innerHTML = renderProfile();
+          break;
+
+        default:
+          S.tab = "home";
+          content.innerHTML = renderHome();
+      }
+
+      attachSwipe();
+    }
+
+    function updateTopSubtitle() {
+
+      const subtitle =
+        document.getElementById("topSubtitle");
+
+      if (!subtitle) return;
+
+      const me =
+        getMyUser();
+
+      subtitle.textContent =
+        me?.isAdmin
+          ? "WG Admin · Gemeinsam organisiert"
+          : "Gemeinsam organisiert";
+    }
+
+    function updateBadges() {
+
+      const dueCount =
+        (S.dueTasks || []).length;
+
+      const chatCount =
+        getUnreadGroup() +
+        S.users
+          .filter(u => Number(u.id) !== Number(S.mySlot))
+          .reduce(
+            (sum, u) =>
+              sum + getUnreadPrivate(u.id),
+            0
+          );
+
+      const notificationCount =
+        dueCount + chatCount;
+
+      const dueBadge =
+        document.getElementById("dueBadge");
+
+      const chatBadge =
+        document.getElementById("chatBadge");
+
+      const notificationBadge =
+        document.getElementById("notificationBadge");
+
+      setBadge(
+        dueBadge,
+        dueCount
+      );
+
+      setBadge(
+        chatBadge,
+        chatCount
+      );
+
+      setBadge(
+        notificationBadge,
+        notificationCount
+      );
+    }
+
+    function setBadge(element, count) {
+
+      if (!element) return;
+
+      if (count > 0) {
+        element.textContent =
+          count > 99 ? "99+" : count;
+        element.classList.remove("hidden");
+      } else {
+        element.classList.add("hidden");
+      }
+    }
+
+    /* =========================================================
+       HOME
+    ========================================================= */
+
+    function renderHome() {
+
+      const me =
+        getMyUser();
+
+      const trashId =
+        currentTurn("trash");
+
+      const cleanId =
+        currentTurn("clean");
+
+      const trashUser =
+        userById(trashId);
+
+      const cleanUser =
+        userById(cleanId);
+
+      const myDue =
+        (S.dueTasks || [])
+          .filter(
+            d =>
+              Number(d.user) ===
+              Number(S.mySlot)
+          ).length;
+
+      return `
+
+        <section class="hero">
+
+          <div class="hero-label">
+            Willkommen zurück
+          </div>
+
+          <div class="hero-title">
+            ${esc(me?.name || "WG")}
+          </div>
+
+          <div class="hero-bottom">
+
+            <div class="hero-user">
+              ${avatarHTML(me, "small")}
+
+              <div>
+                <div class="hero-name">
+                  ${esc(me?.name || "")}
+                </div>
+
+                <div class="hero-role">
+                  ${me?.isAdmin
+                    ? "WG Administrator"
+                    : "WG Mitglied"}
+                </div>
+              </div>
+            </div>
+
+            ${
+              me?.isAdmin
+                ? `<div class="hero-admin">👑 ADMIN</div>`
+                : ""
+            }
+
+          </div>
+
+        </section>
+
+        ${
+          myDue > 0
+            ? `
+              <div class="card due-card">
+                <div class="due-card-inner">
+
+                  <div class="due-icon">
+                    🔴
+                  </div>
+
+                  <div class="due-main">
+                    <div class="due-title">
+                      Du hast ${myDue} fällige Aufgabe${myDue > 1 ? "n" : ""}
+                    </div>
+
+                    <div class="due-person">
+                      Bitte erledigen
+                    </div>
+                  </div>
+
+                  <button
+                    class="due-done"
+                    onclick="setTab('due')"
+                  >
+                    ANSEHEN
+                  </button>
+
+                </div>
+              </div>
+            `
+            : ""
+        }
+
+        <div class="section-title">
+          Deine WG Aufgaben
         </div>
 
+        ${renderTaskCard(
+          "trash",
+          trashUser
+        )}
 
-        <span
-          class="turn-label"
-          style="color:${tColor.hex}"
+        ${renderTaskCard(
+          "clean",
+          cleanUser
+        )}
+
+        <div class="section-title">
+          Extra Aufgaben
+        </div>
+
+        ${renderExtraTasks()}
+
+        <div class="section-title">
+          WG Mitglieder
+        </div>
+
+        <div class="people-row">
+          ${S.users.map(user => `
+            <div class="person-mini">
+
+              ${avatarHTML(user, "small")}
+
+              <div class="person-mini-name">
+                ${esc(user.name)}
+              </div>
+
+              <div class="person-mini-role">
+                ${user.isAdmin ? "👑 Admin" : "Mitglied"}
+              </div>
+
+            </div>
+          `).join("")}
+        </div>
+
+      `;
+    }
+
+    function renderTaskCard(type, user) {
+
+      const label =
+        TASK_LABELS[type];
+
+      const icon =
+        TASK_ICONS[type];
+
+      const isMe =
+        Number(user?.id) ===
+        Number(S.mySlot);
+
+      return `
+
+        <div
+          class="card task-card"
+          data-swipe-type="${type}"
         >
-          ● ${tUser.name}
-        </span>
 
-      </div>
+          <div class="task-top">
 
+            <div class="task-title-row">
 
-      ${nextStrip(tTurn)}
+              <div class="task-icon">
+                ${icon}
+              </div>
 
+              <div>
+                <div class="task-name">
+                  ${label}
+                </div>
 
-      <div class="items">
-
-        ${BINS.map(b => {
-
-          const on =
-            localTrashChecked
-              .includes(b.id);
-
-
-          return `
-
-            <div
-              class="item ${
-                on ? "checked" : ""
-              }"
-              style="
-                --c:${tColor.hex};
-                --cl:${tColor.light}
-              "
-              onclick="toggleTrash('${b.id}')"
-            >
-
-              <span class="item-icon">
-                ${b.icon}
-              </span>
-
-              <span class="item-name">
-                ${b.name}
-              </span>
-
-              <div class="item-check">
-
-                <svg
-                  class="chk"
-                  width="13"
-                  height="13"
-                  viewBox="0 0 13 13"
-                  fill="none"
-                >
-                  <polyline
-                    points="2 7 5.5 10.5 11 3"
-                    stroke="#fff"
-                    stroke-width="2.2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-
+                <div class="task-status">
+                  ${isMe
+                    ? "Du bist jetzt dran"
+                    : "Aktuell dran"}
+                </div>
               </div>
 
             </div>
 
-          `;
-
-        }).join("")}
-
-      </div>
-
-
-      <button
-        class="btn"
-        onclick="confirmTrash()"
-        ${
-          localTrashChecked.length
-            ? ""
-            : "disabled"
-        }
-        style="
-          background:${tColor.hex};
-          color:#fff;
-        "
-      >
-        Müll abgehakt ✓
-      </button>
-
-    </div>
-
-
-    <!-- CLEANING -->
-
-    <div class="card">
-
-      <div class="slabel">
-
-        <span>
-          🧹 WG Reinigung
-        </span>
-
-        <button
-          class="action-header-btn"
-          onclick="skipTurn('clean')"
-        >
-          Skip Turn ⏭️
-        </button>
-
-      </div>
-
-
-      <div class="turn-row">
-
-        <div class="dots-mini">
-
-          ${S.users
-            .map(u => {
-
-              const c =
-                COLORS[
-                  u.colorId ?? u.id
-                ];
-
-              return `
-
-                <div
-                  class="dot-mini ${
-                    u.id === cTurn
-                      ? "active"
-                      : ""
-                  }"
-                  style="
-                    background:${c.hex};
-                    width:${
-                      u.id === cTurn
-                        ? 34
-                        : 24
-                    }px;
-                    height:${
-                      u.id === cTurn
-                        ? 34
-                        : 24
-                    }px;
-                  "
-                >
-
-                  ${getInitials(u.name)}
-
-                  <span
-                    class="dot-name-tag"
-                    style="
-                      font-weight:${
-                        u.id === cTurn
-                          ? 700
-                          : 400
-                      }
-                    "
-                  >
-                    ${u.name}
-                  </span>
-
-                </div>
-
-              `;
-
-            })
-            .join("")}
-
-        </div>
-
-
-        <span
-          class="turn-label"
-          style="color:${cColor.hex}"
-        >
-          ● ${cUser.name}
-        </span>
-
-      </div>
-
-
-      ${nextStrip(cTurn)}
-
-      ${weekSchedule(cTurn)}
-
-
-      <button
-        class="clean-btn"
-        onclick="confirmClean()"
-        style="
-          background:
-            linear-gradient(
-              135deg,
-              ${cColor.hex} 0%,
-              ${cColor.hex}cc 100%
-            );
-          box-shadow:
-            0 8px 28px
-            ${cColor.hex}44;
-          color:white;
-          margin-top:14px;
-        "
-      >
-
-        <div class="clean-btn-left">
-
-          <div class="clean-btn-sup">
-            Fertig damit?
           </div>
 
-          <div class="clean-btn-main">
-            Wohnung komplett geputzt 🌟
-          </div>
+          <div class="task-person">
 
-        </div>
+            ${avatarHTML(user)}
 
-        <div class="clean-btn-icon">
-          ✓
-        </div>
+            <div>
+              <div class="task-person-name">
+                ${esc(user?.name || "Unbekannt")}
+              </div>
 
-      </button>
-
-    </div>
-
-
-    <!-- EXTRA -->
-
-    <div class="card">
-
-      <div class="slabel">
-        ⭐ Etwas extra gemacht?
-      </div>
-
-      <div class="custom-task-box">
-
-        <input
-          type="text"
-          id="extraInput"
-          placeholder="z.B. Küche aufgeräumt"
-          onkeydown="
-            if(event.key==='Enter')
-              submitExtraTask()
-          "
-        >
-
-        <button
-          onclick="submitExtraTask()"
-        >
-          Eintragen
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* DUE */
-
-if (S.tab === "due") {
-
-  const due =
-    S.dueTasks || [];
-
-
-  html = `
-
-    <div class="hero-banner">
-
-      <div>
-        <div class="hero-title">
-          DUE
-        </div>
-      </div>
-
-      <div style="font-size:28px;">
-        ⚠️
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="slabel">
-
-        <span>
-          📌 Noch offen
-        </span>
-
-        <span>
-          ${due.length}
-        </span>
-
-      </div>
-
-
-      ${
-        due.length === 0
-
-          ? `
-            <div class="log-empty">
-              🎉 Alles erledigt!
+              <div class="task-person-label">
+                Aktuelle Zuständigkeit
+              </div>
             </div>
-          `
 
-          : due.map(
-              (d,index) => {
+          </div>
 
-                const u =
-                  S.users[d.user];
+          <div class="task-actions">
 
-                if (!u)
-                  return "";
+            <button
+              class="action-btn complete-btn"
+              onclick="confirmTask('${type}')"
+            >
+              ✓ Erledigt
+            </button>
 
-                const c =
-                  COLORS[
-                    u.colorId ?? u.id
-                  ];
+            <button
+              class="action-btn skip-btn"
+              onclick="skipTurn('${type}')"
+            >
+              ⏭ Überspringen
+            </button>
 
-                const label =
-                  d.type === "trash"
-                    ? "🗑️ Müll"
-                    : "🧹 Reinigung";
+          </div>
 
+        </div>
 
-                return `
+      `;
+    }
 
-                  <div class="due-card">
+    function renderExtraTasks() {
 
-                    <div
-                      class="due-avatar"
-                      style="
-                        background:${c.hex}
-                      "
-                    >
-                      ${getInitials(u.name)}
-                    </div>
+      const tasks =
+        (S.extraTasks || [])
+          .filter(t => !t.completed);
 
+      return `
 
-                    <div class="due-info">
+        <div class="card" style="padding:14px;">
 
-                      <div
-                        class="due-name"
-                        style="color:${c.hex}"
+          ${
+            tasks.length
+              ? tasks.map(task => {
+
+                  const user =
+                    userById(task.user);
+
+                  return `
+                    <div class="settings-row">
+
+                      ${avatarHTML(user, "small")}
+
+                      <div class="settings-row-main">
+
+                        <div class="settings-row-title">
+                          ${esc(task.text)}
+                        </div>
+
+                        <div class="settings-row-sub">
+                          ${esc(user?.name || "Unbekannt")}
+                        </div>
+
+                      </div>
+
+                      <button
+                        class="action-btn complete-btn"
+                        onclick="completeExtraTask(${task.id})"
+                        style="height:38px;padding:0 11px;"
                       >
-                        ${u.name}
-                      </div>
-
-                      <div class="due-task">
-                        ${label} noch offen
-                      </div>
+                        ✓
+                      </button>
 
                     </div>
+                  `;
 
-
-                    <button
-                      class="due-done"
-                      onclick="clearDue(${index})"
-                    >
-                      ERLEDIGT
-                    </button>
-
+                }).join("")
+              : `
+                <div class="empty" style="padding:22px;">
+                  <div class="empty-icon">➕</div>
+                  <div class="empty-title">
+                    Keine Extra Aufgaben
                   </div>
-
-                `;
-
-              }
-            ).join("")
-      }
-
-    </div>
-
-  `;
-
-}
-
-
-/* CHAT */
-
-if (S.tab === "chat") {
-
-  let inner = "";
-
-
-  if (
-    S.chatSubTab === "group"
-  ) {
-
-    inner = `
-
-      <div class="chat-pane">
-
-        <div class="chat-pane-header">
-          💬 WG Allgemeiner Chat
-        </div>
-
-
-        <div
-          class="chat-messages"
-          id="cBox"
-        >
-
-          ${S.groupChat
-            .map(m =>
-
-              m.sender === -1
-
-                ? `
-                  <div class="sys-msg">
-                    ${m.text}
+                  <div>
+                    Alles erledigt.
                   </div>
-                `
-
-                : `
-                  <div
-                    class="
-                      msg-bubble
-                      ${
-                        m.sender === S.mySlot
-                          ? "me"
-                          : "them"
-                      }
-                    "
-                  >
-
-                    <div
-                      class="msg-author"
-                      style="
-                        color:${
-                          m.sender === S.mySlot
-
-                            ? "rgba(255,255,255,.7)"
-
-                            : (
-                              COLORS[
-                                S.users[
-                                  m.sender
-                                ].colorId
-                                ??
-                                m.sender
-                              ].hex
-                            )
-                        }
-                      "
-                    >
-                      ${m.authorName}
-                    </div>
-
-                    ${m.text}
-
-                  </div>
-                `
-
-            )
-            .join("")}
-
-        </div>
-
-
-        <div class="chat-input-area">
-
-          <input
-            type="text"
-            id="msgInp"
-            placeholder="Nachricht an alle…"
-            onkeydown="
-              if(event.key==='Enter')
-                sendMsg('group')
-            "
-          >
+                </div>
+              `
+          }
 
           <button
-            onclick="sendMsg('group')"
+            class="action-btn blue-btn"
+            onclick="openExtraTask()"
+            style="width:100%;margin-top:10px;"
           >
-            Senden
+            + Extra Aufgabe
+          </button>
+
+        </div>
+      `;
+    }
+
+    /* =========================================================
+       DUE PAGE
+    ========================================================= */
+
+    function renderDue() {
+
+      const due =
+        [...(S.dueTasks || [])]
+          .sort(
+            (a, b) =>
+              Number(b.createdAt || 0) -
+              Number(a.createdAt || 0)
+          );
+
+      return `
+
+        <div class="section-title">
+          Fällige Aufgaben
+        </div>
+
+        <div style="color:var(--muted);font-size:12px;margin:0 4px 14px;">
+          Übersprungene Aufgaben bleiben hier, bis sie erledigt werden.
+        </div>
+
+        ${
+          due.length
+            ? `
+              ${due.map((item, index) => {
+
+                const user =
+                  userById(item.user);
+
+                const label =
+                  TASK_LABELS[item.type] ||
+                  "Aufgabe";
+
+                return `
+                  <div class="card due-card">
+
+                    <div class="due-card-inner">
+
+                      <div class="due-icon">
+                        ${TASK_ICONS[item.type] || "🔴"}
+                      </div>
+
+                      <div class="due-main">
+
+                        <div class="due-title">
+                          ${esc(label)}
+                        </div>
+
+                        <div class="due-person">
+                          ${esc(user?.name || "Unbekannt")}
+                        </div>
+
+                        <div class="due-time">
+                          Übersprungen am
+                          ${formatDate(item.createdAt)}
+                          ·
+                          ${formatTime(item.createdAt)}
+                        </div>
+
+                      </div>
+
+                      <button
+                        class="due-done"
+                        onclick="clearDue(${index})"
+                      >
+                        ERLEDIGT
+                      </button>
+
+                    </div>
+
+                  </div>
+                `;
+
+              }).join("")}
+            `
+            : `
+              <div class="card">
+                <div class="empty">
+
+                  <div class="empty-icon">
+                    🎉
+                  </div>
+
+                  <div class="empty-title">
+                    Keine fälligen Aufgaben
+                  </div>
+
+                  <div>
+                    Alles ist erledigt.
+                  </div>
+
+                </div>
+              </div>
+            `
+        }
+
+      `;
+    }
+
+    /* =========================================================
+       CHAT
+    ========================================================= */
+
+    function renderChat() {
+
+      if (
+        S.chatSubTab === "private" &&
+        S.activePrivatePartner !== null
+      ) {
+        return renderPrivateChat();
+      }
+
+      return `
+
+        <div class="section-title">
+          Chat
+        </div>
+
+        <div class="chat-tabs">
+
+          <button
+            class="chat-tab ${
+              S.chatSubTab === "group"
+                ? "active"
+                : ""
+            }"
+            onclick="setChatSubTab('group')"
+          >
+            👥 Gruppe
+          </button>
+
+          <button
+            class="chat-tab ${
+              S.chatSubTab === "private"
+                ? "active"
+                : ""
+            }"
+            onclick="setChatSubTab('private')"
+          >
+            👤 Privat
           </button>
 
         </div>
 
-      </div>
+        ${
+          S.chatSubTab === "group"
+            ? renderGroupChat()
+            : renderPrivateList()
+        }
 
-    `;
+      `;
+    }
 
-  } else {
+    function renderGroupChat() {
 
+      const messages =
+        S.groupChat || [];
 
-    if (
-      S.activePrivatePartner !== null
-    ) {
+      return `
 
-      const partner =
-        S.users[
-          S.activePrivatePartner
-        ];
+        <div class="messages" id="messages">
 
+          ${
+            messages.length
+              ? messages.map(renderMessage).join("")
+              : `
+                <div class="empty">
+                  <div class="empty-icon">💬</div>
+                  <div class="empty-title">
+                    Noch keine Nachrichten
+                  </div>
+                  <div>
+                    Starte den WG Chat.
+                  </div>
+                </div>
+              `
+          }
 
-      const key =
-        `${Math.min(
-          S.mySlot,
-          S.activePrivatePartner
-        )}-${Math.max(
-          S.mySlot,
-          S.activePrivatePartner
-        )}`;
+        </div>
 
+        <div class="chat-input-row">
 
-      const history =
-        S.privateChats[key] || [];
+          <input
+            id="groupMessage"
+            class="chat-input"
+            placeholder="Nachricht..."
+            onkeydown="if(event.key==='Enter') sendGroupMessage()"
+          />
 
+          <button
+            class="send-btn"
+            onclick="sendGroupMessage()"
+          >
+            ↑
+          </button>
 
-      inner = `
+        </div>
+      `;
+    }
 
-        <div class="chat-pane">
+    function renderMessage(msg) {
 
-          <div class="chat-pane-header">
+      if (msg.system) {
 
-            <button
-              class="action-header-btn"
-              onclick="openPrivateWith(null)"
-            >
-              ⬅ Zurück
-            </button>
+        return `
+          <div class="message system">
+            ${esc(msg.text)}
+            <div class="message-meta">
+              ${formatTime(msg.time)}
+            </div>
+          </div>
+        `;
+      }
 
-            🔒 Chat mit ${partner.name}
+      const mine =
+        Number(msg.sender) ===
+        Number(S.mySlot);
 
+      return `
+        <div class="message ${mine ? "mine" : "theirs"}">
+
+          ${
+            !mine
+              ? `
+                <div style="font-size:10px;font-weight:900;margin-bottom:3px;">
+                  ${esc(userName(msg.sender))}
+                </div>
+              `
+              : ""
+          }
+
+          ${esc(msg.text)}
+
+          <div class="message-meta">
+            ${formatTime(msg.time)}
           </div>
 
+        </div>
+      `;
+    }
 
-          <div
-            class="chat-messages"
-            id="cBox"
-          >
+    function renderPrivateList() {
 
-            ${history
-              .map(
-                m => `
+      const people =
+        S.users.filter(
+          u =>
+            Number(u.id) !==
+            Number(S.mySlot)
+        );
 
-                  <div
-                    class="
-                      msg-bubble
+      return `
+
+        <div class="chat-room-list">
+
+          ${
+            people.map(user => {
+
+              const unread =
+                getUnreadPrivate(user.id);
+
+              const key =
+                privateChatKey(
+                  S.mySlot,
+                  user.id
+                );
+
+              const chats =
+                S.privateChats[key] || [];
+
+              const last =
+                chats[chats.length - 1];
+
+              return `
+                <button
+                  class="chat-room"
+                  onclick="openPrivateWith(${user.id})"
+                >
+
+                  ${avatarHTML(user)}
+
+                  <div class="chat-room-info">
+
+                    <div class="chat-room-name">
+                      ${esc(user.name)}
+                    </div>
+
+                    <div class="chat-room-preview">
                       ${
-                        m.sender === S.mySlot
-                          ? "me"
-                          : "them"
+                        last
+                          ? esc(last.text)
+                          : "Noch keine Nachrichten"
                       }
-                    "
-                  >
-                    ${m.text}
+                    </div>
+
                   </div>
 
-                `
-              )
-              .join("")}
+                  ${
+                    unread
+                      ? `<div class="unread">${unread}</div>`
+                      : ""
+                  }
 
-          </div>
+                </button>
+              `;
 
+            }).join("")
+          }
 
-          <div class="chat-input-area">
+        </div>
+      `;
+    }
 
-            <input
-              type="text"
-              id="msgInp"
-              placeholder="Private Nachricht…"
-              onkeydown="
-                if(event.key==='Enter')
-                  sendMsg('private')
-              "
-            >
+    function renderPrivateChat() {
 
-            <button
-              onclick="sendMsg('private')"
-            >
-              Senden
-            </button>
+      const partner =
+        userById(
+          S.activePrivatePartner
+        );
+
+      if (!partner) {
+        S.activePrivatePartner = null;
+        return renderPrivateList();
+      }
+
+      const key =
+        privateChatKey(
+          S.mySlot,
+          partner.id
+        );
+
+      const messages =
+        S.privateChats[key] || [];
+
+      return `
+
+        <div class="chat-header">
+
+          <button
+            class="back-btn"
+            onclick="backToPrivateList()"
+          >
+            ‹
+          </button>
+
+          ${avatarHTML(partner, "small")}
+
+          <div class="chat-header-info">
+
+            <div class="chat-header-name">
+              ${esc(partner.name)}
+            </div>
+
+            <div class="chat-header-status">
+              ● WG Mitglied
+            </div>
 
           </div>
 
         </div>
 
-      `;
+        <div class="messages" id="messages">
 
-    } else {
+          ${
+            messages.length
+              ? messages.map(msg => renderMessage({
+                  ...msg,
+                  system: false
+                })).join("")
+              : `
+                <div class="empty">
+                  <div class="empty-icon">👋</div>
+                  <div class="empty-title">
+                    Keine Nachrichten
+                  </div>
+                  <div>
+                    Schreib ${esc(partner.name)} etwas.
+                  </div>
+                </div>
+              `
+          }
 
-      inner = `
+        </div>
 
-        <div class="chat-rooms">
+        <div class="chat-input-row">
 
-          <p
-            style="
-              font-size:11px;
-              font-weight:700;
-              color:#bbb;
-              text-transform:uppercase;
-              margin:0 0 4px
-            "
+          <input
+            id="privateMessage"
+            class="chat-input"
+            placeholder="Nachricht an ${esc(partner.name)}..."
+            onkeydown="if(event.key==='Enter') sendPrivateMessage()"
+          />
+
+          <button
+            class="send-btn"
+            onclick="sendPrivateMessage()"
           >
-            🔒 Private 1:1 Chats
-          </p>
+            ↑
+          </button>
 
+        </div>
+      `;
+    }
 
-          ${S.users
-            .filter(
-              u =>
-                u.id !== S.mySlot
-            )
-            .map(u => {
+    /* =========================================================
+       CALENDAR
+    ========================================================= */
 
-              const c =
-                COLORS[
-                  u.colorId ?? u.id
-                ];
+    function renderCalendar() {
 
+      const year =
+        S.calendarDate.getFullYear();
+
+      const month =
+        S.calendarDate.getMonth();
+
+      const firstDay =
+        new Date(
+          year,
+          month,
+          1
+        ).getDay();
+
+      const daysInMonth =
+        new Date(
+          year,
+          month + 1,
+          0
+        ).getDate();
+
+      const previousMonthDays =
+        new Date(
+          year,
+          month,
+          0
+        ).getDate();
+
+      let cells = [];
+
+      /*
+        Previous month.
+      */
+
+      for (
+        let i = firstDay - 1;
+        i >= 0;
+        i--
+      ) {
+
+        const day =
+          previousMonthDays - i;
+
+        cells.push({
+          day,
+          monthOffset: -1
+        });
+      }
+
+      /*
+        Current month.
+      */
+
+      for (
+        let day = 1;
+        day <= daysInMonth;
+        day++
+      ) {
+
+        cells.push({
+          day,
+          monthOffset: 0
+        });
+      }
+
+      /*
+        Next month.
+      */
+
+      while (cells.length % 7 !== 0) {
+
+        cells.push({
+          day:
+            cells.length -
+            (firstDay + daysInMonth) +
+            1,
+          monthOffset: 1
+        });
+      }
+
+      const selected =
+        S.selectedCalendarDate;
+
+      const selectedEvents =
+        completedForDate(selected);
+
+      return `
+
+        <div class="section-title">
+          Kalender
+        </div>
+
+        <div class="card calendar-card">
+
+          <div class="calendar-head">
+
+            <div class="calendar-month">
+              ${MONTHS[month]} ${year}
+            </div>
+
+            <div class="calendar-arrows">
+
+              <button
+                class="calendar-arrow"
+                onclick="changeCalendarMonth(-1)"
+              >
+                ‹
+              </button>
+
+              <button
+                class="calendar-arrow"
+                onclick="changeCalendarMonth(1)"
+              >
+                ›
+              </button>
+
+            </div>
+
+          </div>
+
+          <div class="calendar-weekdays">
+
+            ${WEEKDAYS.map(day => `
+              <div class="weekday">
+                ${day}
+              </div>
+            `).join("")}
+
+          </div>
+
+          <div class="calendar-grid">
+
+            ${cells.map(cell => {
+
+              const cellDate =
+                new Date(
+                  year,
+                  month + cell.monthOffset,
+                  cell.day
+                );
+
+              const selectedClass =
+                sameDate(
+                  cellDate,
+                  selected
+                )
+                  ? "selected"
+                  : "";
+
+              const todayClass =
+                sameDate(
+                  cellDate,
+                  new Date()
+                )
+                  ? "today"
+                  : "";
+
+              const otherClass =
+                cell.monthOffset !== 0
+                  ? "other-month"
+                  : "";
+
+              const events =
+                completedForDate(
+                  cellDate
+                );
 
               return `
 
-                <div
-                  class="chat-room-row"
-                  onclick="
-                    openPrivateWith(${u.id})
-                  "
+                <button
+                  class="day ${selectedClass} ${todayClass} ${otherClass}"
+                  onclick="selectCalendarDate('${dateKey(cellDate)}')"
                 >
 
-                  <div
-                    style="
-                      background:${c.hex};
-                      width:40px;
-                      height:40px;
-                      border-radius:50%;
-                      display:flex;
-                      align-items:center;
-                      justify-content:center;
-                      color:white;
-                      font-size:15px;
-                      font-weight:800;
-                      flex-shrink:0
-                    "
-                  >
-                    ${getInitials(u.name)}
+                  <div class="day-number">
+                    ${cell.day}
                   </div>
 
+                  ${
+                    events.length
+                      ? `
+                        <div class="day-dots">
 
-                  <div>
+                          ${events.slice(0, 4).map(event => {
 
-                    <div
-                      style="
-                        font-weight:700;
-                        font-size:15px
-                      "
-                    >
-                      ${u.name}
-                    </div>
+                            const u =
+                              userById(event.user);
 
-                    <div
-                      style="
-                        font-size:11px;
-                        color:#aaa
-                      "
-                    >
-                      Privater Chat · nur für euch
-                    </div>
+                            return `
+                              <span
+                                class="dot"
+                                style="background:${userColor(u)}"
+                              ></span>
+                            `;
 
-                  </div>
+                          }).join("")}
 
-                </div>
+                        </div>
+                      `
+                      : ""
+                  }
+
+                </button>
 
               `;
 
-            })
-            .join("")}
+            }).join("")}
+
+          </div>
+
+          <div class="calendar-details">
+
+            <div style="font-weight:900;margin:13px 3px 9px;">
+              ${
+                selected.toLocaleDateString(
+                  "de-DE",
+                  {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long"
+                  }
+                )
+              }
+            </div>
+
+            ${
+              selectedEvents.length
+                ? selectedEvents.map(event => {
+
+                    const user =
+                      userById(event.user);
+
+                    const icon =
+                      TASK_ICONS[event.type] ||
+                      "➕";
+
+                    const title =
+                      event.type === "extra"
+                        ? "Extra Aufgabe"
+                        : TASK_LABELS[event.type];
+
+                    return `
+                      <div class="calendar-event">
+
+                        <div class="calendar-event-icon">
+                          ${icon}
+                        </div>
+
+                        <div class="calendar-event-main">
+
+                          <div class="calendar-event-title">
+                            ${esc(title)}
+                          </div>
+
+                          <div class="calendar-event-person">
+                            ${esc(user?.name || "Unbekannt")}
+                            ${event.text
+                              ? ` · ${esc(event.text)}`
+                              : ""}
+                          </div>
+
+                        </div>
+
+                        <div class="calendar-event-time">
+                          ${formatTime(event.time)}
+                        </div>
+
+                      </div>
+                    `;
+
+                  }).join("")
+                : `
+                  <div class="empty" style="padding:20px;">
+                    <div class="empty-icon">
+                      📅
+                    </div>
+
+                    <div class="empty-title">
+                      Keine erledigten Aufgaben
+                    </div>
+
+                    <div>
+                      Für diesen Tag gibt es noch keinen Eintrag.
+                    </div>
+                  </div>
+                `
+            }
+
+          </div>
 
         </div>
 
       `;
-
     }
 
-  }
+    /* =========================================================
+       HISTORY
+    ========================================================= */
 
+    function renderHistory() {
 
-  html = `
+      const logs =
+        [...(S.globalLog || [])]
+          .sort(
+            (a, b) =>
+              Number(b.time || 0) -
+              Number(a.time || 0)
+          );
 
-    <div class="hero-banner">
+      return `
 
-      <div>
-        <div class="hero-title">
-          KINGEN WG
+        <div class="section-title">
+          Verlauf
         </div>
-      </div>
 
-    </div>
+        <div class="card">
 
-
-    <div class="chat-tab-header">
-
-      <button
-        class="
-          chat-tab-btn
           ${
-            S.chatSubTab === "group"
-              ? "active"
-              : ""
+            logs.length
+              ? logs.map(log => {
+
+                  let icon = "📋";
+
+                  if (log.type === "complete") {
+                    icon = "✅";
+                  }
+
+                  if (log.type === "skip") {
+                    icon = "⏭️";
+                  }
+
+                  if (log.type === "due_complete") {
+                    icon = "🔴";
+                  }
+
+                  if (log.type === "extra") {
+                    icon = "➕";
+                  }
+
+                  if (log.type === "extra_complete") {
+                    icon = "☑️";
+                  }
+
+                  if (log.type === "admin") {
+                    icon = "👑";
+                  }
+
+                  return `
+                    <div class="log-item">
+
+                      <div class="log-icon">
+                        ${icon}
+                      </div>
+
+                      <div class="log-main">
+
+                        <div class="log-text">
+                          ${esc(log.text || "")}
+                        </div>
+
+                        <div class="log-time">
+                          ${formatDate(log.time)}
+                          ·
+                          ${formatTime(log.time)}
+                        </div>
+
+                      </div>
+
+                    </div>
+                  `;
+
+                }).join("")
+              : `
+                <div class="empty">
+                  <div class="empty-icon">📋</div>
+                  <div class="empty-title">
+                    Noch kein Verlauf
+                  </div>
+                  <div>
+                    Aktionen erscheinen hier.
+                  </div>
+                </div>
+              `
           }
-        "
-        onclick="
-          setChatSubTab('group')
-        "
-      >
-        Allgemein
-      </button>
 
-
-      <button
-        class="
-          chat-tab-btn
-          ${
-            S.chatSubTab === "private"
-              ? "active"
-              : ""
-          }
-        "
-        onclick="
-          setChatSubTab('private')
-        "
-      >
-        Privat 🔒
-      </button>
-
-    </div>
-
-
-    <div class="chat-layout">
-
-      ${inner}
-
-    </div>
-
-  `;
-
-}
-
-
-/* LOG */
-
-if (S.tab === "log") {
-
-  html = `
-
-    <div class="hero-banner">
-
-      <div>
-        <div class="hero-title">
-          KINGEN WG
         </div>
-      </div>
+      `;
+    }
 
-    </div>
+    /* =========================================================
+       NOTIFICATIONS
+    ========================================================= */
 
+    function renderNotifications() {
 
-    <div class="card">
+      const notices = [];
 
-      <div class="slabel">
-        📜 Aktivitäts-Log
-      </div>
+      /*
+        Due notifications.
+      */
 
+      (S.dueTasks || []).forEach(due => {
 
-      ${
-        S.globalLog.length === 0
+        notices.push({
+          icon: "🔴",
+          text:
+            `${userName(due.user)} hat eine fällige Aufgabe: ` +
+            `${TASK_LABELS[due.type] || "Aufgabe"}`,
+          time: due.createdAt
+        });
 
-          ? `
-            <div class="log-empty">
-              Noch keine Einträge.
-            </div>
-          `
+      });
 
-          : S.globalLog
-              .map(l => {
+      /*
+        Recent logs.
+      */
 
-                const u =
-                  S.users[l.person];
+      [...(S.globalLog || [])]
+        .sort(
+          (a, b) =>
+            Number(b.time || 0) -
+            Number(a.time || 0)
+        )
+        .slice(0, 15)
+        .forEach(log => {
 
-                if (!u)
-                  return "";
+          let icon = "📋";
 
-                const c =
-                  COLORS[
-                    u.colorId ?? l.person
-                  ];
+          if (log.type === "complete") {
+            icon = "✅";
+          }
 
+          if (log.type === "skip") {
+            icon = "⏭️";
+          }
 
-                const tags =
-                  (l.items || [])
-                    .map(bId => {
+          if (log.type === "due_complete") {
+            icon = "🔴";
+          }
 
-                      const bin =
-                        BINS.find(
-                          bx =>
-                            bx.id === bId
-                        );
+          notices.push({
+            icon,
+            text: log.text,
+            time: log.time
+          });
 
-                      return bin
+        });
 
-                        ? `
-                          <span
-                            class="log-tag"
-                            style="
-                              background:${c.light};
-                              color:${c.hex}
-                            "
-                          >
-                            ${bin.icon}
-                            ${bin.name}
-                          </span>
-                        `
+      notices.sort(
+        (a, b) =>
+          Number(b.time || 0) -
+          Number(a.time || 0)
+      );
 
-                        : "";
+      return `
 
-                    })
-                    .join("");
+        <div class="section-title">
+          🔔 Benachrichtigungen
+        </div>
 
+        <div class="card">
 
-                return `
+          ${
+            notices.length
+              ? notices.slice(0, 30).map(item => `
+                  <div class="notice-item">
 
-                  <div class="log-item">
-
-                    <div
-                      class="log-dot"
-                      style="
-                        background:${c.hex}
-                      "
-                    >
-                      ${getInitials(u.name)}
+                    <div class="log-icon">
+                      ${item.icon}
                     </div>
 
+                    <div class="notice-main">
 
-                    <div>
-
-                      <div
-                        class="log-who"
-                        style="
-                          color:${c.hex}
-                        "
-                      >
-                        ${u.name}
+                      <div class="notice-text">
+                        ${esc(item.text)}
                       </div>
 
-
-                      <div class="log-text">
-                        ${l.text}
-                      </div>
-
-
-                      ${
-                        tags
-
-                          ? `
-                            <div class="log-tags">
-                              ${tags}
-                            </div>
-                          `
-
-                          : ""
-                      }
-
-
-                      <div class="log-time">
-                        ${fmtTs(l.ts)}
+                      <div class="notice-time">
+                        ${formatDate(item.time)}
+                        ·
+                        ${formatTime(item.time)}
                       </div>
 
                     </div>
 
                   </div>
+                `).join("")
+              : `
+                <div class="empty">
+                  <div class="empty-icon">🔔</div>
+                  <div class="empty-title">
+                    Keine Benachrichtigungen
+                  </div>
+                  <div>
+                    Alles ruhig.
+                  </div>
+                </div>
+              `
+          }
 
-                `;
+        </div>
 
-              })
-              .join("")
+      `;
+    }
+
+    /* =========================================================
+       PROFILE
+    ========================================================= */
+
+    function renderProfile() {
+
+      const me =
+        getMyUser();
+
+      return `
+
+        <div class="section-title">
+          Profil
+        </div>
+
+        <div class="card profile-card">
+
+          <div class="profile-header">
+
+            ${avatarHTML(me, "large")}
+
+            <div>
+
+              <div class="profile-name">
+                ${esc(me?.name || "")}
+              </div>
+
+              <div class="profile-role">
+                ${
+                  me?.isAdmin
+                    ? "👑 WG Administrator"
+                    : "WG Mitglied"
+                }
+              </div>
+
+            </div>
+
+          </div>
+
+          ${
+            me?.isAdmin
+              ? `
+                <button
+                  class="action-btn blue-btn"
+                  onclick="openAdmin()"
+                  style="width:100%;margin-bottom:8px;"
+                >
+                  👑 Admin Einstellungen
+                </button>
+              `
+              : ""
+          }
+
+          <button
+            class="action-btn gray-btn"
+            onclick="switchUser()"
+            style="width:100%;margin-bottom:8px;"
+          >
+            🔄 Benutzer wechseln
+          </button>
+
+          <button
+            class="action-btn skip-btn"
+            onclick="logout()"
+            style="width:100%;"
+          >
+            🚪 Ausloggen
+          </button>
+
+        </div>
+
+        <div class="section-title">
+          Meine Aufgaben
+        </div>
+
+        <div class="card">
+
+          <div class="settings-row">
+
+            <div class="settings-row-icon">
+              🗑️
+            </div>
+
+            <div class="settings-row-main">
+
+              <div class="settings-row-title">
+                Müll
+              </div>
+
+              <div class="settings-row-sub">
+                ${
+                  Number(currentTurn("trash")) ===
+                  Number(S.mySlot)
+                    ? "Du bist aktuell dran."
+                    : `${esc(userName(currentTurn("trash")))} ist aktuell dran.`
+                }
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="settings-row">
+
+            <div class="settings-row-icon">
+              🧹
+            </div>
+
+            <div class="settings-row-main">
+
+              <div class="settings-row-title">
+                Putzen
+              </div>
+
+              <div class="settings-row-sub">
+                ${
+                  Number(currentTurn("clean")) ===
+                  Number(S.mySlot)
+                    ? "Du bist aktuell dran."
+                    : `${esc(userName(currentTurn("clean")))} ist aktuell dran.`
+                }
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        ${
+          me?.isAdmin
+            ? `
+              <div class="section-title">
+                Projekt Demo
+              </div>
+
+              <div class="card profile-card">
+
+                <div style="font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:12px;">
+                  Hassan ist als Administrator eingerichtet.
+                  Über die Admin Einstellungen kannst du die
+                  Rotationen und WG Reihenfolge ändern.
+                </div>
+
+                <button
+                  class="action-btn gray-btn"
+                  onclick="adminResetAll()"
+                  style="width:100%;"
+                >
+                  🔄 Demo-Daten zurücksetzen
+                </button>
+
+              </div>
+            `
+            : ""
+        }
+
+      `;
+    }
+
+    /* =========================================================
+       SWIPE SUPPORT
+    ========================================================= */
+
+    function attachSwipe() {
+
+      document
+        .querySelectorAll(
+          ".task-card[data-swipe-type]"
+        )
+        .forEach(card => {
+
+          let startX = 0;
+          let startY = 0;
+          let active = false;
+
+          card.addEventListener(
+            "touchstart",
+            event => {
+
+              const target =
+                event.target;
+
+              if (
+                target.closest("button") ||
+                target.closest("input") ||
+                target.closest("select")
+              ) {
+                active = false;
+                return;
+              }
+
+              const touch =
+                event.touches[0];
+
+              startX =
+                touch.clientX;
+
+              startY =
+                touch.clientY;
+
+              active = true;
+            },
+            { passive: true }
+          );
+
+          card.addEventListener(
+            "touchend",
+            event => {
+
+              if (!active) return;
+
+              const touch =
+                event.changedTouches[0];
+
+              const dx =
+                touch.clientX - startX;
+
+              const dy =
+                touch.clientY - startY;
+
+              active = false;
+
+              if (
+                dx < -85 &&
+                Math.abs(dx) > Math.abs(dy)
+              ) {
+
+                const type =
+                  card.dataset.swipeType;
+
+                skipTurn(type);
+              }
+
+            },
+            { passive: true }
+          );
+
+        });
+    }
+
+    /* =========================================================
+       KEYBOARD SHORTCUTS
+    ========================================================= */
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          const modal =
+            document.getElementById("modalRoot");
+
+          if (modal) {
+            modal.innerHTML = "";
+          }
+
+        }
+
       }
+    );
 
-    </div>
+    /* =========================================================
+       BOOT
+    ========================================================= */
 
-  `;
+    loadLocalLogin();
+    updateLoginVisibility();
 
-}
+    /*
+      Initial render will be refreshed automatically
+      when Firebase sends the current data.
+    */
 
+    if (S.isLoggedIn) {
+      render();
+    }
 
-/* RENDER ROOT */
-
-document.getElementById(
-  "root"
-).innerHTML = html;
-
-
-/* CHAT AUTO SCROLL */
-
-if (
-  S.tab === "chat"
-) {
-
-  scrollChat();
-
-}
-
-
-/* BOTTOM NAV */
-
-let nav =
-  document.querySelector(
-    ".bottom-nav"
-  );
-
-
-if (nav)
-  nav.remove();
-
-
-const ac =
-  myC.hex;
-
-
-document.body.insertAdjacentHTML(
-
-  "beforeend",
-
-  `
-
-  <nav class="bottom-nav">
-
-
-    <!-- HOME -->
-
-    <button
-      class="nav-tab"
-      onclick="setTab('home')"
-    >
-
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="${
-          S.tab === "home"
-            ? ac
-            : "#bbb"
-        }"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-
-        <path
-          d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"
-        />
-
-        <path
-          d="M9 21V12h6v9"
-        />
-
-      </svg>
-
-
-      <span
-        style="
-          color:${
-            S.tab === "home"
-              ? ac
-              : "#bbb"
-          }
-        "
-      >
-        Übersicht
-      </span>
-
-    </button>
-
-
-    <!-- CHAT -->
-
-    <button
-      class="nav-tab"
-      onclick="setTab('chat')"
-    >
-
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="${
-          S.tab === "chat"
-            ? ac
-            : "#bbb"
-        }"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-
-        <path
-          d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
-        />
-
-      </svg>
-
-
-      <span
-        style="
-          color:${
-            S.tab === "chat"
-              ? ac
-              : "#bbb"
-          }
-        "
-      >
-        Chats
-      </span>
-
-    </button>
-
-
-    <!-- DUE -->
-
-    <button
-      class="nav-tab"
-      onclick="setTab('due')"
-    >
-
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="${
-          S.tab === "due"
-            ? ac
-            : "#bbb"
-        }"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-
-        <circle
-          cx="12"
-          cy="12"
-          r="9"
-        />
-
-        <line
-          x1="12"
-          y1="7"
-          x2="12"
-          y2="12"
-        />
-
-        <line
-          x1="12"
-          y1="12"
-          x2="16"
-          y2="15"
-        />
-
-      </svg>
-
-
-      <span
-        style="
-          color:${
-            S.tab === "due"
-              ? ac
-              : "#bbb"
-          }
-        "
-      >
-        Due
-      </span>
-
-    </button>
-
-
-    <!-- LOG -->
-
-    <button
-      class="nav-tab"
-      onclick="setTab('log')"
-    >
-
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="${
-          S.tab === "log"
-            ? ac
-            : "#bbb"
-        }"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-
-        <path
-          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"
-        />
-
-        <rect
-          x="9"
-          y="3"
-          width="6"
-          height="4"
-          rx="1"
-        />
-
-        <line
-          x1="9"
-          y1="12"
-          x2="15"
-          y2="12"
-        />
-
-      </svg>
-
-
-      <span
-        style="
-          color:${
-            S.tab === "log"
-              ? ac
-              : "#bbb"
-          }
-        "
-      >
-        Verlauf
-      </span>
-
-    </button>
-
-
-  </nav>
-
-  `
-
-);
-
-}
-
-
-/* INITIAL RENDER */
-
-render();
-
-</script>
-
+  </script>
 </body>
 </html>
