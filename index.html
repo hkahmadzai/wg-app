@@ -3,1245 +3,1183 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0877ff" />
+  <meta name="theme-color" content="#07111f" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="KINGEN WG" />
-
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>KINGEN WG</title>
 
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 
   <style>
-    :root {
-      --blue: #0877ff;
-      --blue-dark: #0059d6;
-      --blue-light: #eaf4ff;
-      --bg: #f4f7fb;
-      --card: #ffffff;
-      --text: #111827;
-      --muted: #718096;
-      --border: #e5eaf1;
-      --green: #18a957;
-      --red: #ef4444;
-      --orange: #f59e0b;
-      --shadow: 0 10px 30px rgba(20, 45, 90, .08);
-      --radius: 22px;
+    :root{
+      --bg:#06101d;
+      --bg2:#0a1727;
+      --card:rgba(18,34,55,.78);
+      --card2:rgba(25,45,72,.72);
+      --line:rgba(255,255,255,.09);
+      --text:#f7fbff;
+      --muted:#91a5bc;
+      --blue:#2997ff;
+      --blue2:#0068ff;
+      --green:#30d158;
+      --orange:#ff9f0a;
+      --red:#ff453a;
+      --purple:#bf5af2;
+      --shadow:0 18px 50px rgba(0,0,0,.30);
+      --radius:24px;
     }
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
+    *{
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
+    html,body{
+      margin:0;
+      padding:0;
+      min-height:100%;
       background:
-        radial-gradient(circle at top left, rgba(8,119,255,.08), transparent 35%),
+        radial-gradient(circle at 20% -10%,rgba(41,151,255,.20),transparent 32%),
+        radial-gradient(circle at 100% 20%,rgba(0,104,255,.10),transparent 30%),
         var(--bg);
-      color: var(--text);
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "SF Pro Display",
-        "SF Pro Text",
-        Inter,
-        Arial,
-        sans-serif;
-      min-height: 100vh;
-      padding-bottom: env(safe-area-inset-bottom);
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,Arial,sans-serif;
     }
 
-    button,
-    input,
-    select {
-      font: inherit;
+    body{
+      min-height:100vh;
+      overflow-x:hidden;
     }
 
-    button {
-      cursor: pointer;
-      border: 0;
+    button,input,select{
+      font:inherit;
     }
 
-    .hidden {
-      display: none !important;
+    button{
+      border:0;
+      cursor:pointer;
+      color:inherit;
+    }
+
+    .hidden{
+      display:none!important;
+    }
+
+    .app{
+      width:100%;
+      max-width:680px;
+      margin:0 auto;
+      min-height:100vh;
+      padding-bottom:100px;
     }
 
     /* LOGIN */
 
-    #loginScreen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
+    #loginScreen{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
     }
 
-    .login-card {
-      width: 100%;
-      max-width: 430px;
-      background: rgba(255,255,255,.94);
-      border: 1px solid rgba(255,255,255,.8);
-      box-shadow: 0 25px 70px rgba(0,70,160,.16);
-      border-radius: 32px;
-      padding: 30px 24px;
-      backdrop-filter: blur(20px);
+    .login-wrap{
+      width:100%;
+      max-width:440px;
     }
 
-    .logo {
-      width: 76px;
-      height: 76px;
-      border-radius: 24px;
-      background: linear-gradient(145deg, #1590ff, #005bd9);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 30px;
-      font-weight: 900;
-      margin: 0 auto 18px;
-      box-shadow: 0 14px 35px rgba(8,119,255,.28);
+    .brand{
+      text-align:center;
+      margin-bottom:30px;
     }
 
-    .login-card h1 {
-      text-align: center;
-      margin: 0;
-      font-size: 30px;
-      letter-spacing: -1px;
+    .brand-icon{
+      width:78px;
+      height:78px;
+      margin:0 auto 16px;
+      border-radius:25px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:36px;
+      background:linear-gradient(145deg,#2997ff,#005eea);
+      box-shadow:0 18px 45px rgba(0,105,255,.30);
     }
 
-    .login-subtitle {
-      text-align: center;
-      color: var(--muted);
-      margin: 8px 0 26px;
+    .brand h1{
+      margin:0;
+      font-size:32px;
+      letter-spacing:-1.4px;
     }
 
-    .field {
-      margin-bottom: 14px;
+    .brand p{
+      color:var(--muted);
+      margin:8px 0 0;
     }
 
-    .field label {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      color: #5d6878;
-      margin: 0 0 7px 5px;
+    .login-card{
+      background:rgba(14,29,47,.88);
+      border:1px solid var(--line);
+      border-radius:30px;
+      padding:22px;
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(25px);
     }
 
-    .field input,
-    .admin-select,
-    .text-input {
-      width: 100%;
-      height: 52px;
-      border: 1px solid var(--border);
-      background: #f8fafc;
-      border-radius: 16px;
-      padding: 0 16px;
-      outline: none;
-      transition: .2s;
+    .login-label{
+      color:var(--muted);
+      font-size:13px;
+      margin:0 0 9px 4px;
     }
 
-    .field input:focus,
-    .admin-select:focus,
-    .text-input:focus {
-      border-color: var(--blue);
-      background: white;
-      box-shadow: 0 0 0 4px rgba(8,119,255,.1);
+    .user-picker{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-bottom:18px;
     }
 
-    .primary-btn {
-      width: 100%;
-      height: 54px;
-      border-radius: 17px;
-      color: white;
-      background: linear-gradient(135deg, #168dff, #0062df);
-      font-weight: 800;
-      box-shadow: 0 12px 25px rgba(8,119,255,.22);
-      transition: transform .15s, opacity .15s;
+    .user-option{
+      padding:13px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.035);
+      border-radius:17px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      text-align:left;
+      transition:.2s;
     }
 
-    .primary-btn:active,
-    .action-btn:active,
-    .nav-btn:active {
-      transform: scale(.97);
+    .user-option.active{
+      border-color:rgba(41,151,255,.75);
+      background:rgba(41,151,255,.14);
+      box-shadow:0 0 0 2px rgba(41,151,255,.08);
     }
 
-    .login-error {
-      margin-top: 12px;
-      color: var(--red);
-      text-align: center;
-      font-size: 14px;
-      font-weight: 700;
+    .avatar{
+      width:40px;
+      height:40px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      font-weight:800;
+      flex:none;
     }
 
-    /* APP */
-
-    #app {
-      max-width: 760px;
-      margin: 0 auto;
-      min-height: 100vh;
-      padding-bottom: 110px;
+    .avatar.small{
+      width:34px;
+      height:34px;
+      font-size:12px;
     }
 
-    .topbar {
-      padding:
-        calc(18px + env(safe-area-inset-top))
-        18px
-        12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+    .avatar.tiny{
+      width:28px;
+      height:28px;
+      font-size:10px;
     }
 
-    .brand-area {
-      display: flex;
-      align-items: center;
-      gap: 11px;
+    .c0{background:linear-gradient(135deg,#007aff,#5856d6)}
+    .c1{background:linear-gradient(135deg,#ff9500,#ff375f)}
+    .c2{background:linear-gradient(135deg,#30d158,#00a878)}
+    .c3{background:linear-gradient(135deg,#bf5af2,#af52de)}
+
+    .password{
+      width:100%;
+      padding:15px 16px;
+      border:1px solid var(--line);
+      border-radius:17px;
+      outline:none;
+      background:rgba(255,255,255,.05);
+      color:white;
+      margin-bottom:12px;
     }
 
-    .mini-logo {
-      width: 46px;
-      height: 46px;
-      border-radius: 15px;
-      background: linear-gradient(145deg, #168dff, #005bd9);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: 900;
-      box-shadow: 0 9px 22px rgba(8,119,255,.22);
+    .primary{
+      width:100%;
+      padding:15px 18px;
+      border-radius:17px;
+      background:linear-gradient(135deg,var(--blue),var(--blue2));
+      color:white;
+      font-weight:800;
+      box-shadow:0 10px 30px rgba(0,104,255,.25);
     }
 
-    .brand-title {
-      font-size: 19px;
-      font-weight: 900;
-      letter-spacing: -.4px;
+    .login-error{
+      color:#ff6b64;
+      text-align:center;
+      margin-top:12px;
+      font-size:13px;
     }
 
-    .brand-subtitle {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
+    /* HEADER */
+
+    .topbar{
+      padding:calc(15px + env(safe-area-inset-top)) 18px 12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position:sticky;
+      top:0;
+      z-index:20;
+      background:rgba(6,16,29,.78);
+      backdrop-filter:blur(22px);
     }
 
-    .top-actions {
-      display: flex;
-      gap: 8px;
+    .top-left{
+      display:flex;
+      align-items:center;
+      gap:11px;
     }
 
-    .icon-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 15px;
-      background: white;
-      color: #26364b;
-      box-shadow: var(--shadow);
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 19px;
+    .mini-brand{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(145deg,#2997ff,#0068ff);
+      font-size:20px;
     }
 
-    .icon-badge {
-      position: absolute;
-      right: -3px;
-      top: -4px;
-      min-width: 18px;
-      height: 18px;
-      padding: 0 5px;
-      border-radius: 10px;
-      background: var(--red);
-      color: white;
-      font-size: 10px;
-      font-weight: 900;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .top-title{
+      font-size:18px;
+      font-weight:850;
+      letter-spacing:-.5px;
     }
 
-    .content {
-      padding: 0 16px;
+    .top-sub{
+      color:var(--muted);
+      font-size:11px;
+      margin-top:2px;
     }
 
-    .hero {
-      background: linear-gradient(135deg, #0a82ff, #0059d5);
-      border-radius: 28px;
-      padding: 22px;
-      color: white;
-      box-shadow: 0 18px 40px rgba(8,119,255,.22);
-      margin-bottom: 16px;
-      overflow: hidden;
-      position: relative;
+    .top-actions{
+      display:flex;
+      gap:8px;
     }
 
-    .hero::after {
-      content: "";
-      position: absolute;
-      width: 190px;
-      height: 190px;
-      border-radius: 50%;
-      right: -70px;
-      top: -70px;
-      background: rgba(255,255,255,.09);
+    .icon-btn{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      background:rgba(255,255,255,.055);
+      border:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
     }
 
-    .hero-label {
-      font-size: 12px;
-      opacity: .8;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .8px;
+    .notification-dot{
+      position:absolute;
+      right:7px;
+      top:7px;
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--red);
     }
 
-    .hero-title {
-      font-size: 29px;
-      font-weight: 900;
-      letter-spacing: -1px;
-      margin-top: 5px;
-      position: relative;
-      z-index: 1;
+    /* CONTENT */
+
+    .content{
+      padding:8px 16px 20px;
     }
 
-    .hero-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 18px;
-      position: relative;
-      z-index: 1;
+    .tab-page{
+      animation:pageIn .25s ease;
     }
 
-    .hero-user {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    @keyframes pageIn{
+      from{opacity:0;transform:translateY(7px)}
+      to{opacity:1;transform:translateY(0)}
     }
 
-    .hero-role {
-      font-size: 12px;
-      opacity: .8;
+    .welcome{
+      padding:12px 4px 20px;
     }
 
-    .hero-name {
-      font-weight: 800;
+    .welcome h2{
+      margin:0;
+      font-size:28px;
+      letter-spacing:-1.2px;
     }
 
-    .hero-admin {
-      background: rgba(255,255,255,.18);
-      padding: 8px 11px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 800;
+    .welcome p{
+      margin:5px 0 0;
+      color:var(--muted);
     }
 
-    /* AVATARS */
-
-    .avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 15px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-weight: 900;
-      flex: 0 0 auto;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.25);
+    .hero-card{
+      background:
+        radial-gradient(circle at 90% 10%,rgba(41,151,255,.30),transparent 38%),
+        linear-gradient(145deg,#102c4b,#0b1a2e);
+      border:1px solid rgba(70,164,255,.20);
+      border-radius:28px;
+      padding:20px;
+      box-shadow:var(--shadow);
+      margin-bottom:14px;
     }
 
-    .avatar.small {
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
-      font-size: 13px;
+    .hero-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
     }
 
-    .avatar.large {
-      width: 54px;
-      height: 54px;
-      border-radius: 18px;
-      font-size: 18px;
+    .eyebrow{
+      color:#7fbaff;
+      font-size:11px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:1px;
     }
 
-    /* CARDS */
-
-    .section-title {
-      font-size: 18px;
-      font-weight: 900;
-      margin: 23px 3px 10px;
-      letter-spacing: -.3px;
+    .hero-card h3{
+      margin:5px 0 4px;
+      font-size:25px;
+      letter-spacing:-1px;
     }
 
-    .card {
-      background: var(--card);
-      border: 1px solid rgba(230,235,242,.9);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      margin-bottom: 13px;
-      overflow: hidden;
+    .hero-card p{
+      margin:0;
+      color:#a9c0d9;
+      font-size:14px;
     }
 
-    .task-card {
-      padding: 18px;
-      position: relative;
-      touch-action: pan-y;
+    .turn-avatar{
+      width:56px;
+      height:56px;
+      border-radius:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:17px;
+      font-weight:900;
     }
 
-    .task-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+    .progress-row{
+      margin-top:18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      color:#a9c0d9;
+      font-size:12px;
     }
 
-    .task-title-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .progress{
+      height:7px;
+      border-radius:99px;
+      background:rgba(255,255,255,.09);
+      margin-top:7px;
+      overflow:hidden;
     }
 
-    .task-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
-      background: var(--blue-light);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 24px;
+    .progress span{
+      display:block;
+      height:100%;
+      border-radius:99px;
+      background:linear-gradient(90deg,#2997ff,#62b5ff);
     }
 
-    .task-name {
-      font-weight: 900;
-      font-size: 17px;
+    .section-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin:20px 3px 10px;
     }
 
-    .task-status {
-      color: var(--blue);
-      font-size: 12px;
-      font-weight: 800;
-      margin-top: 3px;
+    .section-title h3{
+      margin:0;
+      font-size:18px;
+      letter-spacing:-.4px;
     }
 
-    .task-person {
-      margin-top: 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px;
-      border-radius: 15px;
-      background: #f7f9fc;
+    .section-title span{
+      color:var(--muted);
+      font-size:12px;
     }
 
-    .task-person-name {
-      font-weight: 800;
-      font-size: 14px;
+    /* TASK CARDS */
+
+    .task-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:25px;
+      padding:17px;
+      margin-bottom:12px;
+      box-shadow:0 12px 30px rgba(0,0,0,.14);
+      backdrop-filter:blur(20px);
+      touch-action:pan-y;
+      transition:transform .2s,opacity .2s;
     }
 
-    .task-person-label {
-      color: var(--muted);
-      font-size: 11px;
+    .task-card.swiping{
+      transition:none;
     }
 
-    .task-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 13px;
+    .task-head{
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
 
-    .action-btn {
-      height: 45px;
-      padding: 0 16px;
-      border-radius: 14px;
-      font-weight: 800;
-      transition: .15s;
+    .task-icon{
+      width:48px;
+      height:48px;
+      border-radius:16px;
+      background:rgba(41,151,255,.13);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:24px;
     }
 
-    .complete-btn {
-      background: #eaf9f0;
-      color: #168649;
-      flex: 1;
+    .task-info{
+      flex:1;
+      min-width:0;
     }
 
-    .skip-btn {
-      background: #fff2f2;
-      color: #dc3434;
-      flex: 1;
+    .task-info strong{
+      display:block;
+      font-size:16px;
     }
 
-    .blue-btn {
-      background: var(--blue-light);
-      color: var(--blue);
+    .task-info small{
+      display:block;
+      color:var(--muted);
+      margin-top:3px;
     }
 
-    .gray-btn {
-      background: #f0f2f5;
-      color: #485467;
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      padding:6px 9px;
+      border-radius:99px;
+      font-size:10px;
+      font-weight:800;
+      background:rgba(48,209,88,.12);
+      color:#67e985;
+      white-space:nowrap;
     }
 
-    /* PEOPLE */
-
-    .people-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
+    .badge.orange{
+      background:rgba(255,159,10,.13);
+      color:#ffb340;
     }
 
-    .person-mini {
-      background: white;
-      border-radius: 18px;
-      padding: 13px 5px;
-      text-align: center;
-      border: 1px solid var(--border);
+    .badge.red{
+      background:rgba(255,69,58,.13);
+      color:#ff746d;
     }
 
-    .person-mini .avatar {
-      margin: auto;
+    .task-actions{
+      display:flex;
+      gap:8px;
+      margin-top:14px;
     }
 
-    .person-mini-name {
-      margin-top: 7px;
-      font-size: 11px;
-      font-weight: 800;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .action{
+      flex:1;
+      padding:12px;
+      border-radius:15px;
+      background:rgba(255,255,255,.055);
+      border:1px solid var(--line);
+      font-weight:750;
+      font-size:13px;
     }
 
-    .person-mini-role {
-      color: var(--muted);
-      font-size: 9px;
-      margin-top: 3px;
+    .action.done{
+      background:rgba(48,209,88,.12);
+      color:#6be987;
+      border-color:rgba(48,209,88,.15);
+    }
+
+    .action.skip{
+      color:#ffadad;
+    }
+
+    /* TRASH SELECTOR */
+
+    .trash-types{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-top:15px;
+    }
+
+    .trash-type{
+      padding:12px 10px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:rgba(255,255,255,.035);
+      text-align:left;
+      transition:.18s;
+    }
+
+    .trash-type.active{
+      background:rgba(41,151,255,.14);
+      border-color:rgba(41,151,255,.65);
+      box-shadow:0 0 0 2px rgba(41,151,255,.06);
+    }
+
+    .trash-type .emoji{
+      font-size:20px;
+      margin-right:7px;
+    }
+
+    .trash-type strong{
+      font-size:12px;
+    }
+
+    .selected-trash{
+      margin-top:12px;
+      font-size:12px;
+      color:#8fc7ff;
+      background:rgba(41,151,255,.08);
+      border-radius:13px;
+      padding:10px 12px;
     }
 
     /* DUE */
 
-    .due-card {
-      border: 1px solid #ffd7d7;
-      background: linear-gradient(135deg, #fff, #fff7f7);
-      padding: 17px;
+    .due-card{
+      background:linear-gradient(145deg,rgba(75,27,34,.65),rgba(27,24,35,.72));
+      border:1px solid rgba(255,69,58,.18);
+      border-radius:23px;
+      padding:16px;
+      margin-bottom:11px;
     }
 
-    .due-card-inner {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .due-top{
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
 
-    .due-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
-      background: #ffe6e6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 23px;
-      flex: 0 0 auto;
+    .due-main{
+      flex:1;
     }
 
-    .due-main {
-      flex: 1;
-      min-width: 0;
+    .due-main strong{
+      display:block;
     }
 
-    .due-title {
-      font-weight: 900;
-      font-size: 15px;
+    .due-main small{
+      color:#a88f93;
+      display:block;
+      margin-top:4px;
     }
 
-    .due-person {
-      font-size: 12px;
-      color: var(--red);
-      font-weight: 800;
-      margin-top: 3px;
+    .due-button{
+      margin-top:13px;
+      width:100%;
+      padding:12px;
+      border-radius:14px;
+      background:rgba(48,209,88,.12);
+      color:#72eb8d;
+      font-weight:800;
     }
 
-    .due-time {
-      color: var(--muted);
-      font-size: 11px;
-      margin-top: 3px;
+    .empty{
+      text-align:center;
+      padding:50px 20px;
+      color:var(--muted);
     }
 
-    .due-done {
-      background: #eaf9f0;
-      color: #168649;
-      border-radius: 13px;
-      padding: 10px 12px;
-      font-size: 11px;
-      font-weight: 900;
-    }
-
-    .empty {
-      text-align: center;
-      padding: 35px 20px;
-      color: var(--muted);
-    }
-
-    .empty-icon {
-      font-size: 38px;
-      margin-bottom: 8px;
-    }
-
-    .empty-title {
-      color: var(--text);
-      font-weight: 900;
-      margin-bottom: 4px;
-    }
-
-    /* CHAT */
-
-    .chat-tabs {
-      display: flex;
-      background: #e9eef5;
-      padding: 4px;
-      border-radius: 15px;
-      margin-bottom: 13px;
-    }
-
-    .chat-tab {
-      flex: 1;
-      height: 40px;
-      border-radius: 12px;
-      background: transparent;
-      color: #697588;
-      font-weight: 800;
-    }
-
-    .chat-tab.active {
-      background: white;
-      color: var(--blue);
-      box-shadow: 0 3px 12px rgba(20,40,80,.08);
-    }
-
-    .chat-room-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .chat-room {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 13px;
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      text-align: left;
-    }
-
-    .chat-room-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .chat-room-name {
-      font-weight: 850;
-      font-size: 14px;
-    }
-
-    .chat-room-preview {
-      color: var(--muted);
-      font-size: 11px;
-      margin-top: 3px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .unread {
-      min-width: 20px;
-      height: 20px;
-      border-radius: 10px;
-      background: var(--blue);
-      color: white;
-      font-size: 10px;
-      font-weight: 900;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0 6px;
-    }
-
-    .chat-header {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .back-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      background: #f0f4f8;
-      font-size: 18px;
-    }
-
-    .chat-header-info {
-      flex: 1;
-    }
-
-    .chat-header-name {
-      font-weight: 900;
-    }
-
-    .chat-header-status {
-      font-size: 10px;
-      color: var(--green);
-      margin-top: 2px;
-    }
-
-    .messages {
-      background: #eaf1f8;
-      border-radius: 22px;
-      padding: 13px;
-      min-height: 380px;
-      max-height: 58vh;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-
-    .message {
-      max-width: 80%;
-      padding: 10px 13px;
-      border-radius: 17px;
-      font-size: 14px;
-      line-height: 1.35;
-      word-break: break-word;
-    }
-
-    .message.mine {
-      align-self: flex-end;
-      background: var(--blue);
-      color: white;
-      border-bottom-right-radius: 6px;
-    }
-
-    .message.theirs {
-      align-self: flex-start;
-      background: white;
-      color: var(--text);
-      border-bottom-left-radius: 6px;
-    }
-
-    .message.system {
-      align-self: center;
-      max-width: 90%;
-      background: rgba(255,255,255,.65);
-      color: #697588;
-      font-size: 11px;
-      text-align: center;
-    }
-
-    .message-meta {
-      font-size: 9px;
-      opacity: .65;
-      margin-top: 4px;
-    }
-
-    .chat-input-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 9px;
-    }
-
-    .chat-input {
-      flex: 1;
-      min-width: 0;
-      height: 48px;
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      padding: 0 14px;
-      outline: none;
-      background: white;
-    }
-
-    .send-btn {
-      width: 48px;
-      height: 48px;
-      border-radius: 15px;
-      background: var(--blue);
-      color: white;
-      font-size: 18px;
+    .empty .big{
+      font-size:40px;
+      margin-bottom:10px;
     }
 
     /* CALENDAR */
 
-    .calendar-card {
-      padding: 15px;
+    .calendar-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:25px;
+      padding:16px;
     }
 
-    .calendar-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
+    .calendar-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:16px;
     }
 
-    .calendar-month {
-      font-weight: 900;
-      font-size: 19px;
+    .calendar-month{
+      font-weight:850;
+      font-size:18px;
+      text-transform:capitalize;
     }
 
-    .calendar-arrows {
-      display: flex;
-      gap: 6px;
+    .calendar-nav{
+      display:flex;
+      gap:7px;
     }
 
-    .calendar-arrow {
-      width: 37px;
-      height: 37px;
-      border-radius: 12px;
-      background: #f0f4f8;
-      font-size: 17px;
+    .calendar-nav button{
+      width:36px;
+      height:36px;
+      border-radius:12px;
+      background:rgba(255,255,255,.06);
     }
 
-    .calendar-weekdays,
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 5px;
+    .weekdays,.calendar-grid{
+      display:grid;
+      grid-template-columns:repeat(7,1fr);
+      gap:5px;
     }
 
-    .weekday {
-      text-align: center;
-      color: var(--muted);
-      font-size: 9px;
-      font-weight: 900;
-      padding-bottom: 5px;
+    .weekday{
+      text-align:center;
+      color:var(--muted);
+      font-size:10px;
+      font-weight:700;
+      padding-bottom:5px;
     }
 
-    .day {
-      min-height: 53px;
-      background: #f7f9fc;
-      border-radius: 12px;
-      padding: 6px;
-      position: relative;
-      border: 1px solid transparent;
+    .day{
+      min-height:52px;
+      border-radius:14px;
+      background:rgba(255,255,255,.025);
+      border:1px solid transparent;
+      padding:6px;
+      position:relative;
+      text-align:left;
+      color:white;
     }
 
-    .day.other-month {
-      opacity: .35;
+    .day.other{
+      opacity:.28;
     }
 
-    .day.today {
-      border-color: var(--blue);
+    .day.today{
+      border-color:rgba(41,151,255,.45);
     }
 
-    .day.selected {
-      background: var(--blue-light);
-      border-color: #9ccaff;
+    .day.selected{
+      background:rgba(41,151,255,.18);
+      border-color:rgba(41,151,255,.7);
     }
 
-    .day-number {
-      font-size: 11px;
-      font-weight: 900;
+    .day-number{
+      font-size:11px;
+      font-weight:800;
     }
 
-    .day-dots {
-      display: flex;
-      gap: 3px;
-      margin-top: 6px;
-      flex-wrap: wrap;
+    .event-dots{
+      display:flex;
+      gap:3px;
+      position:absolute;
+      left:7px;
+      bottom:7px;
     }
 
-    .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
+    .event-dot{
+      width:5px;
+      height:5px;
+      border-radius:50%;
+      background:#2997ff;
     }
 
-    .calendar-details {
-      margin-top: 13px;
+    .day-events{
+      margin-top:15px;
     }
 
-    .calendar-event {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: #f7f9fc;
-      border-radius: 15px;
-      padding: 11px;
-      margin-bottom: 7px;
+    .event{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:11px 0;
+      border-bottom:1px solid var(--line);
     }
 
-    .calendar-event-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .event:last-child{
+      border-bottom:0;
     }
 
-    .calendar-event-main {
-      flex: 1;
+    .event-icon{
+      width:38px;
+      height:38px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,.06);
     }
 
-    .calendar-event-title {
-      font-size: 13px;
-      font-weight: 900;
+    .event-text{
+      flex:1;
     }
 
-    .calendar-event-person {
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 2px;
+    .event-text strong{
+      display:block;
+      font-size:13px;
     }
 
-    .calendar-event-time {
-      font-size: 10px;
-      color: var(--muted);
+    .event-text small{
+      color:var(--muted);
+      display:block;
+      margin-top:3px;
     }
 
-    /* HISTORY / NOTIFICATIONS */
+    /* CHAT */
 
-    .log-item,
-    .notice-item {
-      display: flex;
-      gap: 11px;
-      padding: 14px;
-      background: white;
-      border-bottom: 1px solid var(--border);
+    .chat-tabs{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:6px;
+      padding:5px;
+      border-radius:16px;
+      background:rgba(255,255,255,.05);
+      margin-bottom:14px;
     }
 
-    .log-item:first-child,
-    .notice-item:first-child {
-      border-radius: 18px 18px 0 0;
+    .chat-tab{
+      padding:11px;
+      border-radius:12px;
+      background:transparent;
+      color:var(--muted);
+      font-weight:750;
     }
 
-    .log-item:last-child,
-    .notice-item:last-child {
-      border-radius: 0 0 18px 18px;
-      border-bottom: 0;
+    .chat-tab.active{
+      background:rgba(255,255,255,.09);
+      color:white;
     }
 
-    .log-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      background: #edf4ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex: 0 0 auto;
+    .chat-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
     }
 
-    .log-main,
-    .notice-main {
-      flex: 1;
+    .chat-row{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:14px;
+      border-radius:19px;
+      background:var(--card);
+      border:1px solid var(--line);
+      text-align:left;
     }
 
-    .log-text,
-    .notice-text {
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1.35;
+    .chat-row-main{
+      flex:1;
+      min-width:0;
     }
 
-    .log-time,
-    .notice-time {
-      color: var(--muted);
-      font-size: 10px;
-      margin-top: 4px;
+    .chat-row-main strong{
+      display:block;
+    }
+
+    .chat-row-main small{
+      display:block;
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      margin-top:3px;
+    }
+
+    .unread{
+      min-width:20px;
+      height:20px;
+      border-radius:99px;
+      background:var(--blue);
+      font-size:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+    }
+
+    .chat-room{
+      display:flex;
+      flex-direction:column;
+      min-height:60vh;
+    }
+
+    .chat-room-head{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:10px;
+    }
+
+    .back{
+      width:40px;
+      height:40px;
+      border-radius:13px;
+      background:rgba(255,255,255,.06);
+    }
+
+    .messages{
+      flex:1;
+      padding:10px 2px 15px;
+      min-height:390px;
+    }
+
+    .message{
+      max-width:82%;
+      margin-bottom:9px;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+    }
+
+    .message.mine{
+      margin-left:auto;
+      align-items:flex-end;
+    }
+
+    .bubble{
+      background:rgba(255,255,255,.08);
+      border:1px solid var(--line);
+      padding:10px 13px;
+      border-radius:17px;
+      font-size:14px;
+      line-height:1.35;
+    }
+
+    .message.mine .bubble{
+      background:linear-gradient(135deg,#1688ff,#0068ff);
+      border-color:transparent;
+    }
+
+    .message-meta{
+      color:var(--muted);
+      font-size:9px;
+      margin:3px 4px;
+    }
+
+    .chat-compose{
+      display:flex;
+      gap:8px;
+      padding-top:8px;
+      position:sticky;
+      bottom:85px;
+    }
+
+    .chat-input{
+      flex:1;
+      min-width:0;
+      padding:13px 15px;
+      border-radius:17px;
+      background:rgba(255,255,255,.07);
+      border:1px solid var(--line);
+      color:white;
+      outline:none;
+    }
+
+    .send-btn{
+      width:48px;
+      border-radius:16px;
+      background:var(--blue);
+      font-size:19px;
+    }
+
+    /* LOG */
+
+    .log-item{
+      display:flex;
+      gap:11px;
+      padding:13px 0;
+      border-bottom:1px solid var(--line);
+    }
+
+    .log-icon{
+      width:40px;
+      height:40px;
+      border-radius:13px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,.06);
+    }
+
+    .log-main{
+      flex:1;
+    }
+
+    .log-main strong{
+      display:block;
+      font-size:13px;
+    }
+
+    .log-main small{
+      display:block;
+      color:var(--muted);
+      margin-top:3px;
     }
 
     /* ADMIN */
 
-    .admin-card {
-      padding: 17px;
+    .admin-card{
+      background:linear-gradient(145deg,rgba(89,43,115,.35),rgba(22,25,48,.75));
+      border:1px solid rgba(191,90,242,.20);
+      border-radius:24px;
+      padding:17px;
+      margin-top:14px;
     }
 
-    .admin-title {
-      font-weight: 900;
-      font-size: 17px;
-      margin-bottom: 4px;
+    .admin-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:15px;
     }
 
-    .admin-description {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.4;
-      margin-bottom: 15px;
+    .admin-title strong{
+      font-size:16px;
     }
 
-    .order-list {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
+    .order-section{
+      margin-top:17px;
     }
 
-    .order-row {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      background: #f7f9fc;
-      border-radius: 15px;
-      padding: 10px;
+    .order-section h4{
+      margin:0 0 9px;
+      font-size:13px;
+      color:#caa9e8;
     }
 
-    .order-number {
-      width: 25px;
-      height: 25px;
-      border-radius: 9px;
-      background: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 11px;
-      font-weight: 900;
-      color: var(--blue);
+    .order-row{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      padding:9px;
+      border-radius:15px;
+      background:rgba(255,255,255,.045);
+      margin-bottom:6px;
     }
 
-    .order-row .avatar {
-      width: 35px;
-      height: 35px;
-      border-radius: 11px;
-      font-size: 11px;
+    .order-position{
+      width:25px;
+      height:25px;
+      border-radius:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,.07);
+      font-size:11px;
+      color:var(--muted);
     }
 
-    .order-name {
-      flex: 1;
-      font-weight: 800;
-      font-size: 13px;
+    .order-row .avatar{
+      width:31px;
+      height:31px;
+      font-size:10px;
     }
 
-    .order-controls {
-      display: flex;
-      gap: 4px;
+    .order-name{
+      flex:1;
+      font-size:13px;
+      font-weight:750;
     }
 
-    .order-control {
-      width: 32px;
-      height: 32px;
-      border-radius: 10px;
-      background: white;
-      color: #536174;
+    .move-btn{
+      width:31px;
+      height:31px;
+      border-radius:9px;
+      background:rgba(255,255,255,.06);
+      color:#c5d2e0;
     }
 
-    .settings-row {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
+    .move-btn:disabled{
+      opacity:.2;
     }
 
-    .settings-row:last-child {
-      border-bottom: 0;
+    .current-set{
+      margin-top:9px;
+      padding:11px;
+      border-radius:14px;
+      background:rgba(41,151,255,.08);
+      color:#8ec7ff;
+      font-size:12px;
     }
 
-    .settings-row-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 13px;
-      background: #edf4ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .set-current{
+      margin-top:7px;
+      display:flex;
+      gap:6px;
+      overflow-x:auto;
+      padding-bottom:3px;
     }
 
-    .settings-row-main {
-      flex: 1;
+    .person-chip{
+      flex:none;
+      padding:9px 11px;
+      border-radius:12px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      font-size:11px;
     }
 
-    .settings-row-title {
-      font-weight: 800;
-      font-size: 13px;
+    /* BOTTOM NAV */
+
+    .bottom-nav{
+      position:fixed;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:0;
+      width:min(680px,100%);
+      padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+      background:rgba(5,14,25,.88);
+      border-top:1px solid var(--line);
+      backdrop-filter:blur(25px);
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      z-index:30;
     }
 
-    .settings-row-sub {
-      color: var(--muted);
-      font-size: 10px;
-      margin-top: 2px;
+    .nav-btn{
+      position:relative;
+      background:transparent;
+      color:#687f98;
+      padding:6px 2px 3px;
+      border-radius:15px;
+      font-size:10px;
+      font-weight:700;
     }
 
-    /* PROFILE */
-
-    .profile-card {
-      padding: 19px;
+    .nav-icon{
+      display:block;
+      font-size:20px;
+      line-height:22px;
+      margin-bottom:3px;
+      filter:grayscale(1);
+      opacity:.8;
     }
 
-    .profile-header {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      margin-bottom: 17px;
+    .nav-btn.active{
+      color:#66b5ff;
+      background:rgba(41,151,255,.08);
     }
 
-    .profile-name {
-      font-size: 19px;
-      font-weight: 900;
+    .nav-btn.active .nav-icon{
+      filter:none;
+      opacity:1;
     }
 
-    .profile-role {
-      color: var(--muted);
-      font-size: 11px;
-      margin-top: 3px;
-    }
-
-    /* NAV */
-
-    .bottom-nav {
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 0;
-      width: min(760px, 100%);
-      padding:
-        8px
-        9px
-        calc(8px + env(safe-area-inset-bottom));
-      background: rgba(255,255,255,.91);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-      border-top: 1px solid rgba(220,225,232,.8);
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      z-index: 100;
-    }
-
-    .nav-btn {
-      height: 57px;
-      background: transparent;
-      color: #8490a1;
-      border-radius: 17px;
-      position: relative;
-      transition: .15s;
-    }
-
-    .nav-btn.active {
-      color: var(--blue);
-      background: #edf5ff;
-    }
-
-    .nav-icon {
-      font-size: 19px;
-      display: block;
-      line-height: 20px;
-    }
-
-    .nav-label {
-      display: block;
-      font-size: 9px;
-      font-weight: 800;
-      margin-top: 4px;
-    }
-
-    .nav-badge {
-      position: absolute;
-      top: 4px;
-      right: 23%;
-      min-width: 17px;
-      height: 17px;
-      border-radius: 9px;
-      background: var(--red);
-      color: white;
-      font-size: 9px;
-      font-weight: 900;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0 4px;
-    }
-
-    /* TOAST */
-
-    #toast {
-      position: fixed;
-      left: 50%;
-      bottom: calc(84px + env(safe-area-inset-bottom));
-      transform: translate(-50%, 15px);
-      background: rgba(20,28,40,.94);
-      color: white;
-      padding: 12px 17px;
-      border-radius: 15px;
-      font-size: 12px;
-      font-weight: 800;
-      z-index: 500;
-      opacity: 0;
-      pointer-events: none;
-      transition: .25s;
-      max-width: calc(100% - 40px);
-      text-align: center;
-    }
-
-    #toast.show {
-      opacity: 1;
-      transform: translate(-50%, 0);
+    .nav-badge{
+      position:absolute;
+      top:2px;
+      right:20%;
+      min-width:16px;
+      height:16px;
+      padding:0 4px;
+      border-radius:99px;
+      background:var(--red);
+      color:white;
+      font-size:9px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
     /* MODAL */
 
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(5,20,45,.38);
-      backdrop-filter: blur(5px);
-      z-index: 300;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.65);
+      backdrop-filter:blur(8px);
+      z-index:100;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
     }
 
-    .modal {
-      width: min(760px, 100%);
-      max-height: 88vh;
-      overflow-y: auto;
-      background: white;
-      border-radius: 28px 28px 0 0;
-      padding: 19px 18px calc(20px + env(safe-area-inset-bottom));
-      animation: slideUp .23s ease;
+    .modal{
+      width:min(680px,100%);
+      max-height:85vh;
+      overflow:auto;
+      background:#0b1a2c;
+      border:1px solid var(--line);
+      border-radius:28px 28px 0 0;
+      padding:18px 18px calc(22px + env(safe-area-inset-bottom));
+      animation:sheet .25s ease;
     }
 
-    @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
+    @keyframes sheet{
+      from{transform:translateY(100%)}
+      to{transform:translateY(0)}
     }
 
-    .modal-handle {
-      width: 40px;
-      height: 5px;
-      background: #dce1e8;
-      border-radius: 4px;
-      margin: 0 auto 17px;
+    .modal-handle{
+      width:42px;
+      height:4px;
+      border-radius:99px;
+      background:#40556c;
+      margin:0 auto 17px;
     }
 
-    .modal-title {
-      font-size: 21px;
-      font-weight: 900;
-      margin-bottom: 15px;
+    .modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:12px;
     }
 
-    /* RESPONSIVE */
+    .modal-head h3{
+      margin:0;
+    }
 
-    @media (max-width: 420px) {
-      .people-row {
-        grid-template-columns: repeat(4, 1fr);
+    .close{
+      width:36px;
+      height:36px;
+      border-radius:12px;
+      background:rgba(255,255,255,.06);
+    }
+
+    /* TOAST */
+
+    #toast{
+      position:fixed;
+      left:50%;
+      bottom:95px;
+      transform:translate(-50%,20px);
+      background:rgba(22,37,55,.96);
+      border:1px solid var(--line);
+      padding:12px 16px;
+      border-radius:15px;
+      box-shadow:var(--shadow);
+      opacity:0;
+      pointer-events:none;
+      transition:.25s;
+      z-index:200;
+      font-size:13px;
+      white-space:nowrap;
+      max-width:90%;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    #toast.show{
+      opacity:1;
+      transform:translate(-50%,0);
+    }
+
+    @media(max-width:390px){
+      .user-picker{
+        grid-template-columns:1fr;
       }
 
-      .task-actions .action-btn {
-        padding: 0 9px;
-        font-size: 12px;
+      .trash-types{
+        grid-template-columns:1fr 1fr;
       }
 
-      .day {
-        min-height: 48px;
+      .day{
+        min-height:47px;
       }
     }
   </style>
@@ -1250,99 +1188,95 @@
 <body>
 
   <!-- LOGIN -->
-  <div id="loginScreen">
-    <div class="login-card">
-      <div class="logo">KW</div>
-      <h1>KINGEN WG</h1>
-      <div class="login-subtitle">Deine WG. Deine Aufgaben. Alles an einem Ort.</div>
-
-      <div class="field">
-        <label>Dein Name</label>
-        <input
-          id="loginName"
-          type="text"
-          placeholder="z.B. Hassan"
-          autocomplete="name"
-        />
+  <section id="loginScreen">
+    <div class="login-wrap">
+      <div class="brand">
+        <div class="brand-icon">🏠</div>
+        <h1>KINGEN WG</h1>
+        <p>Die WG. Die Aufgaben. Ein Ort.</p>
       </div>
 
-      <div class="field">
-        <label>WG Code</label>
+      <div class="login-card">
+        <div class="login-label">Wer bist du?</div>
+        <div id="userPicker" class="user-picker"></div>
+
+        <div class="login-label">WG-Code</div>
         <input
-          id="loginCode"
+          id="password"
+          class="password"
           type="password"
-          placeholder="••••"
           inputmode="numeric"
+          maxlength="8"
+          placeholder="1234"
         />
+
+        <button class="primary" onclick="login()">
+          Einloggen
+        </button>
+
+        <div id="loginError" class="login-error hidden"></div>
       </div>
-
-      <button class="primary-btn" onclick="login()">
-        Einloggen
-      </button>
-
-      <div id="loginError" class="login-error hidden"></div>
     </div>
-  </div>
+  </section>
 
   <!-- APP -->
-  <div id="app" class="hidden">
+  <main id="app" class="app hidden">
 
     <header class="topbar">
-      <div class="brand-area">
-        <div class="mini-logo">KW</div>
+      <div class="top-left">
+        <div class="mini-brand">🏠</div>
         <div>
-          <div class="brand-title">KINGEN WG</div>
-          <div class="brand-subtitle" id="topSubtitle">Gemeinsam organisiert</div>
+          <div class="top-title">KINGEN WG</div>
+          <div id="topSub" class="top-sub">WG Übersicht</div>
         </div>
       </div>
 
       <div class="top-actions">
-        <button class="icon-btn" onclick="setTab('notifications')" aria-label="Notifications">
+        <button class="icon-btn" onclick="openNotifications()" aria-label="Benachrichtigungen">
           🔔
-          <span id="notificationBadge" class="icon-badge hidden">0</span>
+          <span id="notificationDot" class="notification-dot hidden"></span>
         </button>
 
-        <button class="icon-btn" onclick="setTab('profile')" aria-label="Profile">
-          👤
+        <button class="icon-btn" onclick="openProfile()" aria-label="Profil">
+          <span id="topAvatar"></span>
         </button>
       </div>
     </header>
 
-    <main id="content" class="content"></main>
+    <div id="content" class="content"></div>
 
     <nav class="bottom-nav">
       <button id="nav-home" class="nav-btn" onclick="setTab('home')">
-        <span class="nav-icon">🏠</span>
-        <span class="nav-label">Home</span>
+        <span class="nav-icon">⌂</span>
+        Übersicht
       </button>
 
       <button id="nav-due" class="nav-btn" onclick="setTab('due')">
-        <span class="nav-icon">🔴</span>
-        <span class="nav-label">Fällig</span>
-        <span id="dueBadge" class="nav-badge hidden">0</span>
-      </button>
-
-      <button id="nav-chat" class="nav-btn" onclick="setTab('chat')">
-        <span class="nav-icon">💬</span>
-        <span class="nav-label">Chat</span>
-        <span id="chatBadge" class="nav-badge hidden">0</span>
+        <span class="nav-icon">◷</span>
+        Fällig
+        <span id="dueBadge" class="nav-badge hidden"></span>
       </button>
 
       <button id="nav-calendar" class="nav-btn" onclick="setTab('calendar')">
-        <span class="nav-icon">📅</span>
-        <span class="nav-label">Kalender</span>
+        <span class="nav-icon">▣</span>
+        Kalender
       </button>
 
-      <button id="nav-history" class="nav-btn" onclick="setTab('history')">
-        <span class="nav-icon">📋</span>
-        <span class="nav-label">Verlauf</span>
+      <button id="nav-chat" class="nav-btn" onclick="setTab('chat')">
+        <span class="nav-icon">◌</span>
+        Chats
+        <span id="chatBadge" class="nav-badge hidden"></span>
+      </button>
+
+      <button id="nav-log" class="nav-btn" onclick="setTab('log')">
+        <span class="nav-icon">☷</span>
+        Verlauf
       </button>
     </nav>
-  </div>
-
-  <div id="toast"></div>
+  </main>
 
   <div id="modalRoot"></div>
+  <div id="toast"></div>
 
   <script type="module">
 
@@ -1350,19 +1284,18 @@
        FIREBASE
     ========================================================= */
 
-    import {
-      initializeApp
-    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import { initializeApp }
+      from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
     import {
       getDatabase,
       ref,
-      onValue,
-      set
-    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+      set,
+      onValue
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyAv-1UXuNTEU8aFb8VfpFFVYg6VR1nkQVM",
+      apiKey: "AIzaSyAv-1UXuNTE8U8FbV8fpFFYgV6GR1nkQVM",
       authDomain: "kingenwg.firebaseapp.com",
       databaseURL: "https://kingenwg-default-rtdb.europe-west1.firebasedatabase.app",
       projectId: "kingenwg",
@@ -1373,516 +1306,456 @@
 
     const firebaseApp = initializeApp(firebaseConfig);
     const db = getDatabase(firebaseApp);
-
     const DB_PATH = "wg_secure_v6";
-    const WG_CODE = "1234";
 
-    const ONESIGNAL_APP_ID = "ccca5ec6-33c7-4921-a67a-d3b06de45512";
+    const WG_PASSWORD = "1234";
 
-    /* =========================================================
-       CONSTANTS
-    ========================================================= */
+    const ONESIGNAL_APP_ID =
+      "ccca5ec6-33c7-4921-a67a-d3b06de45512";
 
-    const COLORS = [
-      "#0877ff",
-      "#8b5cf6",
-      "#10a36b",
-      "#f59e0b",
-      "#ef4444",
-      "#06b6d4"
-    ];
-
-    const TASK_LABELS = {
-      trash: "Müll",
-      clean: "Putzen"
-    };
-
-    const TASK_ICONS = {
-      trash: "🗑️",
-      clean: "🧹",
-      extra: "➕"
-    };
-
-    const WEEKDAYS = [
-      "So",
-      "Mo",
-      "Di",
-      "Mi",
-      "Do",
-      "Fr",
-      "Sa"
-    ];
-
-    const MONTHS = [
-      "Januar",
-      "Februar",
-      "März",
-      "April",
-      "Mai",
-      "Juni",
-      "Juli",
-      "August",
-      "September",
-      "Oktober",
-      "November",
-      "Dezember"
-    ];
 
     /* =========================================================
-       STATE
+       USERS
     ========================================================= */
 
-    function defaultUsers() {
-      return [
-        {
-          id: 0,
-          name: "Jacky",
-          deviceId: "",
-          colorId: 0,
-          isAdmin: false
-        },
-        {
-          id: 1,
-          name: "Hassan",
-          deviceId: "",
-          colorId: 1,
-          isAdmin: true
-        },
-        {
-          id: 2,
-          name: "Suraj",
-          deviceId: "",
-          colorId: 2,
-          isAdmin: false
-        },
-        {
-          id: 3,
-          name: "Andreas",
-          deviceId: "",
-          colorId: 3,
-          isAdmin: false
-        }
-      ];
-    }
+    const DEFAULT_USERS = [
+      {
+        id:0,
+        name:"Jacky",
+        deviceId:"",
+        colorId:0,
+        isAdmin:false
+      },
+      {
+        id:1,
+        name:"Hassan",
+        deviceId:"",
+        colorId:1,
+        isAdmin:true
+      },
+      {
+        id:2,
+        name:"Suraj",
+        deviceId:"",
+        colorId:2,
+        isAdmin:false
+      },
+      {
+        id:3,
+        name:"Andreas",
+        deviceId:"",
+        colorId:3,
+        isAdmin:false
+      }
+    ];
 
-    let S = {
-      trashOrder: [0, 1, 2, 3],
-      cleanOrder: [1, 2, 3, 0],
 
-      trashIndex: 0,
-      cleanIndex: 0,
+    /* =========================================================
+       ALL 4 MÜLL TYPES
+    ========================================================= */
 
-      globalLog: [],
-      users: defaultUsers(),
+    const TRASH_TYPES = [
+      {
+        id:"rest",
+        name:"Restmüll",
+        icon:"🗑️"
+      },
+      {
+        id:"yellow",
+        name:"Gelber Sack",
+        icon:"♻️"
+      },
+      {
+        id:"paper",
+        name:"Papier",
+        icon:"📦"
+      },
+      {
+        id:"bio",
+        name:"Bio",
+        icon:"🌱"
+      }
+    ];
 
-      groupChat: [],
-      privateChats: {},
 
-      dueTasks: [],
-      completedTasks: [],
+    /* =========================================================
+       APP STATE
+    ========================================================= */
 
-      extraTasks: [],
+    const S = {
+      trashOrder:[0,1,2,3],
+      cleanOrder:[0,1,2,3],
 
-      tab: "home",
-      chatSubTab: "group",
-      activePrivatePartner: null,
+      trashPos:0,
+      cleanPos:0,
 
-      calendarDate: new Date(
-        new Date().getFullYear(),
-        new Date().getMonth(),
-        1
-      ),
+      globalLog:[],
+      users:JSON.parse(JSON.stringify(DEFAULT_USERS)),
 
-      selectedCalendarDate: new Date(),
+      groupChat:[],
+      privateChats:{},
 
-      isLoggedIn: false,
-      mySlot: 0,
+      dueTasks:[],
 
-      initialized: false
+      tab:"home",
+      chatSubTab:"group",
+      activePrivatePartner:null,
+
+      isLoggedIn:false,
+      mySlot:0,
+
+      selectedTrashType:
+        localStorage.getItem("wg_selected_trash") || "rest"
     };
+
+
+    let calendarCursor = new Date();
+    let selectedDateKey = dateKey(Date.now());
+
+    let saveTimer = null;
+
 
     /* =========================================================
        HELPERS
     ========================================================= */
 
-    function esc(value) {
+    function esc(value){
       return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
     }
 
-    function userById(id) {
-      return S.users.find(u => Number(u.id) === Number(id)) || null;
+    function initials(name){
+      return String(name || "?")
+        .trim()
+        .split(/\s+/)
+        .map(x => x[0])
+        .join("")
+        .slice(0,2)
+        .toUpperCase();
     }
 
-    function userName(id) {
-      return userById(id)?.name || "Unbekannt";
+    function getUser(id){
+      return S.users.find(u => Number(u.id) === Number(id));
     }
 
-    function userColor(user) {
-      if (!user) return COLORS[0];
-
-      const colorId = Number.isFinite(Number(user.colorId))
-        ? Number(user.colorId)
-        : Number(user.id) || 0;
-
-      return COLORS[Math.abs(colorId) % COLORS.length];
+    function me(){
+      return getUser(S.mySlot) || S.users[0];
     }
 
-    function initials(name) {
-      const n = String(name || "?").trim();
-
-      if (!n) return "?";
-
-      const parts = n.split(/\s+/);
-
-      if (parts.length >= 2) {
-        return (
-          parts[0][0] +
-          parts[parts.length - 1][0]
-        ).toUpperCase();
-      }
-
-      return n.substring(0, 2).toUpperCase();
+    function trashType(id){
+      return TRASH_TYPES.find(t => t.id === id) || TRASH_TYPES[0];
     }
 
-    function avatarHTML(user, size = "") {
-      if (!user) {
-        return `<div class="avatar ${size}">?</div>`;
-      }
+    function dateKey(timestamp){
+      const d = new Date(timestamp);
 
-      return `
-        <div
-          class="avatar ${size}"
-          style="background:${userColor(user)}"
-        >
-          ${esc(initials(user.name))}
-        </div>
-      `;
+      return [
+        d.getFullYear(),
+        String(d.getMonth()+1).padStart(2,"0"),
+        String(d.getDate()).padStart(2,"0")
+      ].join("-");
     }
 
-    function now() {
-      return Date.now();
-    }
-
-    function formatTime(timestamp) {
-      if (!timestamp) return "";
-
-      return new Date(timestamp).toLocaleTimeString("de-DE", {
-        hour: "2-digit",
-        minute: "2-digit"
+    function formatTime(timestamp){
+      return new Date(timestamp).toLocaleTimeString("de-DE",{
+        hour:"2-digit",
+        minute:"2-digit"
       });
     }
 
-    function formatDate(timestamp) {
-      if (!timestamp) return "";
-
-      return new Date(timestamp).toLocaleDateString("de-DE", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric"
+    function formatDate(timestamp){
+      return new Date(timestamp).toLocaleDateString("de-DE",{
+        day:"2-digit",
+        month:"2-digit",
+        year:"numeric"
       });
     }
 
-    function formatDateShort(timestamp) {
-      if (!timestamp) return "";
-
-      return new Date(timestamp).toLocaleDateString("de-DE", {
-        day: "2-digit",
-        month: "2-digit"
+    function formatShortDate(timestamp){
+      return new Date(timestamp).toLocaleDateString("de-DE",{
+        day:"2-digit",
+        month:"2-digit"
       });
     }
 
-    function sameDate(a, b) {
-      const da = new Date(a);
-      const dbb = new Date(b);
+    function getCurrent(type){
+      const orderKey = type === "trash"
+        ? "trashOrder"
+        : "cleanOrder";
 
-      return (
-        da.getFullYear() === dbb.getFullYear() &&
-        da.getMonth() === dbb.getMonth() &&
-        da.getDate() === dbb.getDate()
-      );
+      const posKey = type === "trash"
+        ? "trashPos"
+        : "cleanPos";
+
+      const order = S[orderKey] || [];
+      if(!order.length) return S.users[0];
+
+      return getUser(order[S[posKey] % order.length]) || S.users[0];
     }
 
-    function dateKey(date) {
-      const d = new Date(date);
+    function currentPosition(type){
+      const posKey = type === "trash"
+        ? "trashPos"
+        : "cleanPos";
 
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, "0");
-      const day = String(d.getDate()).padStart(2, "0");
+      const orderKey = type === "trash"
+        ? "trashOrder"
+        : "cleanOrder";
 
-      return `${y}-${m}-${day}`;
+      return (S[posKey] || 0) % Math.max(1,S[orderKey].length);
     }
 
-    function showToast(message) {
-      const toast = document.getElementById("toast");
+    function advance(type){
+      const posKey = type === "trash"
+        ? "trashPos"
+        : "cleanPos";
 
-      toast.textContent = message;
-      toast.classList.add("show");
+      const orderKey = type === "trash"
+        ? "trashOrder"
+        : "cleanOrder";
 
-      clearTimeout(window.__toastTimer);
+      if(!S[orderKey]?.length) return;
 
-      window.__toastTimer = setTimeout(() => {
-        toast.classList.remove("show");
-      }, 2600);
+      S[posKey] =
+        (Number(S[posKey] || 0) + 1) %
+        S[orderKey].length;
     }
 
-    function getMyUser() {
-      return userById(S.mySlot) || S.users[0];
+    function typeLabel(type){
+      return type === "trash" ? "Müll" : "Putzen";
     }
 
-    function isAdmin() {
-      return !!getMyUser()?.isAdmin;
+    function typeIcon(type){
+      return type === "trash" ? "🗑️" : "🧹";
     }
 
-    function currentTurn(type) {
-      const order = type === "trash"
-        ? S.trashOrder
-        : S.cleanOrder;
+    function showToast(text){
+      const el = document.getElementById("toast");
+      el.textContent = text;
+      el.classList.add("show");
 
-      const index = type === "trash"
-        ? S.trashIndex
-        : S.cleanIndex;
+      clearTimeout(showToast.timer);
 
-      return order[index] ?? S.users[0]?.id ?? 0;
+      showToast.timer = setTimeout(()=>{
+        el.classList.remove("show");
+      },2200);
     }
 
-    function nextIndex(type, index) {
-      const order = type === "trash"
-        ? S.trashOrder
-        : S.cleanOrder;
-
-      if (!order.length) return 0;
-
-      return (index + 1) % order.length;
-    }
-
-    function normaliseUsers(users) {
-      if (!Array.isArray(users) || !users.length) {
-        return defaultUsers();
+    function logEvent(event){
+      if(!Array.isArray(S.globalLog)){
+        S.globalLog = [];
       }
 
-      return users.map((u, i) => ({
-        id: Number.isFinite(Number(u.id)) ? Number(u.id) : i,
-        name: String(u.name || `User ${i + 1}`),
-        deviceId: String(u.deviceId || ""),
-        colorId: Number.isFinite(Number(u.colorId))
-          ? Number(u.colorId)
-          : i,
-        isAdmin: !!u.isAdmin || String(u.name || "").toLowerCase() === "hassan"
-      }));
+      S.globalLog.unshift({
+        time:Date.now(),
+        ...event
+      });
+
+      S.globalLog =
+        S.globalLog.slice(0,500);
     }
+
 
     /* =========================================================
-       LOCAL STORAGE
+       SAVE / FIREBASE
     ========================================================= */
 
-    function setLoggedIn(slot) {
-      localStorage.setItem("wg_logged_in", "1");
-      localStorage.setItem("wg_user_slot", String(slot));
+    function cloudState(){
+      return {
+        trashOrder:S.trashOrder,
+        cleanOrder:S.cleanOrder,
+
+        trashPos:S.trashPos,
+        cleanPos:S.cleanPos,
+
+        globalLog:S.globalLog || [],
+
+        users:S.users || DEFAULT_USERS,
+
+        groupChat:S.groupChat || [],
+        privateChats:S.privateChats || {},
+
+        dueTasks:S.dueTasks || []
+      };
     }
 
-    function clearLoggedIn() {
-      localStorage.removeItem("wg_logged_in");
-      localStorage.removeItem("wg_user_slot");
+    function saveToCloud(){
+      clearTimeout(saveTimer);
+
+      saveTimer = setTimeout(async ()=>{
+        try{
+          await set(
+            ref(db,DB_PATH),
+            cloudState()
+          );
+        }catch(error){
+          console.error("Firebase save failed:",error);
+          showToast("Cloud-Speichern nicht möglich");
+        }
+      },120);
     }
 
-    function loadLocalLogin() {
-      const logged = localStorage.getItem("wg_logged_in");
-      const slot = Number(localStorage.getItem("wg_user_slot"));
 
-      if (
-        logged === "1" &&
-        Number.isInteger(slot) &&
-        slot >= 0
-      ) {
-        S.isLoggedIn = true;
-        S.mySlot = slot;
-      }
+    function migrateUsers(users){
+      const incoming =
+        Array.isArray(users) && users.length
+          ? users
+          : JSON.parse(JSON.stringify(DEFAULT_USERS));
+
+      return incoming.map((u,index)=>{
+        const user = {
+          id:Number(u.id ?? index),
+          name:String(u.name || DEFAULT_USERS[index]?.name || `User ${index+1}`),
+          deviceId:u.deviceId || "",
+          colorId:Number(u.colorId ?? index),
+          isAdmin:Boolean(u.isAdmin)
+        };
+
+        if(user.name === "Her"){
+          user.name = "Andreas";
+        }
+
+        if(user.id === 1 || user.name === "Hassan"){
+          user.isAdmin = true;
+        }
+
+        return user;
+      });
     }
 
-    function groupReadKey() {
-      return `wg_group_read_${S.mySlot}`;
-    }
 
-    function privateReadKey(partnerId) {
-      return `wg_private_read_${S.mySlot}_${partnerId}`;
-    }
-
-    function getUnreadGroup() {
-      const last = Number(localStorage.getItem(groupReadKey()) || 0);
-
-      return S.groupChat.filter(msg =>
-        Number(msg.sender) !== Number(S.mySlot) &&
-        Number(msg.time || 0) > last
-      ).length;
-    }
-
-    function getUnreadPrivate(partnerId) {
-      const last = Number(
-        localStorage.getItem(privateReadKey(partnerId)) || 0
-      );
-
-      const key = privateChatKey(S.mySlot, partnerId);
-
-      return (S.privateChats[key] || []).filter(msg =>
-        Number(msg.sender) !== Number(S.mySlot) &&
-        Number(msg.time || 0) > last
-      ).length;
-    }
-
-    function markGroupRead() {
-      localStorage.setItem(
-        groupReadKey(),
-        String(Date.now())
-      );
-    }
-
-    function markPrivateRead(partnerId) {
-      localStorage.setItem(
-        privateReadKey(partnerId),
-        String(Date.now())
-      );
-    }
-
-    /* =========================================================
-       FIREBASE SAVE
-    ========================================================= */
-
-    async function saveToCloud() {
-      try {
-        await set(ref(db, DB_PATH), {
-          trashOrder: S.trashOrder,
-          cleanOrder: S.cleanOrder,
-
-          trashIndex: S.trashIndex,
-          cleanIndex: S.cleanIndex,
-
-          globalLog: S.globalLog.slice(-300),
-
-          users: S.users,
-
-          groupChat: S.groupChat.slice(-300),
-
-          privateChats: S.privateChats,
-
-          dueTasks: S.dueTasks,
-
-          completedTasks: S.completedTasks.slice(-500),
-
-          extraTasks: S.extraTasks.slice(-200)
-        });
-      } catch (error) {
-        console.error("Firebase save failed:", error);
-        showToast("Speichern fehlgeschlagen");
-      }
-    }
-
-    /* =========================================================
-       FIREBASE LOAD
-    ========================================================= */
-
-    onValue(ref(db, DB_PATH), snapshot => {
-
+    onValue(ref(db,DB_PATH),(snapshot)=>{
       const data = snapshot.val();
 
-      if (data) {
+      if(data){
 
-        S.trashOrder = Array.isArray(data.trashOrder)
-          ? data.trashOrder.map(Number)
-          : [0, 1, 2, 3];
+        S.users =
+          migrateUsers(data.users);
 
-        S.cleanOrder = Array.isArray(data.cleanOrder)
-          ? data.cleanOrder.map(Number)
-          : [1, 2, 3, 0];
+        S.trashOrder =
+          Array.isArray(data.trashOrder)
+            ? data.trashOrder.map(Number)
+            : S.users.map(u=>u.id);
 
-        S.trashIndex = Number(data.trashIndex || 0);
-        S.cleanIndex = Number(data.cleanIndex || 0);
+        S.cleanOrder =
+          Array.isArray(data.cleanOrder)
+            ? data.cleanOrder.map(Number)
+            : S.users.map(u=>u.id);
 
-        S.globalLog = Array.isArray(data.globalLog)
-          ? data.globalLog
-          : [];
+        S.trashPos =
+          Number(data.trashPos ?? 0);
 
-        S.users = normaliseUsers(data.users);
+        S.cleanPos =
+          Number(data.cleanPos ?? 0);
 
-        S.groupChat = Array.isArray(data.groupChat)
-          ? data.groupChat
-          : [];
+        S.globalLog =
+          Array.isArray(data.globalLog)
+            ? data.globalLog
+            : [];
+
+        S.groupChat =
+          Array.isArray(data.groupChat)
+            ? data.groupChat
+            : [];
 
         S.privateChats =
-          data.privateChats &&
-          typeof data.privateChats === "object"
-            ? data.privateChats
-            : {};
+          data.privateChats || {};
 
-        S.dueTasks = Array.isArray(data.dueTasks)
-          ? data.dueTasks
-          : [];
+        S.dueTasks =
+          Array.isArray(data.dueTasks)
+            ? data.dueTasks
+            : [];
 
-        S.completedTasks = Array.isArray(data.completedTasks)
-          ? data.completedTasks
-          : [];
-
-        S.extraTasks = Array.isArray(data.extraTasks)
-          ? data.extraTasks
-          : [];
+        normalizeOrders();
 
         /*
-          Migration:
-          Her -> Andreas
-          Hassan -> Admin
+          Automatically migrate old "Her" entries in existing
+          log/chat data to Andreas.
         */
+        migrateOldNames();
 
-        let changed = false;
+        saveToCloud();
 
-        S.users.forEach(user => {
+        render();
+      }
+    });
 
-          if (
-            String(user.name).trim().toLowerCase() === "her"
-          ) {
-            user.name = "Andreas";
-            changed = true;
-          }
 
-          if (
-            String(user.name).trim().toLowerCase() === "hassan"
-            && !user.isAdmin
-          ) {
-            user.isAdmin = true;
-            changed = true;
+    function normalizeOrders(){
+      const ids = S.users.map(u=>u.id);
+
+      function normalize(order){
+        const clean = [];
+
+        order.forEach(id=>{
+          const n = Number(id);
+
+          if(
+            ids.includes(n) &&
+            !clean.includes(n)
+          ){
+            clean.push(n);
           }
         });
 
-        if (changed) {
-          setTimeout(saveToCloud, 200);
-        }
+        ids.forEach(id=>{
+          if(!clean.includes(id)){
+            clean.push(id);
+          }
+        });
+
+        return clean;
       }
 
-      /*
-        If there is no database yet, create our initial structure.
-      */
+      S.trashOrder = normalize(S.trashOrder);
+      S.cleanOrder = normalize(S.cleanOrder);
 
-      if (!data && !S.initialized) {
-        S.initialized = true;
+      S.trashPos =
+        Math.max(
+          0,
+          Math.min(
+            S.trashPos,
+            S.trashOrder.length-1
+          )
+        );
+
+      S.cleanPos =
+        Math.max(
+          0,
+          Math.min(
+            S.cleanPos,
+            S.cleanOrder.length-1
+          )
+        );
+    }
+
+
+    function migrateOldNames(){
+      let changed = false;
+
+      S.globalLog.forEach(item=>{
+        if(item.userName === "Her"){
+          item.userName = "Andreas";
+          changed = true;
+        }
+      });
+
+      S.groupChat.forEach(item=>{
+        if(item.userName === "Her"){
+          item.userName = "Andreas";
+          changed = true;
+        }
+      });
+
+      if(changed){
         saveToCloud();
       }
+    }
 
-      S.initialized = true;
-
-      if (S.mySlot >= S.users.length) {
-        S.mySlot = 0;
-      }
-
-      updateLoginVisibility();
-      render();
-
-    }, error => {
-      console.error("Firebase listener error:", error);
-      showToast("Firebase Verbindung fehlgeschlagen");
-    });
 
     /* =========================================================
        ONESIGNAL
@@ -1892,2298 +1765,1667 @@
       window.OneSignalDeferred || [];
 
     window.OneSignalDeferred.push(
-      async function(OneSignal) {
+      async function(OneSignal){
 
-        try {
-
+        try{
           await OneSignal.init({
-            appId: ONESIGNAL_APP_ID,
-            notifyButton: {
-              enable: false
-            }
+            appId:ONESIGNAL_APP_ID
           });
 
-          if (S.isLoggedIn) {
-            await OneSignal.login(`user_${S.mySlot}`);
+          window.__oneSignal = OneSignal;
+
+          if(
+            S.isLoggedIn &&
+            typeof OneSignal.login === "function"
+          ){
+            await OneSignal.login(
+              "user_" + S.mySlot
+            );
           }
 
-        } catch (error) {
+        }catch(error){
           console.warn(
-            "OneSignal could not initialize:",
+            "OneSignal unavailable:",
             error
           );
         }
       }
     );
 
+
+    async function connectOneSignal(){
+      try{
+        const OS = window.__oneSignal;
+
+        if(!OS) return;
+
+        const externalId =
+          "user_" + S.mySlot;
+
+        if(
+          typeof OS.login === "function"
+        ){
+          await OS.login(externalId);
+        }
+        else if(
+          OS.User &&
+          typeof OS.User.login === "function"
+        ){
+          await OS.User.login(externalId);
+        }
+
+      }catch(error){
+        console.warn(
+          "OneSignal login failed:",
+          error
+        );
+      }
+    }
+
+
     async function sendPushToUser(
       userId,
       title,
       message
-    ) {
-
-      try {
-
-        const response = await fetch(
+    ){
+      try{
+        await fetch(
           "/api/send-push",
           {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
+            method:"POST",
+            headers:{
+              "Content-Type":
+                "application/json"
             },
-            body: JSON.stringify({
-              userId: `user_${userId}`,
+            body:JSON.stringify({
+              userId:"user_"+userId,
               title,
               message
             })
           }
         );
-
-        if (!response.ok) {
-          throw new Error(
-            `Push endpoint returned ${response.status}`
-          );
-        }
-
-      } catch (error) {
-
+      }catch(error){
         /*
-          The Vercel page still works if /api/send-push
-          hasn't been created yet.
-
-          We deliberately don't expose the OneSignal REST API
-          key inside this HTML file.
+          Push API is optional. The app should
+          continue working even without it.
         */
-
-        console.warn(
-          "Push could not be sent:",
-          error.message
+        console.log(
+          "Push endpoint unavailable"
         );
       }
     }
+
 
     /* =========================================================
        LOGIN / LOGOUT
     ========================================================= */
 
-    function updateLoginVisibility() {
+    function renderLogin(){
+      const picker =
+        document.getElementById("userPicker");
 
-      const login = document.getElementById("loginScreen");
-      const app = document.getElementById("app");
+      picker.innerHTML =
+        S.users.map(user=>`
+          <button
+            class="user-option ${S.mySlot === user.id ? "active":""}"
+            onclick="selectLoginUser(${user.id})"
+          >
+            <span class="avatar c${user.colorId}">
+              ${esc(initials(user.name))}
+            </span>
 
-      if (S.isLoggedIn) {
-        login.classList.add("hidden");
-        app.classList.remove("hidden");
-      } else {
-        login.classList.remove("hidden");
-        app.classList.add("hidden");
-      }
+            <span>
+              <strong>${esc(user.name)}</strong>
+              ${
+                user.isAdmin
+                  ? `<small style="display:block;color:#bf8aff;margin-top:2px">Admin</small>`
+                  : ""
+              }
+            </span>
+          </button>
+        `).join("");
     }
 
-    window.login = async function() {
+    window.selectLoginUser = function(id){
+      S.mySlot = Number(id);
 
-      const nameInput =
-        document.getElementById("loginName");
+      localStorage.setItem(
+        "wg_user_slot",
+        String(S.mySlot)
+      );
 
-      const codeInput =
-        document.getElementById("loginCode");
+      renderLogin();
+    };
+
+
+    window.login = async function(){
+
+      const password =
+        document.getElementById("password").value;
 
       const error =
         document.getElementById("loginError");
 
-      const name =
-        String(nameInput.value || "").trim();
+      if(password !== WG_PASSWORD){
+        error.textContent =
+          "Falscher WG-Code.";
 
-      const code =
-        String(codeInput.value || "").trim();
+        error.classList.remove("hidden");
+        return;
+      }
 
       error.classList.add("hidden");
 
-      if (!name || !code) {
-        error.textContent =
-          "Bitte Name und WG Code eingeben.";
-        error.classList.remove("hidden");
-        return;
-      }
-
-      if (code !== WG_CODE) {
-        error.textContent =
-          "Der WG Code ist falsch.";
-        error.classList.remove("hidden");
-        return;
-      }
-
-      const existing =
-        S.users.find(
-          u =>
-            String(u.name).trim().toLowerCase() ===
-            name.toLowerCase()
-        );
-
-      if (existing) {
-
-        S.mySlot = Number(existing.id);
-
-      } else {
-
-        /*
-          Allow a new name to be assigned to an unused
-          slot for the project/demo.
-        */
-
-        const free =
-          S.users.find(
-            u =>
-              !u.name ||
-              /^User \d+$/i.test(u.name)
-          );
-
-        if (free) {
-          free.name = name;
-          S.mySlot = free.id;
-        } else {
-          error.textContent =
-            "Name nicht gefunden. Verwende einen WG Namen.";
-          error.classList.remove("hidden");
-          return;
-        }
-      }
-
       S.isLoggedIn = true;
 
-      setLoggedIn(S.mySlot);
+      localStorage.setItem(
+        "wg_logged_in",
+        "1"
+      );
 
-      try {
+      localStorage.setItem(
+        "wg_user_slot",
+        String(S.mySlot)
+      );
 
-        window.OneSignalDeferred =
-          window.OneSignalDeferred || [];
+      await connectOneSignal();
 
-        window.OneSignalDeferred.push(
-          async function(OneSignal) {
-
-            try {
-              await OneSignal.login(
-                `user_${S.mySlot}`
-              );
-            } catch (e) {
-              console.warn(e);
-            }
-
-          }
-        );
-
-      } catch (e) {}
-
-      await saveToCloud();
-
-      updateLoginVisibility();
       render();
 
       showToast(
-        `Willkommen, ${userName(S.mySlot)} 👋`
+        `Willkommen ${me().name}!`
       );
     };
 
-    window.logout = async function() {
 
-      try {
-
-        window.OneSignalDeferred =
-          window.OneSignalDeferred || [];
-
-        window.OneSignalDeferred.push(
-          async function(OneSignal) {
-
-            try {
-              await OneSignal.logout();
-            } catch (e) {
-              console.warn(e);
-            }
-
-          }
-        );
-
-      } catch (e) {}
+    window.logout = function(){
 
       S.isLoggedIn = false;
-      S.activePrivatePartner = null;
 
-      clearLoggedIn();
+      localStorage.removeItem(
+        "wg_logged_in"
+      );
 
-      document.getElementById("loginName").value = "";
-      document.getElementById("loginCode").value = "";
+      document.getElementById("password").value = "";
 
-      updateLoginVisibility();
       render();
 
-      showToast("Du wurdest ausgeloggt.");
+      showToast("Du bist ausgeloggt.");
     };
 
-    window.switchUser = function() {
 
-      S.isLoggedIn = false;
-      S.activePrivatePartner = null;
+    function restoreLogin(){
+      const logged =
+        localStorage.getItem(
+          "wg_logged_in"
+        ) === "1";
 
-      clearLoggedIn();
+      const slot =
+        Number(
+          localStorage.getItem(
+            "wg_user_slot"
+          ) || 0
+        );
 
-      updateLoginVisibility();
+      S.mySlot =
+        S.users.some(u=>u.id===slot)
+          ? slot
+          : 0;
 
-      document.getElementById("loginName").focus();
+      S.isLoggedIn = logged;
+    }
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    };
 
     /* =========================================================
        NAVIGATION
     ========================================================= */
 
-    window.setTab = function(tab) {
+    window.setTab = function(tab){
 
       S.tab = tab;
 
-      if (tab === "chat" && S.chatSubTab === "group") {
-        markGroupRead();
-      }
-
-      render();
-    };
-
-    window.setChatSubTab = function(tab) {
-
-      S.chatSubTab = tab;
       S.activePrivatePartner = null;
 
-      if (tab === "group") {
-        markGroupRead();
-      }
-
-      render();
-    };
-
-    window.openPrivateWith = function(id) {
-
-      S.activePrivatePartner = Number(id);
-
-      markPrivateRead(Number(id));
-
       render();
 
-      setTimeout(() => {
-
-        const box =
-          document.getElementById("messages");
-
-        if (box) {
-          box.scrollTop = box.scrollHeight;
-        }
-
-      }, 40);
-    };
-
-    window.backToPrivateList = function() {
-
-      S.activePrivatePartner = null;
-      S.chatSubTab = "private";
-
-      render();
-    };
-
-    /* =========================================================
-       TURN ACTIONS
-    ========================================================= */
-
-    window.skipTurn = function(type) {
-
-      if (!isAdmin() && false) {
-        return;
-      }
-
-      const order =
-        type === "trash"
-          ? S.trashOrder
-          : S.cleanOrder;
-
-      const index =
-        type === "trash"
-          ? S.trashIndex
-          : S.cleanIndex;
-
-      if (!order.length) return;
-
-      const skippedId = order[index];
-
-      if (!S.dueTasks) {
-        S.dueTasks = [];
-      }
-
-      const alreadyDue =
-        S.dueTasks.some(
-          due =>
-            Number(due.user) === Number(skippedId) &&
-            due.type === type
-        );
-
-      if (!alreadyDue) {
-
-        S.dueTasks.push({
-          id: `${type}_${skippedId}_${Date.now()}`,
-          user: skippedId,
-          type,
-          createdAt: Date.now()
-        });
-
-      }
-
-      const oldUser =
-        userById(skippedId);
-
-      if (type === "trash") {
-        S.trashIndex =
-          nextIndex("trash", S.trashIndex);
-      } else {
-        S.cleanIndex =
-          nextIndex("clean", S.cleanIndex);
-      }
-
-      const nextUserId =
-        currentTurn(type);
-
-      const label =
-        TASK_LABELS[type];
-
-      S.globalLog.push({
-        id: Date.now(),
-        type: "skip",
-        task: type,
-        user: skippedId,
-        text:
-          `${oldUser?.name || "Jemand"} hat ${label} übersprungen.`,
-        time: Date.now()
+      window.scrollTo({
+        top:0,
+        behavior:"smooth"
       });
-
-      S.groupChat.push({
-        id: Date.now() + 1,
-        sender: -1,
-        system: true,
-        text:
-          `${oldUser?.name || "Jemand"} hat ${label} übersprungen. ` +
-          `${userName(nextUserId)} ist jetzt dran.`,
-        time: Date.now()
-      });
-
-      saveToCloud();
-
-      sendPushToUser(
-        nextUserId,
-        "Du bist jetzt dran!",
-        `${userName(skippedId)} hat ${label} übersprungen.`
-      );
-
-      render();
-
-      showToast(
-        `${userName(skippedId)} hat jetzt eine Fälligkeit.`
-      );
     };
 
-    window.confirmTask = function(type) {
 
-      const order =
-        type === "trash"
-          ? S.trashOrder
-          : S.cleanOrder;
-
-      const index =
-        type === "trash"
-          ? S.trashIndex
-          : S.cleanIndex;
-
-      const userId =
-        order[index];
-
-      const taskLabel =
-        TASK_LABELS[type];
-
-      /*
-        Remove matching Due task.
-      */
-
-      S.dueTasks =
-        (S.dueTasks || []).filter(
-          due =>
-            !(
-              Number(due.user) === Number(userId) &&
-              due.type === type
-            )
-        );
-
-      /*
-        Save completion for Calendar.
-      */
-
-      S.completedTasks.push({
-        id: Date.now(),
-        type,
-        user: userId,
-        time: Date.now()
-      });
-
-      S.globalLog.push({
-        id: Date.now() + 1,
-        type: "complete",
-        task: type,
-        user: userId,
-        text:
-          `${userName(userId)} hat ${taskLabel} erledigt.`,
-        time: Date.now()
-      });
-
-      S.groupChat.push({
-        id: Date.now() + 2,
-        sender: -1,
-        system: true,
-        text:
-          `${userName(userId)} hat ${taskLabel} erledigt. ✅`,
-        time: Date.now()
-      });
-
-      if (type === "trash") {
-        S.trashIndex =
-          nextIndex("trash", S.trashIndex);
-      } else {
-        S.cleanIndex =
-          nextIndex("clean", S.cleanIndex);
-      }
-
-      saveToCloud();
-
-      const nextUserId =
-        currentTurn(type);
-
-      sendPushToUser(
-        nextUserId,
-        `${taskLabel} 🏠`,
-        `Du bist jetzt dran mit ${taskLabel}.`
-      );
-
-      render();
-
-      showToast(
-        `${taskLabel} erledigt! ✅`
-      );
-    };
-
-    /* =========================================================
-       DUE
-    ========================================================= */
-
-    window.clearDue = function(index) {
-
-      if (
-        !S.dueTasks ||
-        !S.dueTasks[index]
-      ) {
-        return;
-      }
-
-      const due =
-        S.dueTasks[index];
-
-      const person =
-        userName(due.user);
-
-      const label =
-        TASK_LABELS[due.type] || "Aufgabe";
-
-      S.dueTasks.splice(index, 1);
-
-      S.globalLog.push({
-        id: Date.now(),
-        type: "due_complete",
-        task: due.type,
-        user: due.user,
-        text:
-          `${person} hat die fällige Aufgabe ${label} erledigt.`,
-        time: Date.now()
-      });
-
-      S.groupChat.push({
-        id: Date.now() + 1,
-        sender: -1,
-        system: true,
-        text:
-          `${person} hat eine fällige Aufgabe erledigt. ✅`,
-        time: Date.now()
-      });
-
-      saveToCloud();
-
-      render();
-
-      showToast("Fälligkeit erledigt. ✅");
-    };
-
-    /* =========================================================
-       EXTRA TASKS
-    ========================================================= */
-
-    window.openExtraTask = function() {
-
-      document.getElementById("modalRoot").innerHTML = `
-        <div
-          class="modal-backdrop"
-          onclick="closeModal(event)"
-        >
-          <div class="modal">
-            <div class="modal-handle"></div>
-
-            <div class="modal-title">
-              ➕ Extra Aufgabe
-            </div>
-
-            <div class="field">
-              <label>Aufgabe</label>
-              <input
-                id="extraTaskText"
-                class="text-input"
-                placeholder="z.B. Toilettenpapier kaufen"
-              />
-            </div>
-
-            <div class="field">
-              <label>Wer soll es machen?</label>
-
-              <select
-                id="extraTaskUser"
-                class="admin-select"
-              >
-                ${S.users.map(user => `
-                  <option value="${user.id}">
-                    ${esc(user.name)}
-                  </option>
-                `).join("")}
-              </select>
-            </div>
-
-            <button
-              class="primary-btn"
-              onclick="createExtraTask()"
-            >
-              Aufgabe erstellen
-            </button>
-          </div>
-        </div>
-      `;
-    };
-
-    window.closeModal = function(event) {
-
-      if (
-        event &&
-        event.target !== event.currentTarget
-      ) {
-        return;
-      }
-
-      document.getElementById("modalRoot").innerHTML = "";
-    };
-
-    window.createExtraTask = function() {
-
-      const text =
-        String(
-          document.getElementById("extraTaskText").value || ""
-        ).trim();
-
-      const user =
-        Number(
-          document.getElementById("extraTaskUser").value
-        );
-
-      if (!text) {
-        showToast("Bitte eine Aufgabe eingeben.");
-        return;
-      }
-
-      S.extraTasks.push({
-        id: Date.now(),
-        text,
-        user,
-        completed: false,
-        createdAt: Date.now()
-      });
-
-      S.globalLog.push({
-        id: Date.now() + 1,
-        type: "extra",
-        user,
-        text:
-          `Extra-Aufgabe für ${userName(user)}: ${text}`,
-        time: Date.now()
-      });
-
-      saveToCloud();
-
-      document.getElementById("modalRoot").innerHTML = "";
-
-      render();
-
-      showToast("Extra Aufgabe erstellt.");
-    };
-
-    window.completeExtraTask = function(id) {
-
-      const task =
-        S.extraTasks.find(
-          t => Number(t.id) === Number(id)
-        );
-
-      if (!task) return;
-
-      task.completed = true;
-      task.completedAt = Date.now();
-
-      S.completedTasks.push({
-        id: Date.now(),
-        type: "extra",
-        user: task.user,
-        text: task.text,
-        time: Date.now()
-      });
-
-      S.globalLog.push({
-        id: Date.now() + 1,
-        type: "extra_complete",
-        user: task.user,
-        text:
-          `${userName(task.user)} hat "${task.text}" erledigt.`,
-        time: Date.now()
-      });
-
-      saveToCloud();
-
-      render();
-
-      showToast("Extra Aufgabe erledigt. ✅");
-    };
-
-    /* =========================================================
-       CHAT
-    ========================================================= */
-
-    function privateChatKey(a, b) {
-
-      const x = Math.min(
-        Number(a),
-        Number(b)
-      );
-
-      const y = Math.max(
-        Number(a),
-        Number(b)
-      );
-
-      return `${x}_${y}`;
-    }
-
-    window.sendGroupMessage = function() {
-
-      const input =
-        document.getElementById("groupMessage");
-
-      if (!input) return;
-
-      const text =
-        String(input.value || "").trim();
-
-      if (!text) return;
-
-      S.groupChat.push({
-        id: Date.now(),
-        sender: S.mySlot,
-        text,
-        time: Date.now()
-      });
-
-      saveToCloud();
-
-      input.value = "";
-
-      markGroupRead();
-
-      render();
-
-      setTimeout(() => {
-
-        const box =
-          document.getElementById("messages");
-
-        if (box) {
-          box.scrollTop = box.scrollHeight;
-        }
-
-      }, 30);
-    };
-
-    window.sendPrivateMessage = function() {
-
-      const partner =
-        S.activePrivatePartner;
-
-      if (
-        partner === null ||
-        partner === undefined
-      ) {
-        return;
-      }
-
-      const input =
-        document.getElementById("privateMessage");
-
-      if (!input) return;
-
-      const text =
-        String(input.value || "").trim();
-
-      if (!text) return;
-
-      const key =
-        privateChatKey(
-          S.mySlot,
-          partner
-        );
-
-      if (!Array.isArray(S.privateChats[key])) {
-        S.privateChats[key] = [];
-      }
-
-      S.privateChats[key].push({
-        id: Date.now(),
-        sender: S.mySlot,
-        receiver: partner,
-        text,
-        time: Date.now()
-      });
-
-      saveToCloud();
-
-      input.value = "";
-
-      markPrivateRead(partner);
-
-      render();
-
-      setTimeout(() => {
-
-        const box =
-          document.getElementById("messages");
-
-        if (box) {
-          box.scrollTop = box.scrollHeight;
-        }
-
-      }, 30);
-    };
-
-    /* =========================================================
-       CALENDAR
-    ========================================================= */
-
-    window.changeCalendarMonth = function(delta) {
-
-      S.calendarDate =
-        new Date(
-          S.calendarDate.getFullYear(),
-          S.calendarDate.getMonth() + delta,
-          1
-        );
-
-      render();
-    };
-
-    window.selectCalendarDate = function(dateString) {
-
-      const parts =
-        dateString.split("-").map(Number);
-
-      S.selectedCalendarDate =
-        new Date(
-          parts[0],
-          parts[1] - 1,
-          parts[2]
-        );
-
-      render();
-    };
-
-    function completedForDate(date) {
-
-      return [
-        ...(S.completedTasks || [])
-      ].filter(item =>
-        sameDate(
-          item.time,
-          date
-        )
-      );
-    }
-
-    function calendarHasTasks(date) {
-
-      return completedForDate(date).length > 0;
-    }
-
-    /* =========================================================
-       ADMIN
-    ========================================================= */
-
-    window.openAdmin = function() {
-
-      if (!isAdmin()) {
-        showToast("Nur Hassan hat Admin-Rechte.");
-        return;
-      }
-
-      renderAdminModal();
-    };
-
-    function renderAdminModal() {
-
-      const modal =
-        document.getElementById("modalRoot");
-
-      modal.innerHTML = `
-        <div
-          class="modal-backdrop"
-          onclick="closeModal(event)"
-        >
-          <div class="modal">
-            <div class="modal-handle"></div>
-
-            <div class="modal-title">
-              👑 WG Admin
-            </div>
-
-            <div class="admin-card card">
-              <div class="admin-title">
-                🗑️ Müll-Reihenfolge
-              </div>
-
-              <div class="admin-description">
-                Diese Reihenfolge bestimmt, wer nacheinander
-                für den Müll zuständig ist.
-              </div>
-
-              <div class="order-list">
-                ${renderOrderList("trash")}
-              </div>
-            </div>
-
-            <div class="admin-card card">
-              <div class="admin-title">
-                🧹 Putz-Reihenfolge
-              </div>
-
-              <div class="admin-description">
-                Diese Reihenfolge bestimmt die Putz-Rotation.
-              </div>
-
-              <div class="order-list">
-                ${renderOrderList("clean")}
-              </div>
-            </div>
-
-            <div class="admin-card card">
-
-              <div class="admin-title">
-                🔄 Rotation
-              </div>
-
-              <div class="admin-description">
-                Setzt die aktuelle Position der jeweiligen
-                Rotation zurück auf Platz 1.
-              </div>
-
-              <div style="display:flex;gap:8px;">
-                <button
-                  class="action-btn blue-btn"
-                  style="flex:1"
-                  onclick="resetRotation('trash')"
-                >
-                  Müll zurücksetzen
-                </button>
-
-                <button
-                  class="action-btn blue-btn"
-                  style="flex:1"
-                  onclick="resetRotation('clean')"
-                >
-                  Putzen zurücksetzen
-                </button>
-              </div>
-            </div>
-
-            <div class="admin-card card">
-
-              <div class="admin-title">
-                👥 WG Mitglieder
-              </div>
-
-              <div class="admin-description">
-                Hassan ist aktuell der Administrator.
-              </div>
-
-              ${S.users.map(user => `
-                <div class="settings-row">
-
-                  ${avatarHTML(user, "small")}
-
-                  <div class="settings-row-main">
-                    <div class="settings-row-title">
-                      ${esc(user.name)}
-                    </div>
-
-                    <div class="settings-row-sub">
-                      ${user.isAdmin ? "👑 Admin" : "WG Mitglied"}
-                    </div>
-                  </div>
-
-                </div>
-              `).join("")}
-
-            </div>
-
-            <button
-              class="primary-btn"
-              onclick="closeAdminModal()"
-            >
-              Fertig
-            </button>
-
-          </div>
-        </div>
-      `;
-    }
-
-    function renderOrderList(type) {
-
-      const order =
-        type === "trash"
-          ? S.trashOrder
-          : S.cleanOrder;
-
-      return order.map((userId, index) => {
-
-        const user =
-          userById(userId);
-
-        return `
-          <div class="order-row">
-
-            <div class="order-number">
-              ${index + 1}
-            </div>
-
-            ${avatarHTML(user)}
-
-            <div class="order-name">
-              ${esc(user?.name || "Unbekannt")}
-            </div>
-
-            <div class="order-controls">
-
-              <button
-                class="order-control"
-                onclick="moveOrder('${type}', ${index}, -1)"
-                ${index === 0 ? "disabled" : ""}
-              >
-                ↑
-              </button>
-
-              <button
-                class="order-control"
-                onclick="moveOrder('${type}', ${index}, 1)"
-                ${index === order.length - 1 ? "disabled" : ""}
-              >
-                ↓
-              </button>
-
-            </div>
-
-          </div>
-        `;
-
-      }).join("");
-    }
-
-    window.moveOrder = function(
-      type,
-      index,
-      direction
-    ) {
-
-      if (!isAdmin()) {
-        showToast("Nur Hassan kann die Reihenfolge ändern.");
-        return;
-      }
-
-      const order =
-        type === "trash"
-          ? S.trashOrder
-          : S.cleanOrder;
-
-      const target =
-        index + direction;
-
-      if (
-        target < 0 ||
-        target >= order.length
-      ) {
-        return;
-      }
+    function updateNav(){
 
       [
-        order[index],
-        order[target]
-      ] = [
-        order[target],
-        order[index]
-      ];
+        "home",
+        "due",
+        "calendar",
+        "chat",
+        "log"
+      ].forEach(tab=>{
+        const button =
+          document.getElementById(
+            "nav-"+tab
+          );
 
-      if (type === "trash") {
-        S.trashIndex = 0;
-      } else {
-        S.cleanIndex = 0;
-      }
-
-      saveToCloud();
-
-      renderAdminModal();
-
-      render();
-    };
-
-    window.resetRotation = function(type) {
-
-      if (!isAdmin()) return;
-
-      if (type === "trash") {
-        S.trashIndex = 0;
-      } else {
-        S.cleanIndex = 0;
-      }
-
-      S.globalLog.push({
-        id: Date.now(),
-        type: "admin",
-        text:
-          `${TASK_LABELS[type]} Rotation wurde zurückgesetzt.`,
-        time: Date.now()
+        if(button){
+          button.classList.toggle(
+            "active",
+            S.tab === tab
+          );
+        }
       });
-
-      saveToCloud();
-
-      renderAdminModal();
-      render();
-
-      showToast("Rotation zurückgesetzt.");
-    };
-
-    window.closeAdminModal = function() {
-
-      document.getElementById("modalRoot").innerHTML = "";
-
-      render();
-    };
-
-    /* =========================================================
-       PROFILE
-    ========================================================= */
-
-    window.openProfile = function() {
-      setTab("profile");
-    };
-
-    /* =========================================================
-       RESET
-    ========================================================= */
-
-    window.adminResetAll = async function() {
-
-      if (!isAdmin()) {
-        showToast("Nur Hassan kann zurücksetzen.");
-        return;
-      }
-
-      const okay =
-        confirm(
-          "Wirklich die Rotation und Demo-Daten zurücksetzen?"
-        );
-
-      if (!okay) return;
-
-      const users = defaultUsers();
-
-      S.users = users;
-
-      S.trashOrder = [0, 1, 2, 3];
-      S.cleanOrder = [1, 2, 3, 0];
-
-      S.trashIndex = 0;
-      S.cleanIndex = 0;
-
-      S.dueTasks = [];
-      S.completedTasks = [];
-      S.extraTasks = [];
-      S.globalLog = [];
-      S.groupChat = [];
-      S.privateChats = {};
-
-      await saveToCloud();
-
-      render();
-
-      showToast("WG Daten zurückgesetzt.");
-    };
-
-    /* =========================================================
-       RENDER
-    ========================================================= */
-
-    function render() {
-
-      updateLoginVisibility();
-
-      if (!S.isLoggedIn) {
-        return;
-      }
-
-      const content =
-        document.getElementById("content");
-
-      if (!content) return;
-
-      updateTopSubtitle();
-      updateBadges();
-
-      document.querySelectorAll(".nav-btn")
-        .forEach(btn => btn.classList.remove("active"));
-
-      const active =
-        document.getElementById(`nav-${S.tab}`);
-
-      if (active) {
-        active.classList.add("active");
-      }
-
-      switch (S.tab) {
-
-        case "home":
-          content.innerHTML = renderHome();
-          break;
-
-        case "due":
-          content.innerHTML = renderDue();
-          break;
-
-        case "chat":
-          content.innerHTML = renderChat();
-          break;
-
-        case "calendar":
-          content.innerHTML = renderCalendar();
-          break;
-
-        case "history":
-          content.innerHTML = renderHistory();
-          break;
-
-        case "notifications":
-          content.innerHTML = renderNotifications();
-          break;
-
-        case "profile":
-          content.innerHTML = renderProfile();
-          break;
-
-        default:
-          S.tab = "home";
-          content.innerHTML = renderHome();
-      }
-
-      attachSwipe();
-    }
-
-    function updateTopSubtitle() {
-
-      const subtitle =
-        document.getElementById("topSubtitle");
-
-      if (!subtitle) return;
-
-      const me =
-        getMyUser();
-
-      subtitle.textContent =
-        me?.isAdmin
-          ? "WG Admin · Gemeinsam organisiert"
-          : "Gemeinsam organisiert";
-    }
-
-    function updateBadges() {
 
       const dueCount =
         (S.dueTasks || []).length;
 
-      const chatCount =
-        getUnreadGroup() +
-        S.users
-          .filter(u => Number(u.id) !== Number(S.mySlot))
-          .reduce(
-            (sum, u) =>
-              sum + getUnreadPrivate(u.id),
-            0
-          );
-
-      const notificationCount =
-        dueCount + chatCount;
-
       const dueBadge =
         document.getElementById("dueBadge");
+
+      if(dueCount){
+        dueBadge.textContent =
+          dueCount > 9 ? "9+" : dueCount;
+
+        dueBadge.classList.remove("hidden");
+      }else{
+        dueBadge.classList.add("hidden");
+      }
+
+      const unread =
+        getUnreadCount();
 
       const chatBadge =
         document.getElementById("chatBadge");
 
-      const notificationBadge =
-        document.getElementById("notificationBadge");
+      if(unread){
+        chatBadge.textContent =
+          unread > 9 ? "9+" : unread;
 
-      setBadge(
-        dueBadge,
-        dueCount
-      );
-
-      setBadge(
-        chatBadge,
-        chatCount
-      );
-
-      setBadge(
-        notificationBadge,
-        notificationCount
-      );
-    }
-
-    function setBadge(element, count) {
-
-      if (!element) return;
-
-      if (count > 0) {
-        element.textContent =
-          count > 99 ? "99+" : count;
-        element.classList.remove("hidden");
-      } else {
-        element.classList.add("hidden");
+        chatBadge.classList.remove("hidden");
+      }else{
+        chatBadge.classList.add("hidden");
       }
+
+      const dot =
+        document.getElementById(
+          "notificationDot"
+        );
+
+      dot.classList.toggle(
+        "hidden",
+        dueCount === 0
+      );
     }
+
 
     /* =========================================================
        HOME
     ========================================================= */
 
-    function renderHome() {
-
-      const me =
-        getMyUser();
-
-      const trashId =
-        currentTurn("trash");
-
-      const cleanId =
-        currentTurn("clean");
+    function renderHome(){
 
       const trashUser =
-        userById(trashId);
+        getCurrent("trash");
 
       const cleanUser =
-        userById(cleanId);
+        getCurrent("clean");
 
-      const myDue =
-        (S.dueTasks || [])
-          .filter(
-            d =>
-              Number(d.user) ===
-              Number(S.mySlot)
-          ).length;
+      const currentMe =
+        me();
+
+      const trashMine =
+        trashUser.id === currentMe.id;
+
+      const cleanMine =
+        cleanUser.id === currentMe.id;
+
+      const trashPos =
+        currentPosition("trash")+1;
+
+      const cleanPos =
+        currentPosition("clean")+1;
 
       return `
+        <div class="tab-page">
 
-        <section class="hero">
-
-          <div class="hero-label">
-            Willkommen zurück
+          <div class="welcome">
+            <h2>Hallo ${esc(currentMe.name)} 👋</h2>
+            <p>Hier ist euer WG-Status.</p>
           </div>
 
-          <div class="hero-title">
-            ${esc(me?.name || "WG")}
-          </div>
-
-          <div class="hero-bottom">
-
-            <div class="hero-user">
-              ${avatarHTML(me, "small")}
-
+          <div class="hero-card">
+            <div class="hero-top">
               <div>
-                <div class="hero-name">
-                  ${esc(me?.name || "")}
-                </div>
-
-                <div class="hero-role">
-                  ${me?.isAdmin
-                    ? "WG Administrator"
-                    : "WG Mitglied"}
-                </div>
+                <div class="eyebrow">Aktueller Müll-Turn</div>
+                <h3>${esc(trashUser.name)}</h3>
+                <p>
+                  Position ${trashPos} von ${S.trashOrder.length}
+                </p>
               </div>
+
+              <div class="turn-avatar c${trashUser.colorId}">
+                ${esc(initials(trashUser.name))}
+              </div>
+            </div>
+
+            <div class="progress-row">
+              <span>Müll-Reihenfolge</span>
+              <span>${trashPos}/${S.trashOrder.length}</span>
+            </div>
+
+            <div class="progress">
+              <span style="width:${(trashPos/S.trashOrder.length)*100}%"></span>
             </div>
 
             ${
-              me?.isAdmin
-                ? `<div class="hero-admin">👑 ADMIN</div>`
+              trashMine
+                ? `<div style="margin-top:15px;color:#72eb8d;font-size:13px;font-weight:800">
+                    🟢 Du bist dran
+                   </div>`
                 : ""
             }
-
           </div>
 
-        </section>
 
-        ${
-          myDue > 0
-            ? `
-              <div class="card due-card">
-                <div class="due-card-inner">
+          <!-- MÜLL -->
 
-                  <div class="due-icon">
-                    🔴
-                  </div>
+          <div class="section-title">
+            <h3>🗑️ Müll</h3>
+            <span>für alle auswählbar</span>
+          </div>
 
-                  <div class="due-main">
-                    <div class="due-title">
-                      Du hast ${myDue} fällige Aufgabe${myDue > 1 ? "n" : ""}
-                    </div>
+          <div
+            class="task-card"
+            id="trashTaskCard"
+            ontouchstart="swipeStart(event,'trash')"
+            ontouchmove="swipeMove(event,'trash')"
+            ontouchend="swipeEnd(event,'trash')"
+          >
 
-                    <div class="due-person">
-                      Bitte erledigen
-                    </div>
-                  </div>
+            <div class="task-head">
+              <div class="task-icon">🗑️</div>
 
-                  <button
-                    class="due-done"
-                    onclick="setTab('due')"
-                  >
-                    ANSEHEN
-                  </button>
+              <div class="task-info">
+                <strong>
+                  ${esc(trashUser.name)} ist dran
+                </strong>
 
-                </div>
-              </div>
-            `
-            : ""
-        }
-
-        <div class="section-title">
-          Deine WG Aufgaben
-        </div>
-
-        ${renderTaskCard(
-          "trash",
-          trashUser
-        )}
-
-        ${renderTaskCard(
-          "clean",
-          cleanUser
-        )}
-
-        <div class="section-title">
-          Extra Aufgaben
-        </div>
-
-        ${renderExtraTasks()}
-
-        <div class="section-title">
-          WG Mitglieder
-        </div>
-
-        <div class="people-row">
-          ${S.users.map(user => `
-            <div class="person-mini">
-
-              ${avatarHTML(user, "small")}
-
-              <div class="person-mini-name">
-                ${esc(user.name)}
+                <small>
+                  Wähle zuerst die Müllart.
+                </small>
               </div>
 
-              <div class="person-mini-role">
-                ${user.isAdmin ? "👑 Admin" : "Mitglied"}
-              </div>
+              <span class="badge">
+                ${trashMine ? "Du" : "Nächster Turn"}
+              </span>
+            </div>
+
+            <!-- ALL FOUR TYPES -->
+            <div class="trash-types">
+
+              ${TRASH_TYPES.map(t=>`
+                <button
+                  class="trash-type ${S.selectedTrashType === t.id ? "active":""}"
+                  onclick="selectTrashType('${t.id}')"
+                >
+                  <span class="emoji">${t.icon}</span>
+                  <strong>${esc(t.name)}</strong>
+                </button>
+              `).join("")}
 
             </div>
-          `).join("")}
-        </div>
 
-      `;
-    }
+            <div class="selected-trash">
+              Ausgewählt:
+              <strong>
+                ${trashType(S.selectedTrashType).icon}
+                ${esc(trashType(S.selectedTrashType).name)}
+              </strong>
+            </div>
 
-    function renderTaskCard(type, user) {
+            <div class="task-actions">
 
-      const label =
-        TASK_LABELS[type];
+              <button
+                class="action done"
+                onclick="completeTask('trash')"
+              >
+                ✓ Erledigt
+              </button>
 
-      const icon =
-        TASK_ICONS[type];
+              <button
+                class="action skip"
+                onclick="skipTurn('trash')"
+              >
+                ↷ Skip
+              </button>
 
-      const isMe =
-        Number(user?.id) ===
-        Number(S.mySlot);
+            </div>
 
-      return `
+            <div style="text-align:center;color:#647b92;font-size:10px;margin-top:9px">
+              ← Karte nach links wischen = Skip
+            </div>
+          </div>
 
-        <div
-          class="card task-card"
-          data-swipe-type="${type}"
-        >
 
-          <div class="task-top">
+          <!-- PUTZEN -->
 
-            <div class="task-title-row">
+          <div class="section-title">
+            <h3>🧹 Putzen</h3>
+            <span>${esc(cleanUser.name)} ist dran</span>
+          </div>
+
+          <div
+            class="task-card"
+            ontouchstart="swipeStart(event,'clean')"
+            ontouchmove="swipeMove(event,'clean')"
+            ontouchend="swipeEnd(event,'clean')"
+          >
+
+            <div class="task-head">
 
               <div class="task-icon">
-                ${icon}
+                🧹
               </div>
 
-              <div>
-                <div class="task-name">
-                  ${label}
-                </div>
+              <div class="task-info">
+                <strong>
+                  ${esc(cleanUser.name)}
+                </strong>
 
-                <div class="task-status">
-                  ${isMe
-                    ? "Du bist jetzt dran"
-                    : "Aktuell dran"}
-                </div>
+                <small>
+                  Position ${cleanPos} von ${S.cleanOrder.length}
+                </small>
               </div>
 
+              <span class="badge">
+                ${cleanMine ? "Du" : "Turn"}
+              </span>
+
+            </div>
+
+            <div class="task-actions">
+
+              <button
+                class="action done"
+                onclick="completeTask('clean')"
+              >
+                ✓ Erledigt
+              </button>
+
+              <button
+                class="action skip"
+                onclick="skipTurn('clean')"
+              >
+                ↷ Skip
+              </button>
+
+            </div>
+
+            <div style="text-align:center;color:#647b92;font-size:10px;margin-top:9px">
+              ← Karte nach links wischen = Skip
             </div>
 
           </div>
 
-          <div class="task-person">
 
-            ${avatarHTML(user)}
-
-            <div>
-              <div class="task-person-name">
-                ${esc(user?.name || "Unbekannt")}
-              </div>
-
-              <div class="task-person-label">
-                Aktuelle Zuständigkeit
-              </div>
-            </div>
-
-          </div>
-
-          <div class="task-actions">
-
-            <button
-              class="action-btn complete-btn"
-              onclick="confirmTask('${type}')"
-            >
-              ✓ Erledigt
-            </button>
-
-            <button
-              class="action-btn skip-btn"
-              onclick="skipTurn('${type}')"
-            >
-              ⏭ Überspringen
-            </button>
-
-          </div>
+          ${renderAdminPanel()}
 
         </div>
-
       `;
     }
 
-    function renderExtraTasks() {
 
-      const tasks =
-        (S.extraTasks || [])
-          .filter(t => !t.completed);
+    /* =========================================================
+       TRASH SELECTION
+    ========================================================= */
 
-      return `
+    window.selectTrashType = function(id){
 
-        <div class="card" style="padding:14px;">
+      if(!TRASH_TYPES.some(t=>t.id===id)){
+        return;
+      }
 
-          ${
-            tasks.length
-              ? tasks.map(task => {
+      S.selectedTrashType = id;
 
-                  const user =
-                    userById(task.user);
+      localStorage.setItem(
+        "wg_selected_trash",
+        id
+      );
 
-                  return `
-                    <div class="settings-row">
+      render();
 
-                      ${avatarHTML(user, "small")}
+      showToast(
+        `${trashType(id).icon} ${trashType(id).name} ausgewählt`
+      );
+    };
 
-                      <div class="settings-row-main">
 
-                        <div class="settings-row-title">
-                          ${esc(task.text)}
-                        </div>
+    /* =========================================================
+       COMPLETE TASK
+    ========================================================= */
 
-                        <div class="settings-row-sub">
-                          ${esc(user?.name || "Unbekannt")}
-                        </div>
+    window.completeTask = function(type){
 
-                      </div>
+      const current =
+        getCurrent(type);
 
-                      <button
-                        class="action-btn complete-btn"
-                        onclick="completeExtraTask(${task.id})"
-                        style="height:38px;padding:0 11px;"
-                      >
-                        ✓
-                      </button>
+      if(!current){
+        return;
+      }
 
-                    </div>
-                  `;
+      const trash =
+        type === "trash"
+          ? trashType(S.selectedTrashType)
+          : null;
 
-                }).join("")
-              : `
-                <div class="empty" style="padding:22px;">
-                  <div class="empty-icon">➕</div>
-                  <div class="empty-title">
-                    Keine Extra Aufgaben
-                  </div>
-                  <div>
-                    Alles erledigt.
-                  </div>
-                </div>
-              `
+      const taskName =
+        type === "trash"
+          ? `${trash.icon} ${trash.name}`
+          : "🧹 Putzen";
+
+      /*
+        Remove matching due task.
+      */
+      S.dueTasks =
+        (S.dueTasks || []).filter(d=>{
+          if(
+            Number(d.user) !== Number(current.id)
+          ){
+            return true;
           }
 
-          <button
-            class="action-btn blue-btn"
-            onclick="openExtraTask()"
-            style="width:100%;margin-top:10px;"
-          >
-            + Extra Aufgabe
-          </button>
+          if(d.type !== type){
+            return true;
+          }
 
-        </div>
-      `;
-    }
+          if(
+            type === "trash" &&
+            d.trashType &&
+            d.trashType !== S.selectedTrashType
+          ){
+            return true;
+          }
+
+          return false;
+        });
+
+      logEvent({
+        user:current.id,
+        userName:current.name,
+        action:"done",
+        type,
+        trashType:
+          type === "trash"
+            ? S.selectedTrashType
+            : null,
+        text:`${current.name} hat ${taskName} erledigt.`
+      });
+
+      advance(type);
+
+      saveToCloud();
+
+      render();
+
+      showToast(
+        `${taskName} erledigt ✓`
+      );
+
+      const next =
+        getCurrent(type);
+
+      if(next && next.id !== current.id){
+        sendPushToUser(
+          next.id,
+          "Du bist jetzt dran!",
+          `${current.name} hat ${typeLabel(type)} erledigt.`
+        );
+      }
+    };
+
+
+    /* =========================================================
+       SKIP / DUE
+    ========================================================= */
+
+    window.skipTurn = function(type){
+
+      const current =
+        getCurrent(type);
+
+      if(!current){
+        return;
+      }
+
+      const selectedTrash =
+        type === "trash"
+          ? S.selectedTrashType
+          : null;
+
+      const exists =
+        (S.dueTasks || []).some(d=>
+          Number(d.user) === Number(current.id) &&
+          d.type === type &&
+          (
+            type !== "trash" ||
+            d.trashType === selectedTrash
+          )
+        );
+
+      if(!exists){
+
+        S.dueTasks.push({
+          id:
+            Date.now()+"_"+current.id+"_"+type,
+          user:current.id,
+          type,
+          trashType:selectedTrash,
+          time:Date.now(),
+          reason:"skip"
+        });
+
+      }
+
+      logEvent({
+        user:current.id,
+        userName:current.name,
+        action:"skip",
+        type,
+        trashType:selectedTrash,
+        text:`${current.name} hat ${typeLabel(type)} übersprungen.`
+      });
+
+      advance(type);
+
+      const next =
+        getCurrent(type);
+
+      saveToCloud();
+
+      render();
+
+      showToast(
+        `${current.name} hat gepasst → Due`
+      );
+
+      if(next){
+        sendPushToUser(
+          next.id,
+          "Du bist jetzt dran!",
+          `${current.name} hat ${typeLabel(type)} übersprungen.`
+        );
+      }
+    };
+
 
     /* =========================================================
        DUE PAGE
     ========================================================= */
 
-    function renderDue() {
+    function renderDue(){
 
       const due =
         [...(S.dueTasks || [])]
-          .sort(
-            (a, b) =>
-              Number(b.createdAt || 0) -
-              Number(a.createdAt || 0)
+          .sort((a,b)=>
+            Number(b.time)-Number(a.time)
           );
 
       return `
+        <div class="tab-page">
 
-        <div class="section-title">
-          Fällige Aufgaben
-        </div>
-
-        <div style="color:var(--muted);font-size:12px;margin:0 4px 14px;">
-          Übersprungene Aufgaben bleiben hier, bis sie erledigt werden.
-        </div>
-
-        ${
-          due.length
-            ? `
-              ${due.map((item, index) => {
-
-                const user =
-                  userById(item.user);
-
-                const label =
-                  TASK_LABELS[item.type] ||
-                  "Aufgabe";
-
-                return `
-                  <div class="card due-card">
-
-                    <div class="due-card-inner">
-
-                      <div class="due-icon">
-                        ${TASK_ICONS[item.type] || "🔴"}
-                      </div>
-
-                      <div class="due-main">
-
-                        <div class="due-title">
-                          ${esc(label)}
-                        </div>
-
-                        <div class="due-person">
-                          ${esc(user?.name || "Unbekannt")}
-                        </div>
-
-                        <div class="due-time">
-                          Übersprungen am
-                          ${formatDate(item.createdAt)}
-                          ·
-                          ${formatTime(item.createdAt)}
-                        </div>
-
-                      </div>
-
-                      <button
-                        class="due-done"
-                        onclick="clearDue(${index})"
-                      >
-                        ERLEDIGT
-                      </button>
-
-                    </div>
-
-                  </div>
-                `;
-
-              }).join("")}
-            `
-            : `
-              <div class="card">
-                <div class="empty">
-
-                  <div class="empty-icon">
-                    🎉
-                  </div>
-
-                  <div class="empty-title">
-                    Keine fälligen Aufgaben
-                  </div>
-
-                  <div>
-                    Alles ist erledigt.
-                  </div>
-
-                </div>
-              </div>
-            `
-        }
-
-      `;
-    }
-
-    /* =========================================================
-       CHAT
-    ========================================================= */
-
-    function renderChat() {
-
-      if (
-        S.chatSubTab === "private" &&
-        S.activePrivatePartner !== null
-      ) {
-        return renderPrivateChat();
-      }
-
-      return `
-
-        <div class="section-title">
-          Chat
-        </div>
-
-        <div class="chat-tabs">
-
-          <button
-            class="chat-tab ${
-              S.chatSubTab === "group"
-                ? "active"
-                : ""
-            }"
-            onclick="setChatSubTab('group')"
-          >
-            👥 Gruppe
-          </button>
-
-          <button
-            class="chat-tab ${
-              S.chatSubTab === "private"
-                ? "active"
-                : ""
-            }"
-            onclick="setChatSubTab('private')"
-          >
-            👤 Privat
-          </button>
-
-        </div>
-
-        ${
-          S.chatSubTab === "group"
-            ? renderGroupChat()
-            : renderPrivateList()
-        }
-
-      `;
-    }
-
-    function renderGroupChat() {
-
-      const messages =
-        S.groupChat || [];
-
-      return `
-
-        <div class="messages" id="messages">
+          <div class="welcome">
+            <h2>Fällig</h2>
+            <p>Übersprungene Aufgaben bleiben hier.</p>
+          </div>
 
           ${
-            messages.length
-              ? messages.map(renderMessage).join("")
+            due.length
+              ? due.map(renderDueCard).join("")
               : `
                 <div class="empty">
-                  <div class="empty-icon">💬</div>
-                  <div class="empty-title">
-                    Noch keine Nachrichten
-                  </div>
-                  <div>
-                    Starte den WG Chat.
+                  <div class="big">✨</div>
+                  <strong>Alles erledigt</strong>
+                  <div style="margin-top:6px">
+                    Keine offenen Due-Aufgaben.
                   </div>
                 </div>
               `
           }
 
         </div>
+      `;
+    }
 
-        <div class="chat-input-row">
 
-          <input
-            id="groupMessage"
-            class="chat-input"
-            placeholder="Nachricht..."
-            onkeydown="if(event.key==='Enter') sendGroupMessage()"
-          />
+    function renderDueCard(task){
+
+      const user =
+        getUser(task.user);
+
+      const isTrash =
+        task.type === "trash";
+
+      const trash =
+        isTrash && task.trashType
+          ? trashType(task.trashType)
+          : null;
+
+      const title =
+        isTrash
+          ? `${trash ? trash.icon : "🗑️"} ${trash ? trash.name : "Müll"}`
+          : "🧹 Putzen";
+
+      return `
+        <div class="due-card">
+
+          <div class="due-top">
+
+            <div class="avatar small c${user?.colorId || 0}">
+              ${esc(initials(user?.name || "User"))}
+            </div>
+
+            <div class="due-main">
+              <strong>${esc(user?.name || "Unbekannt")}</strong>
+
+              <small>
+                ${esc(title)}
+                · übersprungen am
+                ${formatDate(task.time)}
+                um ${formatTime(task.time)}
+              </small>
+            </div>
+
+            <span class="badge red">
+              DUE
+            </span>
+
+          </div>
 
           <button
-            class="send-btn"
-            onclick="sendGroupMessage()"
+            class="due-button"
+            onclick="completeDue('${esc(task.id)}')"
           >
-            ↑
+            ✓ Als erledigt markieren
           </button>
 
         </div>
       `;
     }
 
-    function renderMessage(msg) {
 
-      if (msg.system) {
+    window.completeDue = function(id){
 
-        return `
-          <div class="message system">
-            ${esc(msg.text)}
-            <div class="message-meta">
-              ${formatTime(msg.time)}
-            </div>
-          </div>
-        `;
+      const index =
+        S.dueTasks.findIndex(
+          d => String(d.id) === String(id)
+        );
+
+      if(index === -1){
+        return;
       }
 
-      const mine =
-        Number(msg.sender) ===
-        Number(S.mySlot);
+      const task =
+        S.dueTasks[index];
 
-      return `
-        <div class="message ${mine ? "mine" : "theirs"}">
+      const user =
+        getUser(task.user);
 
-          ${
-            !mine
-              ? `
-                <div style="font-size:10px;font-weight:900;margin-bottom:3px;">
-                  ${esc(userName(msg.sender))}
-                </div>
-              `
-              : ""
-          }
+      const trash =
+        task.type === "trash" &&
+        task.trashType
+          ? trashType(task.trashType)
+          : null;
 
-          ${esc(msg.text)}
+      const taskName =
+        task.type === "trash"
+          ? `${trash?.icon || "🗑️"} ${trash?.name || "Müll"}`
+          : "🧹 Putzen";
 
-          <div class="message-meta">
-            ${formatTime(msg.time)}
-          </div>
+      S.dueTasks.splice(index,1);
 
-        </div>
-      `;
-    }
+      logEvent({
+        user:task.user,
+        userName:user?.name || "Unbekannt",
+        action:"due_done",
+        type:task.type,
+        trashType:task.trashType || null,
+        text:`${user?.name || "Unbekannt"} hat die offene Aufgabe ${taskName} erledigt.`
+      });
 
-    function renderPrivateList() {
+      saveToCloud();
 
-      const people =
-        S.users.filter(
-          u =>
-            Number(u.id) !==
-            Number(S.mySlot)
-        );
+      render();
 
-      return `
+      showToast("Aufgabe erledigt ✓");
+    };
 
-        <div class="chat-room-list">
-
-          ${
-            people.map(user => {
-
-              const unread =
-                getUnreadPrivate(user.id);
-
-              const key =
-                privateChatKey(
-                  S.mySlot,
-                  user.id
-                );
-
-              const chats =
-                S.privateChats[key] || [];
-
-              const last =
-                chats[chats.length - 1];
-
-              return `
-                <button
-                  class="chat-room"
-                  onclick="openPrivateWith(${user.id})"
-                >
-
-                  ${avatarHTML(user)}
-
-                  <div class="chat-room-info">
-
-                    <div class="chat-room-name">
-                      ${esc(user.name)}
-                    </div>
-
-                    <div class="chat-room-preview">
-                      ${
-                        last
-                          ? esc(last.text)
-                          : "Noch keine Nachrichten"
-                      }
-                    </div>
-
-                  </div>
-
-                  ${
-                    unread
-                      ? `<div class="unread">${unread}</div>`
-                      : ""
-                  }
-
-                </button>
-              `;
-
-            }).join("")
-          }
-
-        </div>
-      `;
-    }
-
-    function renderPrivateChat() {
-
-      const partner =
-        userById(
-          S.activePrivatePartner
-        );
-
-      if (!partner) {
-        S.activePrivatePartner = null;
-        return renderPrivateList();
-      }
-
-      const key =
-        privateChatKey(
-          S.mySlot,
-          partner.id
-        );
-
-      const messages =
-        S.privateChats[key] || [];
-
-      return `
-
-        <div class="chat-header">
-
-          <button
-            class="back-btn"
-            onclick="backToPrivateList()"
-          >
-            ‹
-          </button>
-
-          ${avatarHTML(partner, "small")}
-
-          <div class="chat-header-info">
-
-            <div class="chat-header-name">
-              ${esc(partner.name)}
-            </div>
-
-            <div class="chat-header-status">
-              ● WG Mitglied
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="messages" id="messages">
-
-          ${
-            messages.length
-              ? messages.map(msg => renderMessage({
-                  ...msg,
-                  system: false
-                })).join("")
-              : `
-                <div class="empty">
-                  <div class="empty-icon">👋</div>
-                  <div class="empty-title">
-                    Keine Nachrichten
-                  </div>
-                  <div>
-                    Schreib ${esc(partner.name)} etwas.
-                  </div>
-                </div>
-              `
-          }
-
-        </div>
-
-        <div class="chat-input-row">
-
-          <input
-            id="privateMessage"
-            class="chat-input"
-            placeholder="Nachricht an ${esc(partner.name)}..."
-            onkeydown="if(event.key==='Enter') sendPrivateMessage()"
-          />
-
-          <button
-            class="send-btn"
-            onclick="sendPrivateMessage()"
-          >
-            ↑
-          </button>
-
-        </div>
-      `;
-    }
 
     /* =========================================================
        CALENDAR
     ========================================================= */
 
-    function renderCalendar() {
+    function renderCalendar(){
 
       const year =
-        S.calendarDate.getFullYear();
+        calendarCursor.getFullYear();
 
       const month =
-        S.calendarDate.getMonth();
+        calendarCursor.getMonth();
 
-      const firstDay =
-        new Date(
-          year,
-          month,
-          1
-        ).getDay();
+      const monthName =
+        calendarCursor.toLocaleDateString(
+          "de-DE",
+          {
+            month:"long",
+            year:"numeric"
+          }
+        );
+
+      const first =
+        new Date(year,month,1);
+
+      let start =
+        first.getDay();
+
+      /*
+        JS Sunday = 0.
+        Calendar starts Monday.
+      */
+      start =
+        start === 0
+          ? 6
+          : start-1;
 
       const daysInMonth =
         new Date(
           year,
-          month + 1,
+          month+1,
           0
         ).getDate();
 
-      const previousMonthDays =
+      const prevDays =
         new Date(
           year,
           month,
           0
         ).getDate();
 
-      let cells = [];
+      const today =
+        dateKey(Date.now());
 
-      /*
-        Previous month.
-      */
+      let cells = "";
 
-      for (
-        let i = firstDay - 1;
-        i >= 0;
-        i--
-      ) {
+      for(let i=0;i<42;i++){
 
-        const day =
-          previousMonthDays - i;
+        const dayNumber =
+          i-start+1;
 
-        cells.push({
-          day,
-          monthOffset: -1
-        });
+        let cellDate;
+        let number;
+        let other = false;
+
+        if(dayNumber < 1){
+          number =
+            prevDays+dayNumber;
+
+          cellDate =
+            new Date(
+              year,
+              month-1,
+              number
+            );
+
+          other = true;
+
+        }else if(dayNumber > daysInMonth){
+
+          number =
+            dayNumber-daysInMonth;
+
+          cellDate =
+            new Date(
+              year,
+              month+1,
+              number
+            );
+
+          other = true;
+
+        }else{
+
+          number =
+            dayNumber;
+
+          cellDate =
+            new Date(
+              year,
+              month,
+              number
+            );
+        }
+
+        const key =
+          dateKey(cellDate.getTime());
+
+        const events =
+          getEventsForDate(key);
+
+        const isToday =
+          key === today;
+
+        const selected =
+          key === selectedDateKey;
+
+        cells += `
+          <button
+            class="day
+              ${other ? "other":""}
+              ${isToday ? "today":""}
+              ${selected ? "selected":""}
+            "
+            onclick="selectCalendarDate('${key}')"
+          >
+
+            <span class="day-number">
+              ${number}
+            </span>
+
+            ${
+              events.length
+                ? `
+                  <span class="event-dots">
+                    ${events.slice(0,3).map(()=>
+                      `<span class="event-dot"></span>`
+                    ).join("")}
+                  </span>
+                `
+                : ""
+            }
+
+          </button>
+        `;
       }
-
-      /*
-        Current month.
-      */
-
-      for (
-        let day = 1;
-        day <= daysInMonth;
-        day++
-      ) {
-
-        cells.push({
-          day,
-          monthOffset: 0
-        });
-      }
-
-      /*
-        Next month.
-      */
-
-      while (cells.length % 7 !== 0) {
-
-        cells.push({
-          day:
-            cells.length -
-            (firstDay + daysInMonth) +
-            1,
-          monthOffset: 1
-        });
-      }
-
-      const selected =
-        S.selectedCalendarDate;
 
       const selectedEvents =
-        completedForDate(selected);
+        getEventsForDate(selectedDateKey);
 
       return `
+        <div class="tab-page">
 
-        <div class="section-title">
-          Kalender
-        </div>
-
-        <div class="card calendar-card">
-
-          <div class="calendar-head">
-
-            <div class="calendar-month">
-              ${MONTHS[month]} ${year}
-            </div>
-
-            <div class="calendar-arrows">
-
-              <button
-                class="calendar-arrow"
-                onclick="changeCalendarMonth(-1)"
-              >
-                ‹
-              </button>
-
-              <button
-                class="calendar-arrow"
-                onclick="changeCalendarMonth(1)"
-              >
-                ›
-              </button>
-
-            </div>
-
+          <div class="welcome">
+            <h2>Kalender</h2>
+            <p>Wer hat wann was gemacht?</p>
           </div>
 
-          <div class="calendar-weekdays">
+          <div class="calendar-card">
 
-            ${WEEKDAYS.map(day => `
-              <div class="weekday">
-                ${day}
+            <div class="calendar-head">
+
+              <div class="calendar-month">
+                ${esc(monthName)}
               </div>
-            `).join("")}
+
+              <div class="calendar-nav">
+                <button onclick="changeCalendarMonth(-1)">
+                  ‹
+                </button>
+
+                <button onclick="goCalendarToday()">
+                  •
+                </button>
+
+                <button onclick="changeCalendarMonth(1)">
+                  ›
+                </button>
+              </div>
+
+            </div>
+
+            <div class="weekdays">
+              ${[
+                "Mo","Di","Mi","Do","Fr","Sa","So"
+              ].map(d=>
+                `<div class="weekday">${d}</div>`
+              ).join("")}
+            </div>
+
+            <div class="calendar-grid">
+              ${cells}
+            </div>
+
+            <div class="day-events">
+
+              <div class="section-title" style="margin-top:17px">
+                <h3>
+                  ${formatCalendarKey(selectedDateKey)}
+                </h3>
+                <span>
+                  ${selectedEvents.length} Ereignis${selectedEvents.length===1?"":"se"}
+                </span>
+              </div>
+
+              ${
+                selectedEvents.length
+                  ? selectedEvents.map(renderCalendarEvent).join("")
+                  : `
+                    <div class="empty" style="padding:28px 10px">
+                      <div style="font-size:28px">📅</div>
+                      <div style="margin-top:7px">
+                        Noch keine Aufgaben an diesem Tag.
+                      </div>
+                    </div>
+                  `
+              }
+
+            </div>
 
           </div>
 
-          <div class="calendar-grid">
+        </div>
+      `;
+    }
 
-            ${cells.map(cell => {
 
-              const cellDate =
-                new Date(
-                  year,
-                  month + cell.monthOffset,
-                  cell.day
+    function getEventsForDate(key){
+
+      return (S.globalLog || [])
+        .filter(item =>
+          dateKey(item.time) === key &&
+          (
+            item.action === "done" ||
+            item.action === "skip" ||
+            item.action === "due_done"
+          )
+        )
+        .sort((a,b)=>
+          Number(a.time)-Number(b.time)
+        );
+    }
+
+
+    function renderCalendarEvent(event){
+
+      const isTrash =
+        event.type === "trash";
+
+      const trash =
+        event.trashType
+          ? trashType(event.trashType)
+          : null;
+
+      let icon =
+        isTrash
+          ? (trash?.icon || "🗑️")
+          : "🧹";
+
+      let task =
+        isTrash
+          ? (trash?.name || "Müll")
+          : "Putzen";
+
+      let actionText;
+
+      if(event.action === "skip"){
+        actionText = "übersprungen";
+      }
+      else if(event.action === "due_done"){
+        actionText = "offene Aufgabe erledigt";
+      }
+      else{
+        actionText = "erledigt";
+      }
+
+      return `
+        <div class="event">
+
+          <div class="event-icon">
+            ${icon}
+          </div>
+
+          <div class="event-text">
+
+            <strong>
+              ${esc(event.userName || "Unbekannt")}
+              · ${esc(task)}
+            </strong>
+
+            <small>
+              ${esc(actionText)}
+              · ${formatTime(event.time)}
+            </small>
+
+          </div>
+
+        </div>
+      `;
+    }
+
+
+    function formatCalendarKey(key){
+
+      const [y,m,d] =
+        key.split("-").map(Number);
+
+      return new Date(
+        y,
+        m-1,
+        d
+      ).toLocaleDateString(
+        "de-DE",
+        {
+          weekday:"long",
+          day:"numeric",
+          month:"long"
+        }
+      );
+    }
+
+
+    window.selectCalendarDate =
+      function(key){
+
+        selectedDateKey = key;
+
+        const [y,m] =
+          key.split("-").map(Number);
+
+        /*
+          Keep calendar on selected month.
+        */
+        calendarCursor =
+          new Date(y,m-1,1);
+
+        render();
+      };
+
+
+    window.changeCalendarMonth =
+      function(delta){
+
+        calendarCursor =
+          new Date(
+            calendarCursor.getFullYear(),
+            calendarCursor.getMonth()+delta,
+            1
+          );
+
+        selectedDateKey =
+          dateKey(
+            calendarCursor.getTime()
+          );
+
+        render();
+      };
+
+
+    window.goCalendarToday =
+      function(){
+
+        calendarCursor =
+          new Date();
+
+        selectedDateKey =
+          dateKey(Date.now());
+
+        render();
+      };
+
+
+    /* =========================================================
+       CHAT
+    ========================================================= */
+
+    function getUnreadCount(){
+      /*
+        Simple unread indicator based on messages
+        after last locally seen timestamp.
+      */
+      const lastSeen =
+        Number(
+          localStorage.getItem(
+            "wg_chat_seen"
+          ) || 0
+        );
+
+      return S.groupChat.filter(
+        msg =>
+          Number(msg.time) > lastSeen &&
+          Number(msg.user) !== Number(S.mySlot)
+      ).length;
+    }
+
+
+    function markChatSeen(){
+      localStorage.setItem(
+        "wg_chat_seen",
+        String(Date.now())
+      );
+    }
+
+
+    function renderChat(){
+
+      if(S.activePrivatePartner !== null){
+        return renderPrivateRoom();
+      }
+
+      return `
+        <div class="tab-page">
+
+          <div class="welcome">
+            <h2>Chats</h2>
+            <p>Gemeinsam schreiben oder privat.</p>
+          </div>
+
+          <div class="chat-tabs">
+
+            <button
+              class="chat-tab ${S.chatSubTab === "group" ? "active":""}"
+              onclick="switchChatTab('group')"
+            >
+              👥 WG Gruppe
+            </button>
+
+            <button
+              class="chat-tab ${S.chatSubTab === "private" ? "active":""}"
+              onclick="switchChatTab('private')"
+            >
+              💬 Privat
+            </button>
+
+          </div>
+
+          ${
+            S.chatSubTab === "group"
+              ? renderGroupChat()
+              : renderPrivateList()
+          }
+
+        </div>
+      `;
+    }
+
+
+    function renderGroupChat(){
+
+      markChatSeen();
+
+      return `
+        <div class="chat-room">
+
+          <div class="messages">
+            ${
+              S.groupChat.length
+                ? S.groupChat.map(renderMessage).join("")
+                : `
+                  <div class="empty">
+                    <div class="big">👥</div>
+                    <strong>Noch keine Nachrichten</strong>
+                    <div style="margin-top:6px">
+                      Schreib die erste Nachricht.
+                    </div>
+                  </div>
+                `
+            }
+          </div>
+
+          ${renderComposer("group")}
+
+        </div>
+      `;
+    }
+
+
+    function renderPrivateList(){
+
+      return `
+        <div class="chat-list">
+
+          ${S.users
+            .filter(u=>u.id !== S.mySlot)
+            .map(user=>{
+
+              const messages =
+                getPrivateMessages(
+                  S.mySlot,
+                  user.id
                 );
 
-              const selectedClass =
-                sameDate(
-                  cellDate,
-                  selected
-                )
-                  ? "selected"
-                  : "";
-
-              const todayClass =
-                sameDate(
-                  cellDate,
-                  new Date()
-                )
-                  ? "today"
-                  : "";
-
-              const otherClass =
-                cell.monthOffset !== 0
-                  ? "other-month"
-                  : "";
-
-              const events =
-                completedForDate(
-                  cellDate
-                );
+              const last =
+                messages[messages.length-1];
 
               return `
-
                 <button
-                  class="day ${selectedClass} ${todayClass} ${otherClass}"
-                  onclick="selectCalendarDate('${dateKey(cellDate)}')"
+                  class="chat-row"
+                  onclick="openPrivateChat(${user.id})"
                 >
 
-                  <div class="day-number">
-                    ${cell.day}
+                  <div class="avatar small c${user.colorId}">
+                    ${esc(initials(user.name))}
+                  </div>
+
+                  <div class="chat-row-main">
+                    <strong>
+                      ${esc(user.name)}
+                    </strong>
+
+                    <small>
+                      ${
+                        last
+                          ? esc(last.text)
+                          : "Noch keine Nachrichten"
+                      }
+                    </small>
                   </div>
 
                   ${
-                    events.length
-                      ? `
-                        <div class="day-dots">
-
-                          ${events.slice(0, 4).map(event => {
-
-                            const u =
-                              userById(event.user);
-
-                            return `
-                              <span
-                                class="dot"
-                                style="background:${userColor(u)}"
-                              ></span>
-                            `;
-
-                          }).join("")}
-
-                        </div>
-                      `
+                    last
+                      ? `<span style="color:#617991;font-size:10px">
+                          ${formatShortDate(last.time)}
+                         </span>`
                       : ""
                   }
 
                 </button>
-
               `;
-
             }).join("")}
+
+        </div>
+      `;
+    }
+
+
+    function getPrivateKey(a,b){
+      return [Number(a),Number(b)]
+        .sort((x,y)=>x-y)
+        .join("_");
+    }
+
+
+    function getPrivateMessages(a,b){
+
+      const key =
+        getPrivateKey(a,b);
+
+      return Array.isArray(
+        S.privateChats[key]
+      )
+        ? S.privateChats[key]
+        : [];
+    }
+
+
+    function renderPrivateRoom(){
+
+      const partner =
+        getUser(
+          S.activePrivatePartner
+        );
+
+      if(!partner){
+        S.activePrivatePartner = null;
+        return renderChat();
+      }
+
+      const messages =
+        getPrivateMessages(
+          S.mySlot,
+          partner.id
+        );
+
+      return `
+        <div class="tab-page">
+
+          <div class="chat-room-head">
+
+            <button
+              class="back"
+              onclick="closePrivateChat()"
+            >
+              ‹
+            </button>
+
+            <div class="avatar small c${partner.colorId}">
+              ${esc(initials(partner.name))}
+            </div>
+
+            <div>
+              <strong>${esc(partner.name)}</strong>
+              <div style="font-size:11px;color:var(--muted)">
+                Privat
+              </div>
+            </div>
 
           </div>
 
-          <div class="calendar-details">
-
-            <div style="font-weight:900;margin:13px 3px 9px;">
-              ${
-                selected.toLocaleDateString(
-                  "de-DE",
-                  {
-                    weekday: "long",
-                    day: "numeric",
-                    month: "long"
-                  }
-                )
-              }
-            </div>
+          <div class="messages">
 
             ${
-              selectedEvents.length
-                ? selectedEvents.map(event => {
-
-                    const user =
-                      userById(event.user);
-
-                    const icon =
-                      TASK_ICONS[event.type] ||
-                      "➕";
-
-                    const title =
-                      event.type === "extra"
-                        ? "Extra Aufgabe"
-                        : TASK_LABELS[event.type];
-
-                    return `
-                      <div class="calendar-event">
-
-                        <div class="calendar-event-icon">
-                          ${icon}
-                        </div>
-
-                        <div class="calendar-event-main">
-
-                          <div class="calendar-event-title">
-                            ${esc(title)}
-                          </div>
-
-                          <div class="calendar-event-person">
-                            ${esc(user?.name || "Unbekannt")}
-                            ${event.text
-                              ? ` · ${esc(event.text)}`
-                              : ""}
-                          </div>
-
-                        </div>
-
-                        <div class="calendar-event-time">
-                          ${formatTime(event.time)}
-                        </div>
-
-                      </div>
-                    `;
-
-                  }).join("")
+              messages.length
+                ? messages.map(renderMessage).join("")
                 : `
-                  <div class="empty" style="padding:20px;">
-                    <div class="empty-icon">
-                      📅
-                    </div>
+                  <div class="empty">
+                    <div class="big">💬</div>
+                    <div>Noch keine Nachrichten.</div>
+                  </div>
+                `
+            }
 
-                    <div class="empty-title">
-                      Keine erledigten Aufgaben
-                    </div>
+          </div>
 
-                    <div>
-                      Für diesen Tag gibt es noch keinen Eintrag.
-                    </div>
+          ${renderComposer("private")}
+
+        </div>
+      `;
+    }
+
+
+    function renderMessage(msg){
+
+      const mine =
+        Number(msg.user) ===
+        Number(S.mySlot);
+
+      return `
+        <div class="message ${mine ? "mine":""}">
+
+          <div class="bubble">
+            ${esc(msg.text)}
+          </div>
+
+          <div class="message-meta">
+            ${
+              mine
+                ? "Du"
+                : esc(msg.userName || "User")
+            }
+            · ${formatTime(msg.time)}
+          </div>
+
+        </div>
+      `;
+    }
+
+
+    function renderComposer(mode){
+
+      return `
+        <div class="chat-compose">
+
+          <input
+            id="chatInput"
+            class="chat-input"
+            maxlength="500"
+            placeholder="Nachricht..."
+            onkeydown="if(event.key==='Enter') sendMessage('${mode}')"
+          />
+
+          <button
+            class="send-btn"
+            onclick="sendMessage('${mode}')"
+          >
+            ↑
+          </button>
+
+        </div>
+      `;
+    }
+
+
+    window.switchChatTab =
+      function(tab){
+
+        S.chatSubTab = tab;
+
+        S.activePrivatePartner = null;
+
+        render();
+      };
+
+
+    window.openPrivateChat =
+      function(userId){
+
+        S.chatSubTab = "private";
+
+        S.activePrivatePartner =
+          Number(userId);
+
+        render();
+      };
+
+
+    window.closePrivateChat =
+      function(){
+
+        S.activePrivatePartner = null;
+
+        S.chatSubTab = "private";
+
+        render();
+      };
+
+
+    window.sendMessage =
+      function(mode){
+
+        const input =
+          document.getElementById(
+            "chatInput"
+          );
+
+        if(!input){
+          return;
+        }
+
+        const text =
+          input.value.trim();
+
+        if(!text){
+          return;
+        }
+
+        const message = {
+          id:
+            Date.now()+"_"+Math.random()
+              .toString(36)
+              .slice(2),
+
+          user:S.mySlot,
+
+          userName:me().name,
+
+          text,
+
+          time:Date.now()
+        };
+
+
+        if(mode === "group"){
+
+          S.groupChat.push(message);
+
+          S.groupChat =
+            S.groupChat.slice(-200);
+
+        }else{
+
+          const partner =
+            S.activePrivatePartner;
+
+          if(partner === null){
+            return;
+          }
+
+          const key =
+            getPrivateKey(
+              S.mySlot,
+              partner
+            );
+
+          if(!Array.isArray(
+            S.privateChats[key]
+          )){
+            S.privateChats[key] = [];
+          }
+
+          S.privateChats[key].push(
+            message
+          );
+
+          S.privateChats[key] =
+            S.privateChats[key]
+              .slice(-200);
+        }
+
+        saveToCloud();
+
+        render();
+
+        setTimeout(()=>{
+          const input =
+            document.getElementById(
+              "chatInput"
+            );
+
+          if(input){
+            input.focus();
+          }
+        },30);
+      };
+
+
+    /* =========================================================
+       LOG
+    ========================================================= */
+
+    function renderLog(){
+
+      const logs =
+        [...(S.globalLog || [])]
+          .sort((a,b)=>
+            Number(b.time)-Number(a.time)
+          );
+
+      return `
+        <div class="tab-page">
+
+          <div class="welcome">
+            <h2>Verlauf</h2>
+            <p>Alle WG-Aktivitäten.</p>
+          </div>
+
+          <div class="task-card">
+
+            ${
+              logs.length
+                ? logs.slice(0,100)
+                    .map(renderLogItem)
+                    .join("")
+                : `
+                  <div class="empty" style="padding:35px 10px">
+                    Noch kein Verlauf.
                   </div>
                 `
             }
@@ -4191,500 +3433,707 @@
           </div>
 
         </div>
-
       `;
     }
 
-    /* =========================================================
-       HISTORY
-    ========================================================= */
 
-    function renderHistory() {
+    function renderLogItem(item){
 
-      const logs =
-        [...(S.globalLog || [])]
-          .sort(
-            (a, b) =>
-              Number(b.time || 0) -
-              Number(a.time || 0)
-          );
+      const isTrash =
+        item.type === "trash";
+
+      const trash =
+        item.trashType
+          ? trashType(item.trashType)
+          : null;
+
+      let icon =
+        isTrash
+          ? trash?.icon || "🗑️"
+          : item.type === "clean"
+            ? "🧹"
+            : "ℹ️";
+
+      let text =
+        item.text ||
+        `${item.userName || "User"} hat etwas gemacht.`;
 
       return `
+        <div class="log-item">
 
-        <div class="section-title">
-          Verlauf
-        </div>
+          <div class="log-icon">
+            ${icon}
+          </div>
 
-        <div class="card">
+          <div class="log-main">
 
-          ${
-            logs.length
-              ? logs.map(log => {
+            <strong>
+              ${esc(text)}
+            </strong>
 
-                  let icon = "📋";
+            <small>
+              ${formatDate(item.time)}
+              · ${formatTime(item.time)}
+            </small>
 
-                  if (log.type === "complete") {
-                    icon = "✅";
-                  }
-
-                  if (log.type === "skip") {
-                    icon = "⏭️";
-                  }
-
-                  if (log.type === "due_complete") {
-                    icon = "🔴";
-                  }
-
-                  if (log.type === "extra") {
-                    icon = "➕";
-                  }
-
-                  if (log.type === "extra_complete") {
-                    icon = "☑️";
-                  }
-
-                  if (log.type === "admin") {
-                    icon = "👑";
-                  }
-
-                  return `
-                    <div class="log-item">
-
-                      <div class="log-icon">
-                        ${icon}
-                      </div>
-
-                      <div class="log-main">
-
-                        <div class="log-text">
-                          ${esc(log.text || "")}
-                        </div>
-
-                        <div class="log-time">
-                          ${formatDate(log.time)}
-                          ·
-                          ${formatTime(log.time)}
-                        </div>
-
-                      </div>
-
-                    </div>
-                  `;
-
-                }).join("")
-              : `
-                <div class="empty">
-                  <div class="empty-icon">📋</div>
-                  <div class="empty-title">
-                    Noch kein Verlauf
-                  </div>
-                  <div>
-                    Aktionen erscheinen hier.
-                  </div>
-                </div>
-              `
-          }
+          </div>
 
         </div>
       `;
     }
+
+
+    /* =========================================================
+       ADMIN
+    ========================================================= */
+
+    function isAdmin(){
+      return Boolean(me()?.isAdmin);
+    }
+
+
+    function renderAdminPanel(){
+
+      if(!isAdmin()){
+        return "";
+      }
+
+      return `
+        <div class="admin-card">
+
+          <div class="admin-title">
+            <span style="font-size:23px">⚙️</span>
+
+            <div>
+              <strong>Admin</strong>
+              <div style="font-size:11px;color:#9f83b8">
+                Hassan · WG Verwaltung
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size:12px;color:#a992bb">
+            Hier kannst du festlegen, wer bei Müll und Putzen
+            <strong>1., 2., 3. und 4.</strong> ist.
+          </div>
+
+          ${renderOrderEditor("trash")}
+
+          ${renderOrderEditor("clean")}
+
+        </div>
+      `;
+    }
+
+
+    function renderOrderEditor(type){
+
+      const orderKey =
+        type === "trash"
+          ? "trashOrder"
+          : "cleanOrder";
+
+      const posKey =
+        type === "trash"
+          ? "trashPos"
+          : "cleanPos";
+
+      const order =
+        S[orderKey];
+
+      const current =
+        getCurrent(type);
+
+      return `
+        <div class="order-section">
+
+          <h4>
+            ${type === "trash" ? "🗑️ Müll-Reihenfolge" : "🧹 Putz-Reihenfolge"}
+          </h4>
+
+          ${order.map((id,index)=>{
+
+            const user =
+              getUser(id);
+
+            return `
+              <div class="order-row">
+
+                <div class="order-position">
+                  ${index+1}
+                </div>
+
+                <div class="avatar c${user?.colorId || 0}">
+                  ${esc(initials(user?.name || "?"))}
+                </div>
+
+                <div class="order-name">
+                  ${esc(user?.name || "Unbekannt")}
+                </div>
+
+                <button
+                  class="move-btn"
+                  ${index === 0 ? "disabled":""}
+                  onclick="moveOrder('${type}',${index},-1)"
+                  title="Nach oben"
+                >
+                  ↑
+                </button>
+
+                <button
+                  class="move-btn"
+                  ${index === order.length-1 ? "disabled":""}
+                  onclick="moveOrder('${type}',${index},1)"
+                  title="Nach unten"
+                >
+                  ↓
+                </button>
+
+              </div>
+            `;
+
+          }).join("")}
+
+
+          <div class="current-set">
+            Jetzt dran:
+            <strong>${esc(current.name)}</strong>
+          </div>
+
+          <div class="set-current">
+
+            ${order.map(id=>{
+
+              const user =
+                getUser(id);
+
+              return `
+                <button
+                  class="person-chip"
+                  onclick="setCurrentTurn('${type}',${id})"
+                >
+                  ${esc(user.name)}
+                </button>
+              `;
+            }).join("")}
+
+          </div>
+
+        </div>
+      `;
+    }
+
+
+    window.moveOrder =
+      function(type,index,direction){
+
+        if(!isAdmin()){
+          showToast("Nur Hassan kann das ändern.");
+          return;
+        }
+
+        const orderKey =
+          type === "trash"
+            ? "trashOrder"
+            : "cleanOrder";
+
+        const posKey =
+          type === "trash"
+            ? "trashPos"
+            : "cleanPos";
+
+        const order =
+          [...S[orderKey]];
+
+        const newIndex =
+          index+direction;
+
+        if(
+          newIndex < 0 ||
+          newIndex >= order.length
+        ){
+          return;
+        }
+
+        const oldCurrentId =
+          order[S[posKey]];
+
+        [
+          order[index],
+          order[newIndex]
+        ] =
+        [
+          order[newIndex],
+          order[index]
+        ];
+
+        S[orderKey] = order;
+
+        /*
+          Keep the same person as current
+          after reordering.
+        */
+        const newCurrent =
+          order.indexOf(oldCurrentId);
+
+        S[posKey] =
+          newCurrent >= 0
+            ? newCurrent
+            : 0;
+
+        logEvent({
+          user:S.mySlot,
+          userName:me().name,
+          action:"admin",
+          type,
+          text:`Hassan hat die ${typeLabel(type)}-Reihenfolge geändert.`
+        });
+
+        saveToCloud();
+
+        render();
+
+        showToast("Reihenfolge gespeichert.");
+      };
+
+
+    window.setCurrentTurn =
+      function(type,userId){
+
+        if(!isAdmin()){
+          showToast("Nur Hassan kann das ändern.");
+          return;
+        }
+
+        const orderKey =
+          type === "trash"
+            ? "trashOrder"
+            : "cleanOrder";
+
+        const posKey =
+          type === "trash"
+            ? "trashPos"
+            : "cleanPos";
+
+        const index =
+          S[orderKey].indexOf(
+            Number(userId)
+          );
+
+        if(index === -1){
+          return;
+        }
+
+        S[posKey] = index;
+
+        const user =
+          getUser(userId);
+
+        logEvent({
+          user:S.mySlot,
+          userName:me().name,
+          action:"admin",
+          type,
+          text:`Hassan hat ${user.name} bei ${typeLabel(type)} auf Position ${index+1} gesetzt.`
+        });
+
+        saveToCloud();
+
+        render();
+
+        showToast(
+          `${user.name} ist jetzt bei ${typeLabel(type)} dran.`
+        );
+      };
+
 
     /* =========================================================
        NOTIFICATIONS
     ========================================================= */
 
-    function renderNotifications() {
+    window.openNotifications =
+      function(){
 
-      const notices = [];
+        const due =
+          S.dueTasks || [];
 
-      /*
-        Due notifications.
-      */
+        const recent =
+          (S.globalLog || [])
+            .slice(0,12);
 
-      (S.dueTasks || []).forEach(due => {
+        document.getElementById(
+          "modalRoot"
+        ).innerHTML = `
+          <div
+            class="modal-backdrop"
+            onclick="closeModal(event)"
+          >
+            <div class="modal">
 
-        notices.push({
-          icon: "🔴",
-          text:
-            `${userName(due.user)} hat eine fällige Aufgabe: ` +
-            `${TASK_LABELS[due.type] || "Aufgabe"}`,
-          time: due.createdAt
-        });
+              <div class="modal-handle"></div>
 
-      });
+              <div class="modal-head">
+                <h3>Benachrichtigungen</h3>
 
-      /*
-        Recent logs.
-      */
+                <button
+                  class="close"
+                  onclick="closeModal()"
+                >
+                  ×
+                </button>
+              </div>
 
-      [...(S.globalLog || [])]
-        .sort(
-          (a, b) =>
-            Number(b.time || 0) -
-            Number(a.time || 0)
-        )
-        .slice(0, 15)
-        .forEach(log => {
-
-          let icon = "📋";
-
-          if (log.type === "complete") {
-            icon = "✅";
-          }
-
-          if (log.type === "skip") {
-            icon = "⏭️";
-          }
-
-          if (log.type === "due_complete") {
-            icon = "🔴";
-          }
-
-          notices.push({
-            icon,
-            text: log.text,
-            time: log.time
-          });
-
-        });
-
-      notices.sort(
-        (a, b) =>
-          Number(b.time || 0) -
-          Number(a.time || 0)
-      );
-
-      return `
-
-        <div class="section-title">
-          🔔 Benachrichtigungen
-        </div>
-
-        <div class="card">
-
-          ${
-            notices.length
-              ? notices.slice(0, 30).map(item => `
-                  <div class="notice-item">
-
-                    <div class="log-icon">
-                      ${item.icon}
+              ${
+                due.length
+                  ? `
+                    <div class="section-title">
+                      <h3>Fällig</h3>
+                      <span>${due.length}</span>
                     </div>
 
-                    <div class="notice-main">
-
-                      <div class="notice-text">
-                        ${esc(item.text)}
+                    ${due.slice(0,5)
+                      .map(renderDueCard)
+                      .join("")}
+                  `
+                  : `
+                    <div class="empty" style="padding:25px 10px">
+                      <div style="font-size:32px">✨</div>
+                      <div style="margin-top:7px">
+                        Keine offenen Aufgaben.
                       </div>
-
-                      <div class="notice-time">
-                        ${formatDate(item.time)}
-                        ·
-                        ${formatTime(item.time)}
-                      </div>
-
                     </div>
+                  `
+              }
 
-                  </div>
-                `).join("")
-              : `
-                <div class="empty">
-                  <div class="empty-icon">🔔</div>
-                  <div class="empty-title">
-                    Keine Benachrichtigungen
-                  </div>
-                  <div>
-                    Alles ruhig.
-                  </div>
-                </div>
-              `
-          }
+              <div class="section-title">
+                <h3>Letzte Aktivitäten</h3>
+              </div>
 
-        </div>
+              ${
+                recent.length
+                  ? recent.slice(0,7)
+                    .map(renderLogItem)
+                    .join("")
+                  : `
+                    <div style="color:var(--muted);padding:10px 0">
+                      Noch keine Aktivitäten.
+                    </div>
+                  `
+              }
 
-      `;
-    }
+            </div>
+          </div>
+        `;
+      };
+
+
+    window.closeModal =
+      function(event){
+
+        if(
+          event &&
+          event.target &&
+          !event.target.classList.contains(
+            "modal-backdrop"
+          )
+        ){
+          return;
+        }
+
+        document.getElementById(
+          "modalRoot"
+        ).innerHTML = "";
+      };
+
 
     /* =========================================================
        PROFILE
     ========================================================= */
 
-    function renderProfile() {
+    window.openProfile =
+      function(){
 
-      const me =
-        getMyUser();
+        const user = me();
 
-      return `
+        document.getElementById(
+          "modalRoot"
+        ).innerHTML = `
+          <div
+            class="modal-backdrop"
+            onclick="closeModal(event)"
+          >
 
-        <div class="section-title">
-          Profil
-        </div>
+            <div class="modal">
 
-        <div class="card profile-card">
+              <div class="modal-handle"></div>
 
-          <div class="profile-header">
+              <div class="modal-head">
 
-            ${avatarHTML(me, "large")}
+                <h3>Profil</h3>
 
-            <div>
-
-              <div class="profile-name">
-                ${esc(me?.name || "")}
-              </div>
-
-              <div class="profile-role">
-                ${
-                  me?.isAdmin
-                    ? "👑 WG Administrator"
-                    : "WG Mitglied"
-                }
-              </div>
-
-            </div>
-
-          </div>
-
-          ${
-            me?.isAdmin
-              ? `
                 <button
-                  class="action-btn blue-btn"
-                  onclick="openAdmin()"
-                  style="width:100%;margin-bottom:8px;"
+                  class="close"
+                  onclick="closeModal()"
                 >
-                  👑 Admin Einstellungen
+                  ×
                 </button>
-              `
-              : ""
-          }
 
-          <button
-            class="action-btn gray-btn"
-            onclick="switchUser()"
-            style="width:100%;margin-bottom:8px;"
-          >
-            🔄 Benutzer wechseln
-          </button>
-
-          <button
-            class="action-btn skip-btn"
-            onclick="logout()"
-            style="width:100%;"
-          >
-            🚪 Ausloggen
-          </button>
-
-        </div>
-
-        <div class="section-title">
-          Meine Aufgaben
-        </div>
-
-        <div class="card">
-
-          <div class="settings-row">
-
-            <div class="settings-row-icon">
-              🗑️
-            </div>
-
-            <div class="settings-row-main">
-
-              <div class="settings-row-title">
-                Müll
               </div>
 
-              <div class="settings-row-sub">
-                ${
-                  Number(currentTurn("trash")) ===
-                  Number(S.mySlot)
-                    ? "Du bist aktuell dran."
-                    : `${esc(userName(currentTurn("trash")))} ist aktuell dran.`
-                }
-              </div>
+              <div style="
+                display:flex;
+                align-items:center;
+                gap:13px;
+                padding:8px 0 20px;
+              ">
 
-            </div>
-
-          </div>
-
-          <div class="settings-row">
-
-            <div class="settings-row-icon">
-              🧹
-            </div>
-
-            <div class="settings-row-main">
-
-              <div class="settings-row-title">
-                Putzen
-              </div>
-
-              <div class="settings-row-sub">
-                ${
-                  Number(currentTurn("clean")) ===
-                  Number(S.mySlot)
-                    ? "Du bist aktuell dran."
-                    : `${esc(userName(currentTurn("clean")))} ist aktuell dran.`
-                }
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-        ${
-          me?.isAdmin
-            ? `
-              <div class="section-title">
-                Projekt Demo
-              </div>
-
-              <div class="card profile-card">
-
-                <div style="font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:12px;">
-                  Hassan ist als Administrator eingerichtet.
-                  Über die Admin Einstellungen kannst du die
-                  Rotationen und WG Reihenfolge ändern.
+                <div class="avatar c${user.colorId}"
+                     style="width:58px;height:58px;font-size:18px">
+                  ${esc(initials(user.name))}
                 </div>
 
-                <button
-                  class="action-btn gray-btn"
-                  onclick="adminResetAll()"
-                  style="width:100%;"
-                >
-                  🔄 Demo-Daten zurücksetzen
-                </button>
+                <div>
+                  <strong style="font-size:18px">
+                    ${esc(user.name)}
+                  </strong>
+
+                  <div style="
+                    color:var(--muted);
+                    font-size:12px;
+                    margin-top:4px;
+                  ">
+                    ${
+                      user.isAdmin
+                        ? "Admin"
+                        : "WG Mitglied"
+                    }
+                  </div>
+                </div>
 
               </div>
-            `
-            : ""
+
+              <button
+                class="action"
+                style="width:100%;margin-bottom:8px"
+                onclick="closeModal();setTab('calendar')"
+              >
+                📅 Kalender öffnen
+              </button>
+
+              ${
+                user.isAdmin
+                  ? `
+                    <button
+                      class="action"
+                      style="width:100%;margin-bottom:8px"
+                      onclick="closeModal();setTab('home')"
+                    >
+                      ⚙️ Admin öffnen
+                    </button>
+                  `
+                  : ""
+              }
+
+              <button
+                class="action"
+                style="
+                  width:100%;
+                  color:#ff6f69;
+                  border-color:rgba(255,69,58,.18);
+                "
+                onclick="closeModal();logout()"
+              >
+                ⇥ Ausloggen
+              </button>
+
+            </div>
+
+          </div>
+        `;
+      };
+
+
+    /* =========================================================
+       SWIPE
+    ========================================================= */
+
+    const swipeData = {};
+
+    window.swipeStart =
+      function(event,type){
+
+        const touch =
+          event.touches[0];
+
+        swipeData[type] = {
+          startX:touch.clientX,
+          currentX:touch.clientX
+        };
+
+        event.currentTarget.classList.add(
+          "swiping"
+        );
+      };
+
+
+    window.swipeMove =
+      function(event,type){
+
+        if(!swipeData[type]){
+          return;
         }
 
+        const touch =
+          event.touches[0];
+
+        const delta =
+          touch.clientX -
+          swipeData[type].startX;
+
+        swipeData[type].currentX =
+          touch.clientX;
+
+        if(delta < 0){
+          event.currentTarget.style.transform =
+            `translateX(${Math.max(delta,-120)}px)`;
+        }
+      };
+
+
+    window.swipeEnd =
+      function(event,type){
+
+        const data =
+          swipeData[type];
+
+        if(!data){
+          return;
+        }
+
+        const delta =
+          data.currentX -
+          data.startX;
+
+        event.currentTarget.classList.remove(
+          "swiping"
+        );
+
+        event.currentTarget.style.transform = "";
+
+        delete swipeData[type];
+
+        if(delta < -80){
+          skipTurn(type);
+        }
+      };
+
+
+    /* =========================================================
+       RENDER
+    ========================================================= */
+
+    function render(){
+
+      const login =
+        document.getElementById(
+          "loginScreen"
+        );
+
+      const app =
+        document.getElementById(
+          "app"
+        );
+
+      if(!S.isLoggedIn){
+
+        login.classList.remove(
+          "hidden"
+        );
+
+        app.classList.add(
+          "hidden"
+        );
+
+        renderLogin();
+
+        return;
+      }
+
+      login.classList.add(
+        "hidden"
+      );
+
+      app.classList.remove(
+        "hidden"
+      );
+
+      const avatar =
+        document.getElementById(
+          "topAvatar"
+        );
+
+      const user =
+        me();
+
+      avatar.innerHTML = `
+        <span class="avatar small c${user.colorId}">
+          ${esc(initials(user.name))}
+        </span>
       `;
+
+      document.getElementById(
+        "topSub"
+      ).textContent =
+        user.isAdmin
+          ? "Hassan · Admin"
+          : "WG Übersicht";
+
+      let html = "";
+
+      switch(S.tab){
+
+        case "due":
+          html = renderDue();
+          break;
+
+        case "calendar":
+          html = renderCalendar();
+          break;
+
+        case "chat":
+          html = renderChat();
+          break;
+
+        case "log":
+          html = renderLog();
+          break;
+
+        default:
+          html = renderHome();
+      }
+
+      document.getElementById(
+        "content"
+      ).innerHTML = html;
+
+      updateNav();
     }
 
-    /* =========================================================
-       SWIPE SUPPORT
-    ========================================================= */
-
-    function attachSwipe() {
-
-      document
-        .querySelectorAll(
-          ".task-card[data-swipe-type]"
-        )
-        .forEach(card => {
-
-          let startX = 0;
-          let startY = 0;
-          let active = false;
-
-          card.addEventListener(
-            "touchstart",
-            event => {
-
-              const target =
-                event.target;
-
-              if (
-                target.closest("button") ||
-                target.closest("input") ||
-                target.closest("select")
-              ) {
-                active = false;
-                return;
-              }
-
-              const touch =
-                event.touches[0];
-
-              startX =
-                touch.clientX;
-
-              startY =
-                touch.clientY;
-
-              active = true;
-            },
-            { passive: true }
-          );
-
-          card.addEventListener(
-            "touchend",
-            event => {
-
-              if (!active) return;
-
-              const touch =
-                event.changedTouches[0];
-
-              const dx =
-                touch.clientX - startX;
-
-              const dy =
-                touch.clientY - startY;
-
-              active = false;
-
-              if (
-                dx < -85 &&
-                Math.abs(dx) > Math.abs(dy)
-              ) {
-
-                const type =
-                  card.dataset.swipeType;
-
-                skipTurn(type);
-              }
-
-            },
-            { passive: true }
-          );
-
-        });
-    }
 
     /* =========================================================
-       KEYBOARD SHORTCUTS
+       INITIAL START
     ========================================================= */
 
-    document.addEventListener(
-      "keydown",
-      event => {
+    restoreLogin();
 
-        if (
-          event.key === "Escape"
-        ) {
+    render();
 
-          const modal =
-            document.getElementById("modalRoot");
-
-          if (modal) {
-            modal.innerHTML = "";
-          }
-
-        }
-
+    window.addEventListener(
+      "focus",
+      ()=>{
+        render();
       }
     );
-
-    /* =========================================================
-       BOOT
-    ========================================================= */
-
-    loadLocalLogin();
-    updateLoginVisibility();
-
-    /*
-      Initial render will be refreshed automatically
-      when Firebase sends the current data.
-    */
-
-    if (S.isLoggedIn) {
-      render();
-    }
 
   </script>
 </body>
