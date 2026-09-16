@@ -1,0 +1,3673 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#3A8AE0">
+<title>KINGEN WG</title>
+
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f5f5f3;
+  min-height: 100dvh;
+  color: #1a1a1a;
+}
+
+.app {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 0 0 90px;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* LOGIN */
+.login-screen {
+  position: fixed;
+  inset: 0;
+  background: #3A8AE0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.login-card {
+  background: white;
+  padding: 32px 28px;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.15);
+  text-align: center;
+}
+
+.login-card h2 {
+  margin-bottom: 4px;
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #3A8AE0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.login-card p {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 22px;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.5px solid #e8e8e6;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  outline: none;
+}
+
+.login-card input:focus {
+  border-color: #3A8AE0;
+}
+
+.login-card button {
+  width: 100%;
+  padding: 14px;
+  background: #3A8AE0;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* HERO */
+.hero-banner {
+  background: linear-gradient(135deg, #3A8AE0 0%, #2570c8 100%);
+  padding: max(56px, env(safe-area-inset-top)) 24px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0 0 28px 28px;
+  margin-bottom: 14px;
+}
+
+.hero-title {
+  color: white;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+/* CARDS */
+.card {
+  background: #fff;
+  border-radius: 20px;
+  margin: 0 16px 14px;
+  padding: 20px;
+  position: relative;
+}
+
+.slabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: #bbb;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* PROFILE */
+.profile-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.profile-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 17px;
+  font-weight: 800;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.profile-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.profile-right input {
+  width: 100%;
+  border: 1.5px solid #eee;
+  padding: 9px 13px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  outline: none;
+  background: #fafafa;
+}
+
+.profile-right input:focus {
+  border-color: #3A8AE0;
+  background: white;
+}
+
+.profile-tasks {
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.task-pill-due {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #E05A3A;
+  background: #FDEEE9;
+  padding: 4px 10px;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.task-pill-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #3AAE60;
+  background: #E8F7EE;
+  padding: 4px 10px;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.task-pill-done .done-time {
+  font-size: 10px;
+  color: #aaa;
+  font-weight: 400;
+}
+
+/* COLOR PICKER */
+.color-picker {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  align-items: center;
+}
+
+.color-picker-label {
+  font-size: 11px;
+  color: #aaa;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.color-opt {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform .1s;
+}
+
+.color-opt.selected {
+  border-color: #1a1a1a;
+  transform: scale(1.15);
+}
+
+/* ROTATION */
+.dots-mini {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.dot-mini {
+  border-radius: 50%;
+  opacity: .22;
+  transition: all .3s cubic-bezier(.34,1.4,.64,1);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  position: relative;
+  text-transform: uppercase;
+}
+
+.dot-mini.active {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.dot-name-tag {
+  font-size: 10px;
+  position: absolute;
+  bottom: -20px;
+  white-space: nowrap;
+  color: #999;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.turn-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.turn-label {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.action-header-btn {
+  font-size: 11px;
+  font-weight: bold;
+  color: #3A8AE0;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* NEXT STRIP */
+.next-strip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  background: #f9f9f7;
+  border-radius: 10px;
+}
+
+.next-strip-lbl {
+  font-size: 10px;
+  font-weight: 700;
+  color: #ccc;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-right: 2px;
+  flex-shrink: 0;
+}
+
+.next-person {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.next-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.next-person .next-name {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.next-arrow {
+  color: #ddd;
+  font-size: 10px;
+}
+
+/* CHECKLIST */
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+  margin-top: 12px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 2px solid transparent;
+  background: #f9f9f7;
+  cursor: pointer;
+  transition: all .15s;
+  user-select: none;
+}
+
+.item.checked {
+  border-color: var(--c);
+  background: var(--cl);
+}
+
+.item:active {
+  transform: scale(.98);
+}
+
+.item-icon {
+  font-size: 20px;
+  width: 26px;
+  text-align: center;
+}
+
+.item-name {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.item-check {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .15s;
+  flex-shrink: 0;
+}
+
+.item.checked .item-check {
+  border-color: var(--c);
+  background: var(--c);
+}
+
+.chk {
+  display: none;
+}
+
+.item.checked .chk {
+  display: block;
+}
+
+/* BUTTONS */
+.btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity .15s, transform .1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn:active {
+  transform: scale(.97);
+  opacity: .85;
+}
+
+.btn:disabled {
+  background: #e8e8e6 !important;
+  color: #bbb !important;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* CLEAN */
+.clean-btn {
+  width: 100%;
+  border: none;
+  border-radius: 18px;
+  cursor: pointer;
+  padding: 20px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform .15s, box-shadow .15s;
+  position: relative;
+  overflow: hidden;
+}
+
+.clean-btn:active {
+  transform: scale(.97);
+}
+
+.clean-btn::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,0) 60%);
+  pointer-events:none;
+}
+
+.clean-btn-left {
+  text-align:left;
+}
+
+.clean-btn-sup {
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  opacity:.75;
+  margin-bottom:4px;
+}
+
+.clean-btn-main {
+  font-size:17px;
+  font-weight:800;
+  letter-spacing:-.2px;
+}
+
+.clean-btn-icon {
+  font-size:32px;
+}
+
+/* WEEK */
+.week-schedule {
+  display:flex;
+  gap:6px;
+  margin-top:12px;
+  margin-bottom:0;
+  overflow-x:auto;
+  padding-bottom:2px;
+}
+
+.week-pill {
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:600;
+}
+
+/* EXTRA */
+.custom-task-box {
+  display:flex;
+  gap:8px;
+  margin-top:4px;
+}
+
+.custom-task-box input {
+  flex:1;
+  border:1.5px solid #eee;
+  background:#f9f9f7;
+  padding:12px;
+  border-radius:12px;
+  font-size:14px;
+  outline:none;
+}
+
+.custom-task-box input:focus {
+  border-color:#3A8AE0;
+  background:white;
+}
+
+.custom-task-box button {
+  background:#1a1a1a;
+  color:white;
+  border:none;
+  padding:0 16px;
+  border-radius:12px;
+  font-weight:bold;
+  font-size:13px;
+  cursor:pointer;
+}
+
+/* LOG */
+.log-item {
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid #f5f5f3;
+}
+
+.log-item:last-child {
+  border-bottom:none;
+}
+
+.log-dot {
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:13px;
+  font-weight:bold;
+  text-transform:uppercase;
+}
+
+.log-who {
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:2px;
+}
+
+.log-text {
+  font-size:13px;
+  color:#444;
+}
+
+.log-tags {
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:4px;
+  margin-bottom:2px;
+}
+
+.log-tag {
+  font-size:11px;
+  padding:2px 8px;
+  border-radius:20px;
+  font-weight:500;
+}
+
+.log-time {
+  font-size:10px;
+  color:#ccc;
+  margin-top:2px;
+}
+
+.log-empty {
+  text-align:center;
+  color:#ccc;
+  font-size:14px;
+  padding:32px 0;
+}
+
+/* DUE */
+.due-card {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px;
+  border-radius:14px;
+  background:#FDEEE9;
+  margin-bottom:10px;
+}
+
+.due-avatar {
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-weight:800;
+  flex-shrink:0;
+}
+
+.due-info {
+  flex:1;
+}
+
+.due-name {
+  font-size:14px;
+  font-weight:800;
+}
+
+.due-task {
+  font-size:12px;
+  color:#777;
+  margin-top:2px;
+}
+
+.due-done {
+  border:none;
+  background:#fff;
+  color:#E05A3A;
+  border-radius:10px;
+  padding:8px 10px;
+  font-size:10px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+/* CHAT */
+.chat-tab-header {
+  display:flex;
+  background:white;
+  margin:0 16px 12px;
+  border-radius:14px;
+  padding:4px;
+  gap:4px;
+}
+
+.chat-tab-btn {
+  flex:1;
+  padding:9px;
+  border:none;
+  background:none;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:700;
+  color:#bbb;
+  cursor:pointer;
+}
+
+.chat-tab-btn.active {
+  background:#3A8AE0;
+  color:white;
+}
+
+.chat-layout {
+  display:flex;
+  flex-direction:column;
+  height:calc(100dvh - 230px);
+  margin:0 16px;
+}
+
+.chat-pane {
+  display:flex;
+  flex-direction:column;
+  background:white;
+  border-radius:20px;
+  flex:1;
+  overflow:hidden;
+}
+
+.chat-pane-header {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:13px 16px;
+  border-bottom:1px solid #f0f0ee;
+  background:#fafafa;
+  font-weight:700;
+  font-size:14px;
+}
+
+.chat-messages {
+  flex:1;
+  padding:14px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.msg-bubble {
+  max-width:75%;
+  padding:10px 14px;
+  border-radius:16px;
+  font-size:14px;
+  line-height:1.4;
+}
+
+.msg-author {
+  font-size:10px;
+  margin-bottom:3px;
+  font-weight:700;
+  opacity:.8;
+}
+
+.msg-bubble.me {
+  align-self:flex-end;
+  background:#3A8AE0;
+  color:white;
+  border-bottom-right-radius:4px;
+}
+
+.msg-bubble.them {
+  align-self:flex-start;
+  background:#f0f0ee;
+  color:#1a1a1a;
+  border-bottom-left-radius:4px;
+}
+
+.sys-msg {
+  align-self:center;
+  background:#fff;
+  font-size:11px;
+  padding:5px 12px;
+  border-radius:12px;
+  color:#888;
+  border:1px solid #eee;
+  text-align:center;
+  max-width:85%;
+}
+
+.chat-input-area {
+  display:flex;
+  padding:10px 12px 12px;
+  border-top:1px solid #f0f0ee;
+  gap:8px;
+  background:white;
+}
+
+.chat-input-area input {
+  flex:1;
+  border:1.5px solid #e8e8e6;
+  padding:10px 14px;
+  border-radius:20px;
+  font-size:14px;
+  outline:none;
+  background:#fafafa;
+}
+
+.chat-input-area button {
+  background:#3A8AE0;
+  color:white;
+  border:none;
+  padding:0 18px;
+  border-radius:20px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.chat-rooms {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  overflow-y:auto;
+}
+
+.chat-room-row {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:white;
+  padding:14px 16px;
+  border-radius:16px;
+  cursor:pointer;
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:420px;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(16px);
+  border-top:1px solid #eee;
+  display:flex;
+  padding:8px 0 max(16px,env(safe-area-inset-bottom));
+  z-index:100;
+}
+
+.nav-tab {
+  flex:1;
+  background:none;
+  border:none;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  padding:5px 0;
+}
+
+.nav-tab svg {
+  width:22px;
+  height:22px;
+}
+
+.nav-tab span {
+  font-size:10px;
+  font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<div id="loginGate" class="login-screen" style="display:none;">
+  <div class="login-card">
+    <h2 id="logoHeader" onclick="triggerSecretReset()">KINGEN WG</h2>
+    <p>Gib deinen Namen und den WG-Passcode ein.</p>
+    <input type="text" id="nameInput" placeholder="Dein Name">
+    <input type="password" id="passcodeInput" placeholder="WG-Passcode">
+    <button onclick="submitSecureLogin()">Beitreten</button>
+  </div>
+</div>
+
+<div class="app">
+  <div id="root"></div>
+</div>
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+import {
+  getDatabase,
+  ref,
+  set,
+  onValue
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+
+/* FIREBASE */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAv-1UXuNTEU8aFb8VfpFFVYg6VR1nkQVM",
+  authDomain: "kingenwg.firebaseapp.com",
+  databaseURL: "https://kingenwg-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "kingenwg",
+  storageBucket: "kingenwg.firebasestorage.app",
+  messagingSenderId: "959662859826",
+  appId: "1:959662859826:web:b44260e9944545fa58fe2b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const WG_PASSCODE = "1234";
+const ONESIGNAL_APP_ID = "ccca5ec6-33c7-4921-a67a-d3b06de45512";
+
+
+/* COLORS */
+
+const COLORS = [
+  { hex:"#E05A3A", light:"#FDEEE9" },
+  { hex:"#3A8AE0", light:"#E8F2FD" },
+  { hex:"#3AAE60", light:"#E8F7EE" },
+  { hex:"#D4A017", light:"#FDF5DC" }
+];
+
+
+/* BINS */
+
+const BINS = [
+  { id:"rest", icon:"🗑️", name:"Restmüll" },
+  { id:"papier", icon:"📦", name:"Papiermüll" },
+  { id:"bio", icon:"🌿", name:"Biomüll" },
+  { id:"gelb", icon:"♻️", name:"Gelber Sack" }
+];
+
+
+/* STATE */
+
+let S = {
+
+  trashTurn:0,
+  cleanTurn:0,
+
+  dueTasks:[],
+
+  globalLog:[],
+
+  users:[
+    {id:0, name:"Jacky", deviceId:"", colorId:0},
+    {id:1, name:"Hassan", deviceId:"", colorId:1},
+    {id:2, name:"Suraj", deviceId:"", colorId:2},
+    {id:3, name:"Andreas", deviceId:"", colorId:3}
+  ],
+
+  groupChat:[],
+  privateChats:{},
+
+  tab:"home",
+  chatSubTab:"group",
+  activePrivatePartner:null,
+
+  isLoggedIn:false,
+  mySlot:0
+};
+
+
+let localTrashChecked = [];
+
+
+/* DEVICE TOKEN */
+
+let myLocalDeviceToken =
+  localStorage.getItem("wg_device_secure_token");
+
+if (!myLocalDeviceToken) {
+
+  myLocalDeviceToken =
+    "dev_" +
+    Math.random().toString(36).substr(2,9) +
+    Date.now();
+
+  localStorage.setItem(
+    "wg_device_secure_token",
+    myLocalDeviceToken
+  );
+}
+
+
+/* LOGIN */
+
+if (
+  localStorage.getItem("wg_secure_logged_in") === "true"
+) {
+
+  S.isLoggedIn = true;
+
+  S.mySlot = parseInt(
+    localStorage.getItem("wg_user_slot") || "0",
+    10
+  );
+
+  initOneSignalNotifications();
+
+} else {
+
+  document.getElementById("loginGate").style.display = "flex";
+}
+
+
+/* ONESIGNAL */
+
+function initOneSignalNotifications() {
+
+  window.OneSignalDeferred =
+    window.OneSignalDeferred || [];
+
+  OneSignalDeferred.push(async function(OneSignal) {
+
+    try {
+
+      await OneSignal.init({
+        appId: ONESIGNAL_APP_ID,
+        allowLocalhostAsSecureOrigin:true
+      });
+
+      await OneSignal.login(
+        "user_" + S.mySlot
+      );
+
+    } catch(e) {
+
+      console.warn(
+        "OneSignal unavailable:",
+        e
+      );
+
+    }
+
+  });
+}
+
+
+/* PUSH */
+
+function sendPushToUser(
+  targetSlotId,
+  alertTitle,
+  alertMessage,
+  isSilent=false
+) {
+
+  fetch("/api/send-push", {
+
+    method:"POST",
+
+    headers:{
+      "Content-Type":"application/json"
+    },
+
+    body:JSON.stringify({
+      targetSlotId,
+      alertTitle,
+      alertMessage,
+      isSilent
+    })
+
+  })
+
+  .then(res => {
+
+    if (!res.ok)
+      throw new Error("Push API unavailable");
+
+    return res.json();
+
+  })
+
+  .then(data => {
+
+    console.log(
+      "Push Notification Status:",
+      data
+    );
+
+  })
+
+  .catch(e => {
+
+    console.warn(
+      "Push notification unavailable:",
+      e.message
+    );
+
+  });
+}
+
+
+/* SECRET RESET */
+
+let resetClicks = 0;
+
+window.triggerSecretReset = function() {
+
+  resetClicks++;
+
+  if (resetClicks >= 5) {
+
+    resetClicks = 0;
+
+    localStorage.clear();
+
+    const freshUsers = [
+
+      {
+        id:0,
+        name:"Jacky",
+        deviceId:"",
+        colorId:0
+      },
+
+      {
+        id:1,
+        name:"Hassan",
+        deviceId:"",
+        colorId:1
+      },
+
+      {
+        id:2,
+        name:"Suraj",
+        deviceId:"",
+        colorId:2
+      },
+
+      {
+        id:3,
+        name:"Andreas",
+        deviceId:"",
+        colorId:3
+      }
+
+    ];
+
+    set(
+      ref(db,"wg_secure_v6/users"),
+      freshUsers
+    )
+    .then(() => {
+
+      alert(
+        "Datenbank zurückgesetzt! Alle Slots frei."
+      );
+
+      window.location.reload();
+
+    });
+
+  }
+
+};
+
+
+/* LOGIN */
+
+window.submitSecureLogin = function() {
+
+  const code =
+    document.getElementById("passcodeInput")
+      .value
+      .trim();
+
+  const rawName =
+    document.getElementById("nameInput")
+      .value
+      .trim();
+
+  if (!rawName) {
+
+    alert("Bitte gib deinen Namen ein!");
+    return;
+
+  }
+
+  if (code !== WG_PASSCODE) {
+
+    alert("Falscher WG-Passcode!");
+    return;
+
+  }
+
+  const cleanName =
+    rawName.toLowerCase();
+
+  let foundSlot = -1;
+  let emptySlot = -1;
+
+  for (
+    let i=0;
+    i<S.users.length;
+    i++
+  ) {
+
+    if (
+      S.users[i].name.toLowerCase()
+      === cleanName
+    ) {
+
+      foundSlot = i;
+      break;
+
+    }
+
+    if (
+      !S.users[i].deviceId &&
+      emptySlot === -1
+    ) {
+
+      emptySlot = i;
+
+    }
+
+  }
+
+  if (foundSlot !== -1) {
+
+    if (
+      !S.users[foundSlot].deviceId ||
+      S.users[foundSlot].deviceId
+      === myLocalDeviceToken
+    ) {
+
+      S.users[foundSlot].deviceId =
+        myLocalDeviceToken;
+
+      executeLoginSuccess(foundSlot);
+
+    } else {
+
+      alert(
+        "Dieser Name ist auf einem anderen Gerät registriert!"
+      );
+
+    }
+
+  } else {
+
+    if (emptySlot !== -1) {
+
+      S.users[emptySlot].name =
+        rawName;
+
+      S.users[emptySlot].deviceId =
+        myLocalDeviceToken;
+
+      executeLoginSuccess(emptySlot);
+
+    } else {
+
+      alert(
+        "Alle 4 Profile belegt!"
+      );
+
+    }
+
+  }
+
+};
+
+
+function executeLoginSuccess(slot) {
+
+  localStorage.setItem(
+    "wg_secure_logged_in",
+    "true"
+  );
+
+  localStorage.setItem(
+    "wg_user_slot",
+    slot
+  );
+
+  S.isLoggedIn = true;
+  S.mySlot = slot;
+
+  document.getElementById(
+    "loginGate"
+  ).style.display = "none";
+
+  initOneSignalNotifications();
+
+  saveToCloud();
+
+  render();
+
+}
+
+
+/* FIREBASE SYNC */
+
+onValue(
+  ref(db,"wg_secure_v6"),
+  snapshot => {
+
+    const data = snapshot.val();
+
+    if (data) {
+
+      S.trashTurn =
+        data.trashTurn ?? 0;
+
+      S.cleanTurn =
+        data.cleanTurn ?? 0;
+
+      S.dueTasks =
+        data.dueTasks || [];
+
+      S.globalLog =
+        data.globalLog || [];
+
+      S.users =
+        data.users || S.users;
+
+      S.groupChat =
+        data.groupChat || [];
+
+      S.privateChats =
+        data.privateChats || {};
+
+      if (
+        S.mySlot >= S.users.length
+      ) {
+
+        S.mySlot = 0;
+
+      }
+
+      render();
+
+    } else {
+
+      saveToCloud();
+
+    }
+
+  }
+);
+
+
+/* SAVE */
+
+function saveToCloud() {
+
+  set(
+    ref(db,"wg_secure_v6"),
+    {
+
+      trashTurn:S.trashTurn,
+
+      cleanTurn:S.cleanTurn,
+
+      dueTasks:S.dueTasks,
+
+      globalLog:S.globalLog,
+
+      users:S.users,
+
+      groupChat:S.groupChat,
+
+      privateChats:S.privateChats
+
+    }
+  )
+  .catch(e => {
+
+    console.error(
+      "Firebase save failed:",
+      e
+    );
+
+  });
+
+}
+
+
+/* HELPERS */
+
+function getInitials(name) {
+
+  return name
+    ? name.trim().charAt(0).toUpperCase()
+    : "?";
+
+}
+
+function fmtTs(ts) {
+
+  return new Date(ts)
+    .toLocaleDateString(
+      "de-DE",
+      {
+        day:"numeric",
+        month:"short",
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+    );
+
+}
+
+function fmtShort(ts) {
+
+  return new Date(ts)
+    .toLocaleDateString(
+      "de-DE",
+      {
+        day:"numeric",
+        month:"short"
+      }
+    );
+
+}
+
+
+/* TRASH CHECK */
+
+window.toggleTrash = id => {
+
+  localTrashChecked =
+    localTrashChecked.includes(id)
+
+      ? localTrashChecked.filter(
+          x => x !== id
+        )
+
+      : [
+          ...localTrashChecked,
+          id
+        ];
+
+  render();
+
+};
+
+
+/* NAVIGATION */
+
+window.setTab = t => {
+
+  S.tab = t;
+
+  S.activePrivatePartner = null;
+
+  render();
+
+};
+
+
+window.setChatSubTab = st => {
+
+  S.chatSubTab = st;
+
+  S.activePrivatePartner = null;
+
+  render();
+
+};
+
+
+/* PRIVATE CHAT */
+
+window.openPrivateWith = id => {
+
+  S.activePrivatePartner = id;
+
+  if (id === null) {
+
+    S.chatSubTab = "private";
+
+  }
+
+  render();
+
+  if (id !== null) {
+
+    scrollChat();
+
+  }
+
+};
+
+
+/* SKIP / BOUNCE */
+
+window.skipTurn = type => {
+
+  const turnKey =
+    type + "Turn";
+
+  const skippedId =
+    S[turnKey];
+
+  const skippedUser =
+    S.users[skippedId];
+
+  if (!skippedUser) return;
+
+  if (!S.dueTasks)
+    S.dueTasks = [];
+
+
+  const alreadyDue =
+    S.dueTasks.some(
+      d =>
+        d.user === skippedId &&
+        d.type === type
+    );
+
+
+  if (!alreadyDue) {
+
+    S.dueTasks.push({
+
+      user:skippedId,
+
+      type:type,
+
+      time:Date.now()
+
+    });
+
+  }
+
+
+  S[turnKey] =
+    (S[turnKey] + 1)
+    % S.users.length;
+
+
+  saveToCloud();
+
+  render();
+
+
+  const nextUser =
+    S.users[S[turnKey]];
+
+  const typeLabel =
+    type === "trash"
+      ? "Müll 🗑️"
+      : "Putzen 🧹";
+
+
+  sendPushToUser(
+
+    nextUser.id,
+
+    "Du bist jetzt dran!",
+
+    `${skippedUser.name} hat gepasst. ${typeLabel}`
+
+  );
+
+};
+
+
+/* PROFILE */
+
+window.updateMyProfile = (key,val) => {
+
+  val = val.trim();
+
+  if (!val) return;
+
+  S.users[S.mySlot][key] = val;
+
+  saveToCloud();
+
+  render();
+
+};
+
+
+window.changeMyColor = colorIdx => {
+
+  S.users[S.mySlot].colorId =
+    colorIdx;
+
+  saveToCloud();
+
+  render();
+
+};
+
+
+/* TRASH DONE */
+
+window.confirmTrash = function() {
+
+  if (!localTrashChecked.length)
+    return;
+
+  const turn =
+    S.trashTurn;
+
+  const u =
+    S.users[turn];
+
+  const binNames =
+    localTrashChecked
+      .map(
+        id =>
+          BINS.find(
+            b => b.id === id
+          ).name
+      )
+      .join(", ");
+
+
+  S.globalLog = [
+
+    {
+      person:turn,
+      type:"trash",
+      text:"Müll rausgebracht",
+      items:[...localTrashChecked],
+      ts:Date.now()
+    },
+
+    ...S.globalLog
+
+  ].slice(0,50);
+
+
+  S.groupChat.push({
+
+    sender:-1,
+
+    authorName:"System",
+
+    text:
+      `📢 ${u.name} hat folgenden Müll weggemacht: ${binNames}`,
+
+    ts:Date.now()
+
+  });
+
+
+  /* Remove matching Due */
+
+  if (S.dueTasks) {
+
+    S.dueTasks =
+      S.dueTasks.filter(
+        d =>
+          !(
+            d.user === turn &&
+            d.type === "trash"
+          )
+      );
+
+  }
+
+
+  /* Next person */
+
+  S.trashTurn =
+    (turn + 1)
+    % S.users.length;
+
+
+  localTrashChecked = [];
+
+
+  saveToCloud();
+
+  render();
+
+
+  const nextUser =
+    S.users[S.trashTurn];
+
+
+  sendPushToUser(
+
+    nextUser.id,
+
+    "Müll-Dienst fällig! 🗑️",
+
+    `Hi ${nextUser.name}, ${u.name} hat den Müll weggemacht. Du bist jetzt dran!`
+
+  );
+
+};
+
+
+/* CLEAN DONE */
+
+window.confirmClean = function() {
+
+  const turn =
+    S.cleanTurn;
+
+  const u =
+    S.users[turn];
+
+
+  S.globalLog = [
+
+    {
+      person:turn,
+      type:"clean",
+      text:"Wohnung komplett geputzt! 🌟",
+      ts:Date.now()
+    },
+
+    ...S.globalLog
+
+  ].slice(0,50);
+
+
+  S.groupChat.push({
+
+    sender:-1,
+
+    authorName:"System",
+
+    text:
+      `🧹 ${u.name} hat die Wohnung komplett gereinigt!`,
+
+    ts:Date.now()
+
+  });
+
+
+  /* Remove matching Due */
+
+  if (S.dueTasks) {
+
+    S.dueTasks =
+      S.dueTasks.filter(
+        d =>
+          !(
+            d.user === turn &&
+            d.type === "clean"
+          )
+      );
+
+  }
+
+
+  /* Next person */
+
+  S.cleanTurn =
+    (turn + 1)
+    % S.users.length;
+
+
+  saveToCloud();
+
+  render();
+
+
+  const nextUser =
+    S.users[S.cleanTurn];
+
+
+  sendPushToUser(
+
+    nextUser.id,
+
+    "Putzen fällig! 🧹",
+
+    `Hey ${nextUser.name}, ${u.name} ist fertig mit Putzen. Du bist für diese Woche an der Reihe!`
+
+  );
+
+};
+
+
+/* EXTRA TASK */
+
+window.submitExtraTask = function() {
+
+  const inp =
+    document.getElementById(
+      "extraInput"
+    );
+
+  if (
+    !inp ||
+    !inp.value.trim()
+  )
+    return;
+
+
+  const taskText =
+    inp.value.trim();
+
+  const u =
+    S.users[S.mySlot];
+
+
+  S.globalLog = [
+
+    {
+      person:S.mySlot,
+      type:"extra",
+      text:`Extra: ${taskText}`,
+      ts:Date.now()
+    },
+
+    ...S.globalLog
+
+  ].slice(0,50);
+
+
+  S.groupChat.push({
+
+    sender:-1,
+
+    authorName:"System",
+
+    text:
+      `⭐ ${u.name}: "${taskText}"`,
+
+    ts:Date.now()
+
+  });
+
+
+  inp.value = "";
+
+  saveToCloud();
+
+  render();
+
+};
+
+
+/* CHAT */
+
+window.sendMsg = function(mode) {
+
+  const inp =
+    document.getElementById(
+      "msgInp"
+    );
+
+  if (
+    !inp ||
+    !inp.value.trim()
+  )
+    return;
+
+
+  const text =
+    inp.value.trim();
+
+  const me =
+    S.users[S.mySlot];
+
+
+  if (mode === "group") {
+
+    S.groupChat.push({
+
+      sender:S.mySlot,
+
+      authorName:me.name,
+
+      text:text,
+
+      ts:Date.now()
+
+    });
+
+
+    S.users.forEach(u => {
+
+      if (
+        u.id !== S.mySlot
+      ) {
+
+        sendPushToUser(
+
+          u.id,
+
+          `💬 WG-Chat (${me.name})`,
+
+          text
+
+        );
+
+      }
+
+    });
+
+
+  } else {
+
+    if (
+      S.activePrivatePartner === null
+    )
+      return;
+
+
+    const key =
+      `${Math.min(
+        S.mySlot,
+        S.activePrivatePartner
+      )}-${Math.max(
+        S.mySlot,
+        S.activePrivatePartner
+      )}`;
+
+
+    if (!S.privateChats[key])
+      S.privateChats[key] = [];
+
+
+    S.privateChats[key].push({
+
+      sender:S.mySlot,
+
+      text:text,
+
+      ts:Date.now()
+
+    });
+
+
+    sendPushToUser(
+
+      S.activePrivatePartner,
+
+      `🔒 Private Nachricht von ${me.name}`,
+
+      text
+
+    );
+
+  }
+
+
+  inp.value = "";
+
+  saveToCloud();
+
+  render();
+
+  scrollChat();
+
+};
+
+
+/* CHAT SCROLL */
+
+function scrollChat() {
+
+  setTimeout(() => {
+
+    const b =
+      document.getElementById(
+        "cBox"
+      );
+
+    if (b)
+      b.scrollTop =
+        b.scrollHeight;
+
+  },40);
+
+}
+
+
+/* CLEAR DUE */
+
+window.clearDue = function(index) {
+
+  if (
+    !S.dueTasks ||
+    !S.dueTasks[index]
+  )
+    return;
+
+
+  const task =
+    S.dueTasks[index];
+
+
+  const u =
+    S.users[task.user];
+
+
+  if (u) {
+
+    S.groupChat.push({
+
+      sender:-1,
+
+      authorName:"System",
+
+      text:
+        `✅ ${u.name} hat seine ${task.type === "trash" ? "Müll" : "Reinigungs"}-Schuld erledigt.`,
+
+      ts:Date.now()
+
+    });
+
+  }
+
+
+  S.dueTasks.splice(
+    index,
+    1
+  );
+
+
+  saveToCloud();
+
+  render();
+
+};
+
+
+/* NEXT STRIP */
+
+function nextStrip(currentTurn) {
+
+  const count =
+    S.users.length;
+
+
+  if (count <= 1)
+    return "";
+
+
+  const amount =
+    Math.min(3,count-1);
+
+
+  return `
+
+    <div class="next-strip">
+
+      <span class="next-strip-lbl">
+        Danach
+      </span>
+
+      ${[1,2,3]
+        .slice(0,amount)
+        .map(i => {
+
+          const idx =
+            (currentTurn + i)
+            % count;
+
+          const u =
+            S.users[idx];
+
+          const col =
+            COLORS[
+              u.colorId ?? idx
+            ];
+
+          const opacity =
+            i === 1
+              ? 1
+              : i === 2
+                ? .55
+                : .3;
+
+
+          return `
+
+            <div
+              class="next-person"
+              style="opacity:${opacity}"
+            >
+
+              <div
+                class="next-dot"
+                style="background:${col.hex}"
+              >
+                ${getInitials(u.name)}
+              </div>
+
+              <span
+                class="next-name"
+                style="color:${col.hex}"
+              >
+                ${u.name}
+              </span>
+
+            </div>
+
+            ${
+              i < amount
+                ? '<span class="next-arrow">›</span>'
+                : ''
+            }
+
+          `;
+
+        })
+        .join("")}
+
+    </div>
+
+  `;
+
+}
+
+
+/* WEEK SCHEDULE */
+
+function weekSchedule(cleanTurn) {
+
+  return `
+
+    <div class="week-schedule">
+
+      ${[0,1,2,3]
+        .map(i => {
+
+          const idx =
+            (cleanTurn + i)
+            % S.users.length;
+
+          const u =
+            S.users[idx];
+
+          const col =
+            COLORS[
+              u.colorId ?? idx
+            ];
+
+          const isCur =
+            i === 0;
+
+
+          return `
+
+            <div
+              class="week-pill"
+              style="
+                background:${isCur
+                  ? col.hex
+                  : col.light};
+                color:${isCur
+                  ? "white"
+                  : col.hex};
+              "
+            >
+
+              <span
+                style="
+                  opacity:${isCur?".75":".7"};
+                  font-size:10px;
+                  font-weight:${isCur?700:600}
+                "
+              >
+                ${
+                  i === 0
+                    ? "Diese Woche"
+                    : "Woche " + (i+1)
+                }
+              </span>
+
+              <span>
+                ${getInitials(u.name)}
+                ${u.name}
+              </span>
+
+            </div>
+
+          `;
+
+        })
+        .join("")}
+
+    </div>
+
+  `;
+
+}
+
+
+/* RENDER */
+
+function render() {
+
+  if (!S.isLoggedIn)
+    return;
+
+
+  const me =
+    S.users[S.mySlot] ||
+    {
+      name:"?",
+      colorId:S.mySlot
+    };
+
+
+  const myC =
+    COLORS[
+      me.colorId ?? S.mySlot
+    ];
+
+
+  let html = "";
+
+
+/* HOME */
+
+if (S.tab === "home") {
+
+  const tTurn =
+    S.trashTurn;
+
+  const tUser =
+    S.users[tTurn];
+
+  const tColor =
+    COLORS[
+      tUser.colorId ?? tTurn
+    ];
+
+
+  const cTurn =
+    S.cleanTurn;
+
+  const cUser =
+    S.users[cTurn];
+
+  const cColor =
+    COLORS[
+      cUser.colorId ?? cTurn
+    ];
+
+
+  const myDue = [];
+
+
+  if (
+    S.trashTurn === S.mySlot
+  ) {
+
+    BINS.forEach(b => {
+
+      myDue.push({
+        icon:b.icon,
+        label:b.name
+      });
+
+    });
+
+  }
+
+
+  if (
+    S.cleanTurn === S.mySlot
+  ) {
+
+    myDue.push({
+      icon:"🧹",
+      label:"Reinigung"
+    });
+
+  }
+
+
+  /* Add skipped tasks */
+
+  (S.dueTasks || [])
+    .filter(
+      d =>
+        d.user === S.mySlot
+    )
+    .forEach(d => {
+
+      const already =
+        myDue.some(
+          x =>
+            (
+              d.type === "trash" &&
+              x.label === "Restmüll"
+            ) ||
+            (
+              d.type === "clean" &&
+              x.label === "Reinigung"
+            )
+        );
+
+      if (!already) {
+
+        myDue.push({
+
+          icon:
+            d.type === "trash"
+              ? "🗑️"
+              : "🧹",
+
+          label:
+            d.type === "trash"
+              ? "Müll-Schuld"
+              : "Reinigungs-Schuld"
+
+        });
+
+      }
+
+    });
+
+
+  const myDone =
+    S.globalLog
+      .filter(
+        l =>
+          l.person === S.mySlot
+      )
+      .slice(0,3);
+
+
+  html = `
+
+    <div class="hero-banner">
+
+      <div>
+        <div class="hero-title">
+          KINGEN WG
+        </div>
+      </div>
+
+      <div
+        style="
+          background:rgba(255,255,255,.18);
+          border-radius:50%;
+          width:42px;
+          height:42px;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          color:white;
+          font-size:18px;
+          font-weight:800;
+        "
+      >
+        ${getInitials(me.name)}
+      </div>
+
+    </div>
+
+
+    <!-- PROFILE -->
+
+    <div class="card">
+
+      <div class="slabel">
+        👤 Mein Profil
+      </div>
+
+      <div class="profile-banner">
+
+        <div
+          class="profile-avatar"
+          style="background:${myC.hex}"
+        >
+          ${getInitials(me.name)}
+        </div>
+
+
+        <div class="profile-right">
+
+          <input
+            type="text"
+            value="${me.name}"
+            onchange="updateMyProfile('name',this.value)"
+            placeholder="Dein Name"
+          >
+
+
+          <div class="color-picker">
+
+            <span class="color-picker-label">
+              Farbe:
+            </span>
+
+            ${COLORS.map(
+              (c,idx) => `
+
+                <div
+                  class="color-opt ${
+                    idx ===
+                    (me.colorId ?? S.mySlot)
+                      ? "selected"
+                      : ""
+                  }"
+                  style="background:${c.hex};"
+                  onclick="changeMyColor(${idx})"
+                ></div>
+
+              `
+            ).join("")}
+
+          </div>
+
+
+          <div class="profile-tasks">
+
+            ${myDue
+              .map(
+                d =>
+                  `<span class="task-pill-due">
+                    ${d.icon} ${d.label} fällig
+                  </span>`
+              )
+              .join("")}
+
+
+            ${myDone
+              .map(
+                d =>
+                  `<span class="task-pill-done">
+                    ✓ ${d.text}
+                    <span class="done-time">
+                      ${fmtShort(d.ts)}
+                    </span>
+                  </span>`
+              )
+              .join("")}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- TRASH -->
+
+    <div class="card">
+
+      <div class="slabel">
+
+        <span>
+          🗑️ Müll runterbringen
+        </span>
+
+        <button
+          class="action-header-btn"
+          onclick="skipTurn('trash')"
+        >
+          Skip Turn ⏭️
+        </button>
+
+      </div>
+
+
+      <div class="turn-row">
+
+        <div class="dots-mini">
+
+          ${S.users
+            .map(u => {
+
+              const c =
+                COLORS[
+                  u.colorId ?? u.id
+                ];
+
+              return `
+
+                <div
+                  class="dot-mini ${
+                    u.id === tTurn
+                      ? "active"
+                      : ""
+                  }"
+                  style="
+                    background:${c.hex};
+                    width:${
+                      u.id === tTurn
+                        ? 34
+                        : 24
+                    }px;
+                    height:${
+                      u.id === tTurn
+                        ? 34
+                        : 24
+                    }px;
+                  "
+                >
+
+                  ${getInitials(u.name)}
+
+                  <span
+                    class="dot-name-tag"
+                    style="
+                      font-weight:${
+                        u.id === tTurn
+                          ? 700
+                          : 400
+                      }
+                    "
+                  >
+                    ${u.name}
+                  </span>
+
+                </div>
+
+              `;
+
+            })
+            .join("")}
+
+        </div>
+
+
+        <span
+          class="turn-label"
+          style="color:${tColor.hex}"
+        >
+          ● ${tUser.name}
+        </span>
+
+      </div>
+
+
+      ${nextStrip(tTurn)}
+
+
+      <div class="items">
+
+        ${BINS.map(b => {
+
+          const on =
+            localTrashChecked
+              .includes(b.id);
+
+
+          return `
+
+            <div
+              class="item ${
+                on ? "checked" : ""
+              }"
+              style="
+                --c:${tColor.hex};
+                --cl:${tColor.light}
+              "
+              onclick="toggleTrash('${b.id}')"
+            >
+
+              <span class="item-icon">
+                ${b.icon}
+              </span>
+
+              <span class="item-name">
+                ${b.name}
+              </span>
+
+              <div class="item-check">
+
+                <svg
+                  class="chk"
+                  width="13"
+                  height="13"
+                  viewBox="0 0 13 13"
+                  fill="none"
+                >
+                  <polyline
+                    points="2 7 5.5 10.5 11 3"
+                    stroke="#fff"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }).join("")}
+
+      </div>
+
+
+      <button
+        class="btn"
+        onclick="confirmTrash()"
+        ${
+          localTrashChecked.length
+            ? ""
+            : "disabled"
+        }
+        style="
+          background:${tColor.hex};
+          color:#fff;
+        "
+      >
+        Müll abgehakt ✓
+      </button>
+
+    </div>
+
+
+    <!-- CLEANING -->
+
+    <div class="card">
+
+      <div class="slabel">
+
+        <span>
+          🧹 WG Reinigung
+        </span>
+
+        <button
+          class="action-header-btn"
+          onclick="skipTurn('clean')"
+        >
+          Skip Turn ⏭️
+        </button>
+
+      </div>
+
+
+      <div class="turn-row">
+
+        <div class="dots-mini">
+
+          ${S.users
+            .map(u => {
+
+              const c =
+                COLORS[
+                  u.colorId ?? u.id
+                ];
+
+              return `
+
+                <div
+                  class="dot-mini ${
+                    u.id === cTurn
+                      ? "active"
+                      : ""
+                  }"
+                  style="
+                    background:${c.hex};
+                    width:${
+                      u.id === cTurn
+                        ? 34
+                        : 24
+                    }px;
+                    height:${
+                      u.id === cTurn
+                        ? 34
+                        : 24
+                    }px;
+                  "
+                >
+
+                  ${getInitials(u.name)}
+
+                  <span
+                    class="dot-name-tag"
+                    style="
+                      font-weight:${
+                        u.id === cTurn
+                          ? 700
+                          : 400
+                      }
+                    "
+                  >
+                    ${u.name}
+                  </span>
+
+                </div>
+
+              `;
+
+            })
+            .join("")}
+
+        </div>
+
+
+        <span
+          class="turn-label"
+          style="color:${cColor.hex}"
+        >
+          ● ${cUser.name}
+        </span>
+
+      </div>
+
+
+      ${nextStrip(cTurn)}
+
+      ${weekSchedule(cTurn)}
+
+
+      <button
+        class="clean-btn"
+        onclick="confirmClean()"
+        style="
+          background:
+            linear-gradient(
+              135deg,
+              ${cColor.hex} 0%,
+              ${cColor.hex}cc 100%
+            );
+          box-shadow:
+            0 8px 28px
+            ${cColor.hex}44;
+          color:white;
+          margin-top:14px;
+        "
+      >
+
+        <div class="clean-btn-left">
+
+          <div class="clean-btn-sup">
+            Fertig damit?
+          </div>
+
+          <div class="clean-btn-main">
+            Wohnung komplett geputzt 🌟
+          </div>
+
+        </div>
+
+        <div class="clean-btn-icon">
+          ✓
+        </div>
+
+      </button>
+
+    </div>
+
+
+    <!-- EXTRA -->
+
+    <div class="card">
+
+      <div class="slabel">
+        ⭐ Etwas extra gemacht?
+      </div>
+
+      <div class="custom-task-box">
+
+        <input
+          type="text"
+          id="extraInput"
+          placeholder="z.B. Küche aufgeräumt"
+          onkeydown="
+            if(event.key==='Enter')
+              submitExtraTask()
+          "
+        >
+
+        <button
+          onclick="submitExtraTask()"
+        >
+          Eintragen
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* DUE */
+
+if (S.tab === "due") {
+
+  const due =
+    S.dueTasks || [];
+
+
+  html = `
+
+    <div class="hero-banner">
+
+      <div>
+        <div class="hero-title">
+          DUE
+        </div>
+      </div>
+
+      <div style="font-size:28px;">
+        ⚠️
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="slabel">
+
+        <span>
+          📌 Noch offen
+        </span>
+
+        <span>
+          ${due.length}
+        </span>
+
+      </div>
+
+
+      ${
+        due.length === 0
+
+          ? `
+            <div class="log-empty">
+              🎉 Alles erledigt!
+            </div>
+          `
+
+          : due.map(
+              (d,index) => {
+
+                const u =
+                  S.users[d.user];
+
+                if (!u)
+                  return "";
+
+                const c =
+                  COLORS[
+                    u.colorId ?? u.id
+                  ];
+
+                const label =
+                  d.type === "trash"
+                    ? "🗑️ Müll"
+                    : "🧹 Reinigung";
+
+
+                return `
+
+                  <div class="due-card">
+
+                    <div
+                      class="due-avatar"
+                      style="
+                        background:${c.hex}
+                      "
+                    >
+                      ${getInitials(u.name)}
+                    </div>
+
+
+                    <div class="due-info">
+
+                      <div
+                        class="due-name"
+                        style="color:${c.hex}"
+                      >
+                        ${u.name}
+                      </div>
+
+                      <div class="due-task">
+                        ${label} noch offen
+                      </div>
+
+                    </div>
+
+
+                    <button
+                      class="due-done"
+                      onclick="clearDue(${index})"
+                    >
+                      ERLEDIGT
+                    </button>
+
+                  </div>
+
+                `;
+
+              }
+            ).join("")
+      }
+
+    </div>
+
+  `;
+
+}
+
+
+/* CHAT */
+
+if (S.tab === "chat") {
+
+  let inner = "";
+
+
+  if (
+    S.chatSubTab === "group"
+  ) {
+
+    inner = `
+
+      <div class="chat-pane">
+
+        <div class="chat-pane-header">
+          💬 WG Allgemeiner Chat
+        </div>
+
+
+        <div
+          class="chat-messages"
+          id="cBox"
+        >
+
+          ${S.groupChat
+            .map(m =>
+
+              m.sender === -1
+
+                ? `
+                  <div class="sys-msg">
+                    ${m.text}
+                  </div>
+                `
+
+                : `
+                  <div
+                    class="
+                      msg-bubble
+                      ${
+                        m.sender === S.mySlot
+                          ? "me"
+                          : "them"
+                      }
+                    "
+                  >
+
+                    <div
+                      class="msg-author"
+                      style="
+                        color:${
+                          m.sender === S.mySlot
+
+                            ? "rgba(255,255,255,.7)"
+
+                            : (
+                              COLORS[
+                                S.users[
+                                  m.sender
+                                ].colorId
+                                ??
+                                m.sender
+                              ].hex
+                            )
+                        }
+                      "
+                    >
+                      ${m.authorName}
+                    </div>
+
+                    ${m.text}
+
+                  </div>
+                `
+
+            )
+            .join("")}
+
+        </div>
+
+
+        <div class="chat-input-area">
+
+          <input
+            type="text"
+            id="msgInp"
+            placeholder="Nachricht an alle…"
+            onkeydown="
+              if(event.key==='Enter')
+                sendMsg('group')
+            "
+          >
+
+          <button
+            onclick="sendMsg('group')"
+          >
+            Senden
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  } else {
+
+
+    if (
+      S.activePrivatePartner !== null
+    ) {
+
+      const partner =
+        S.users[
+          S.activePrivatePartner
+        ];
+
+
+      const key =
+        `${Math.min(
+          S.mySlot,
+          S.activePrivatePartner
+        )}-${Math.max(
+          S.mySlot,
+          S.activePrivatePartner
+        )}`;
+
+
+      const history =
+        S.privateChats[key] || [];
+
+
+      inner = `
+
+        <div class="chat-pane">
+
+          <div class="chat-pane-header">
+
+            <button
+              class="action-header-btn"
+              onclick="openPrivateWith(null)"
+            >
+              ⬅ Zurück
+            </button>
+
+            🔒 Chat mit ${partner.name}
+
+          </div>
+
+
+          <div
+            class="chat-messages"
+            id="cBox"
+          >
+
+            ${history
+              .map(
+                m => `
+
+                  <div
+                    class="
+                      msg-bubble
+                      ${
+                        m.sender === S.mySlot
+                          ? "me"
+                          : "them"
+                      }
+                    "
+                  >
+                    ${m.text}
+                  </div>
+
+                `
+              )
+              .join("")}
+
+          </div>
+
+
+          <div class="chat-input-area">
+
+            <input
+              type="text"
+              id="msgInp"
+              placeholder="Private Nachricht…"
+              onkeydown="
+                if(event.key==='Enter')
+                  sendMsg('private')
+              "
+            >
+
+            <button
+              onclick="sendMsg('private')"
+            >
+              Senden
+            </button>
+
+          </div>
+
+        </div>
+
+      `;
+
+    } else {
+
+      inner = `
+
+        <div class="chat-rooms">
+
+          <p
+            style="
+              font-size:11px;
+              font-weight:700;
+              color:#bbb;
+              text-transform:uppercase;
+              margin:0 0 4px
+            "
+          >
+            🔒 Private 1:1 Chats
+          </p>
+
+
+          ${S.users
+            .filter(
+              u =>
+                u.id !== S.mySlot
+            )
+            .map(u => {
+
+              const c =
+                COLORS[
+                  u.colorId ?? u.id
+                ];
+
+
+              return `
+
+                <div
+                  class="chat-room-row"
+                  onclick="
+                    openPrivateWith(${u.id})
+                  "
+                >
+
+                  <div
+                    style="
+                      background:${c.hex};
+                      width:40px;
+                      height:40px;
+                      border-radius:50%;
+                      display:flex;
+                      align-items:center;
+                      justify-content:center;
+                      color:white;
+                      font-size:15px;
+                      font-weight:800;
+                      flex-shrink:0
+                    "
+                  >
+                    ${getInitials(u.name)}
+                  </div>
+
+
+                  <div>
+
+                    <div
+                      style="
+                        font-weight:700;
+                        font-size:15px
+                      "
+                    >
+                      ${u.name}
+                    </div>
+
+                    <div
+                      style="
+                        font-size:11px;
+                        color:#aaa
+                      "
+                    >
+                      Privater Chat · nur für euch
+                    </div>
+
+                  </div>
+
+                </div>
+
+              `;
+
+            })
+            .join("")}
+
+        </div>
+
+      `;
+
+    }
+
+  }
+
+
+  html = `
+
+    <div class="hero-banner">
+
+      <div>
+        <div class="hero-title">
+          KINGEN WG
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="chat-tab-header">
+
+      <button
+        class="
+          chat-tab-btn
+          ${
+            S.chatSubTab === "group"
+              ? "active"
+              : ""
+          }
+        "
+        onclick="
+          setChatSubTab('group')
+        "
+      >
+        Allgemein
+      </button>
+
+
+      <button
+        class="
+          chat-tab-btn
+          ${
+            S.chatSubTab === "private"
+              ? "active"
+              : ""
+          }
+        "
+        onclick="
+          setChatSubTab('private')
+        "
+      >
+        Privat 🔒
+      </button>
+
+    </div>
+
+
+    <div class="chat-layout">
+
+      ${inner}
+
+    </div>
+
+  `;
+
+}
+
+
+/* LOG */
+
+if (S.tab === "log") {
+
+  html = `
+
+    <div class="hero-banner">
+
+      <div>
+        <div class="hero-title">
+          KINGEN WG
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="slabel">
+        📜 Aktivitäts-Log
+      </div>
+
+
+      ${
+        S.globalLog.length === 0
+
+          ? `
+            <div class="log-empty">
+              Noch keine Einträge.
+            </div>
+          `
+
+          : S.globalLog
+              .map(l => {
+
+                const u =
+                  S.users[l.person];
+
+                if (!u)
+                  return "";
+
+                const c =
+                  COLORS[
+                    u.colorId ?? l.person
+                  ];
+
+
+                const tags =
+                  (l.items || [])
+                    .map(bId => {
+
+                      const bin =
+                        BINS.find(
+                          bx =>
+                            bx.id === bId
+                        );
+
+                      return bin
+
+                        ? `
+                          <span
+                            class="log-tag"
+                            style="
+                              background:${c.light};
+                              color:${c.hex}
+                            "
+                          >
+                            ${bin.icon}
+                            ${bin.name}
+                          </span>
+                        `
+
+                        : "";
+
+                    })
+                    .join("");
+
+
+                return `
+
+                  <div class="log-item">
+
+                    <div
+                      class="log-dot"
+                      style="
+                        background:${c.hex}
+                      "
+                    >
+                      ${getInitials(u.name)}
+                    </div>
+
+
+                    <div>
+
+                      <div
+                        class="log-who"
+                        style="
+                          color:${c.hex}
+                        "
+                      >
+                        ${u.name}
+                      </div>
+
+
+                      <div class="log-text">
+                        ${l.text}
+                      </div>
+
+
+                      ${
+                        tags
+
+                          ? `
+                            <div class="log-tags">
+                              ${tags}
+                            </div>
+                          `
+
+                          : ""
+                      }
+
+
+                      <div class="log-time">
+                        ${fmtTs(l.ts)}
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                `;
+
+              })
+              .join("")
+      }
+
+    </div>
+
+  `;
+
+}
+
+
+/* RENDER ROOT */
+
+document.getElementById(
+  "root"
+).innerHTML = html;
+
+
+/* CHAT AUTO SCROLL */
+
+if (
+  S.tab === "chat"
+) {
+
+  scrollChat();
+
+}
+
+
+/* BOTTOM NAV */
+
+let nav =
+  document.querySelector(
+    ".bottom-nav"
+  );
+
+
+if (nav)
+  nav.remove();
+
+
+const ac =
+  myC.hex;
+
+
+document.body.insertAdjacentHTML(
+
+  "beforeend",
+
+  `
+
+  <nav class="bottom-nav">
+
+
+    <!-- HOME -->
+
+    <button
+      class="nav-tab"
+      onclick="setTab('home')"
+    >
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="${
+          S.tab === "home"
+            ? ac
+            : "#bbb"
+        }"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+
+        <path
+          d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"
+        />
+
+        <path
+          d="M9 21V12h6v9"
+        />
+
+      </svg>
+
+
+      <span
+        style="
+          color:${
+            S.tab === "home"
+              ? ac
+              : "#bbb"
+          }
+        "
+      >
+        Übersicht
+      </span>
+
+    </button>
+
+
+    <!-- CHAT -->
+
+    <button
+      class="nav-tab"
+      onclick="setTab('chat')"
+    >
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="${
+          S.tab === "chat"
+            ? ac
+            : "#bbb"
+        }"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+
+        <path
+          d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+        />
+
+      </svg>
+
+
+      <span
+        style="
+          color:${
+            S.tab === "chat"
+              ? ac
+              : "#bbb"
+          }
+        "
+      >
+        Chats
+      </span>
+
+    </button>
+
+
+    <!-- DUE -->
+
+    <button
+      class="nav-tab"
+      onclick="setTab('due')"
+    >
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="${
+          S.tab === "due"
+            ? ac
+            : "#bbb"
+        }"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+
+        <circle
+          cx="12"
+          cy="12"
+          r="9"
+        />
+
+        <line
+          x1="12"
+          y1="7"
+          x2="12"
+          y2="12"
+        />
+
+        <line
+          x1="12"
+          y1="12"
+          x2="16"
+          y2="15"
+        />
+
+      </svg>
+
+
+      <span
+        style="
+          color:${
+            S.tab === "due"
+              ? ac
+              : "#bbb"
+          }
+        "
+      >
+        Due
+      </span>
+
+    </button>
+
+
+    <!-- LOG -->
+
+    <button
+      class="nav-tab"
+      onclick="setTab('log')"
+    >
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="${
+          S.tab === "log"
+            ? ac
+            : "#bbb"
+        }"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+
+        <path
+          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"
+        />
+
+        <rect
+          x="9"
+          y="3"
+          width="6"
+          height="4"
+          rx="1"
+        />
+
+        <line
+          x1="9"
+          y1="12"
+          x2="15"
+          y2="12"
+        />
+
+      </svg>
+
+
+      <span
+        style="
+          color:${
+            S.tab === "log"
+              ? ac
+              : "#bbb"
+          }
+        "
+      >
+        Verlauf
+      </span>
+
+    </button>
+
+
+  </nav>
+
+  `
+
+);
+
+}
+
+
+/* INITIAL RENDER */
+
+render();
+
+</script>
+
+</body>
+</html>
